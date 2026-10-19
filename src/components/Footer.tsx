@@ -104,10 +104,10 @@ export default function Footer() {
               </span>
             </div>
             <p className="font-sans text-xs leading-relaxed text-[#8A8F98]">
-              The official Computer Science Club of IIT Patna. Fostering algorithmic supremacy, production systems, and artificial intelligence research.
+              The official Coding Club of IIT Patna (Not Just Another Coding Klub). Fostering algorithmic supremacy, production systems, and artificial intelligence research.
             </p>
             <div className="pt-2 font-sans text-[11px] text-[#8A8F98]">
-              Est. 2008 • Department of Computer Science & Engineering
+              Est. 2008 • Indian Institute of Technology Patna
             </div>
           </div>
 

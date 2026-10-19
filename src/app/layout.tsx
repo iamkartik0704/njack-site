@@ -39,15 +39,16 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: 'NJACK — Official Computer Science Club | IIT Patna',
+    default: 'NJACK — Official Coding Club | IIT Patna',
     template: '%s | NJACK IIT Patna',
   },
   description:
-    'The premier student-led computer science club of Indian Institute of Technology Patna. Algorithmic problem solving, production systems, cybersecurity, and artificial intelligence.',
+    'The premier student-led coding club of Indian Institute of Technology Patna (Not Just Another Coding Klub). Algorithmic problem solving, production systems, cybersecurity, and artificial intelligence.',
   keywords: [
     'NJACK',
     'IIT Patna',
-    'Computer Science Club',
+    'Coding Club',
+    'Not Just Another Coding Klub',
     'Competitive Programming',
     'Open Source',
     'Machine Learning',
@@ -59,9 +60,9 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'NJACK IIT Patna', url: 'https://njack.iitp.ac.in' }],
   openGraph: {
-    title: 'NJACK — Official Computer Science Club | IIT Patna',
+    title: 'NJACK — Official Coding Club | IIT Patna',
     description:
-      'The official Computer Science & Coding Club of IIT Patna — fostering engineering excellence, open source, algorithmic dominance, and AI research.',
+      'The official Coding Club of IIT Patna (Not Just Another Coding Klub) — fostering engineering excellence, open source, algorithmic dominance, and AI research.',
     url: 'https://njack.iitp.ac.in',
     siteName: 'NJACK IIT Patna',
     type: 'website',

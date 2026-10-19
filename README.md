@@ -1,11 +1,11 @@
-# NJACK — The Official Computer Science Club of IIT Patna
+# NJACK — The Official Coding Club of IIT Patna
 
 [![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
 [![Prisma](https://img.shields.io/badge/Prisma-5.22-2D3748?style=for-the-badge&logo=prisma)](https://www.prisma.io/)
 
-> **NJACK (Not Just Another Computer Club)** is the premier student-led computer science club of IIT Patna. We foster an ecosystem of algorithmic problem solving, modern web/app development, systems & cybersecurity engineering, and cutting-edge artificial intelligence research.
+> **NJACK (Not Just Another Coding Klub)** is the premier student-led coding club of IIT Patna. We foster an ecosystem of algorithmic problem solving, modern web/app development, systems & cybersecurity engineering, and cutting-edge artificial intelligence research.
 
 ---
 

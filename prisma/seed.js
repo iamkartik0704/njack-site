@@ -849,7 +849,7 @@ async function main() {
     {
       title: 'NJACK 2.0: Club Web & Resource Operating System',
       slug: 'njack-revamp',
-      description: 'The modern digital hub of IIT Patna Computer Science Club — dynamic department tracks, interactive quiz engine, and single super-admin CMS.',
+      description: 'The modern digital hub of IIT Patna Coding Club (Not Just Another Coding Klub) — dynamic department tracks, interactive quiz engine, and single super-admin CMS.',
       cover: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1000&q=80',
       stackTags: 'Next.js 14, TypeScript, Tailwind CSS, Prisma, SQLite',
       repoUrl: 'https://github.com/njack-iitp/njack-revamp',

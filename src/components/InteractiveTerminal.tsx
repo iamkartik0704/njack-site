@@ -23,8 +23,8 @@ export default function InteractiveTerminal() {
       command: 'njack info',
       output: (
         <div className="space-y-1 text-slate-300">
-          <p className="text-white font-semibold">NJACK — Not Just Another Coding Club</p>
-          <p className="text-slate-400">Computer Science & Open Source Society, IIT Patna</p>
+          <p className="text-white font-semibold">NJACK — Not Just Another Coding Klub</p>
+          <p className="text-slate-400">Official Coding Club, IIT Patna</p>
           <p className="text-xs text-orange-400/90 pt-1">
             Status: Active · Session 2026-27 · 4 Specialized Divisions
           </p>

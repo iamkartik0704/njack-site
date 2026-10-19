@@ -52,7 +52,7 @@ export default function AboutPage() {
           <div className="max-w-3xl space-y-4">
             <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-xs font-mono text-cyan-300">
               <Terminal className="h-3.5 w-3.5" />
-              <span>Not Just Another CS Klub</span>
+              <span>Not Just Another Coding Klub</span>
             </div>
 
             <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
@@ -60,7 +60,7 @@ export default function AboutPage() {
             </h1>
 
             <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
-              NJACK is the official Computer Science and Coding Club under the Students’ Gymkhana at the Indian Institute of Technology Patna (IIT Patna).
+              NJACK (Not Just Another Coding Klub) is the official Coding Club under the Students’ Gymkhana at the Indian Institute of Technology Patna (IIT Patna).
             </p>
           </div>
         </div>

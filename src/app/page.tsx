@@ -69,7 +69,7 @@ export default async function HomePage() {
 
             {/* Editorial Subtitle */}
             <p className="mt-7 max-w-2xl font-sans text-base sm:text-lg leading-relaxed text-[#8A8F98]">
-              The official Computer Science Club of Indian Institute of Technology Patna. We build distributed production systems, train ICPC algorithmic contenders, conduct AI research, and defend digital infrastructure.
+              NJACK (Not Just Another Coding Klub) is the official Coding Club of IIT Patna—a vibrant community dedicated to empowering students to hone technical skills, collaborate on real-world projects, and organize premier coding competitions and hackathons.
             </p>
 
             {/* Action Buttons & Magnetic Trigger */}
