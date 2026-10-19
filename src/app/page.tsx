@@ -12,6 +12,7 @@ import InteractiveBentoDivisions from '@/components/InteractiveBentoDivisions';
 import ProjectsShowcase from '@/components/ProjectsShowcase';
 import EventsTimeline from '@/components/EventsTimeline';
 import HeroLogoLockup from '@/components/HeroLogoLockup';
+import TeamSection from '@/components/TeamSection';
 
 export default async function HomePage() {
   // Fetch real seeded data from Prisma
@@ -159,9 +160,9 @@ export default async function HomePage() {
       <InteractiveBentoDivisions />
 
       {/* ========================================================
-          3. PROJECTS & OPEN SOURCE SHOWCASE
+          3. PROJECTS & OPEN SOURCE SHOWCASE (COMMENTED OUT)
       ======================================================== */}
-      <ProjectsShowcase projects={projects} />
+      {/* <ProjectsShowcase projects={projects} /> */}
 
       {/* ========================================================
           4. EVENTS & HACKATHON TIMELINE
@@ -269,6 +270,11 @@ export default async function HomePage() {
           </SpotlightBentoCard>
         </div>
       </section>
+
+      {/* ========================================================
+          7. NJACK LEADERSHIP & TEAM (COORDINATORS & SUB-COORDINATORS)
+      ======================================================== */}
+      <TeamSection />
 
     </div>
   );
