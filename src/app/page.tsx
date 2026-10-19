@@ -41,16 +41,8 @@ export default async function HomePage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           
           <div className="max-w-3xl">
-            {/* Elegant Institutional Badge */}
-            <div className="inline-flex items-center gap-2.5 rounded-full border border-white/[0.08] bg-white/[0.03] px-3.5 py-1 text-xs text-neutral-300 backdrop-blur-sm shadow-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#FF5722]" />
-              <span className="font-medium text-white">IIT Patna</span>
-              <span className="text-white/20">•</span>
-              <span className="text-neutral-400">Computer Science Society</span>
-            </div>
-
             {/* Main Hero Title (3 Stacked Lines with Masked Spring Reveal) */}
-            <div className="mt-8 space-y-1 sm:space-y-2">
+            <div className="space-y-1 sm:space-y-2">
               {/* Line 1: Official NJACK Logo Brand Lockup with Interactive 3D Spring Hover */}
               <div className="pt-1 pb-1">
                 <HeroLogoLockup />
