@@ -153,48 +153,7 @@ function HexagonalSyntaxRings() {
   );
 }
 
-// 3D Voxel Commit / Binary Matrix
-function VoxelCommitMatrix() {
-  const meshRef = useRef<THREE.InstancedMesh>(null!);
-  const size = 7;
-  const count = size * size;
 
-  const dummy = useMemo(() => new THREE.Object3D(), []);
-
-  useFrame(({ clock, pointer }) => {
-    if (!meshRef.current) return;
-    const t = clock.getElapsedTime() * 1.5;
-
-    let idx = 0;
-    for (let x = 0; x < size; x++) {
-      for (let y = 0; y < size; y++) {
-        const posX = (x - size / 2) * 0.42;
-        const posY = (y - size / 2) * 0.42;
-
-        const distToMouse = Math.sqrt(
-          Math.pow(pointer.x * 3 - posX, 2) + Math.pow(pointer.y * 3 - posY, 2)
-        );
-        const mouseEffect = Math.max(0, 1 - distToMouse / 2) * 0.4;
-        const wave = Math.sin(t + posX * 2 + posY * 2) * 0.18 + mouseEffect;
-
-        dummy.position.set(posX, posY, -1.4 + wave);
-        dummy.scale.set(1, 1, 1 + wave * 2);
-        dummy.updateMatrix();
-
-        meshRef.current.setMatrixAt(idx, dummy.matrix);
-        idx++;
-      }
-    }
-    meshRef.current.instanceMatrix.needsUpdate = true;
-  });
-
-  return (
-    <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
-      <boxGeometry args={[0.1, 0.1, 0.1]} />
-      <meshStandardMaterial color="#FF5722" metalness={0.8} roughness={0.2} emissive="#D9381E" emissiveIntensity={0.3} />
-    </instancedMesh>
-  );
-}
 
 function CenterpieceScene({ scrollProgress }: { scrollProgress: number }) {
   const groupRef = useRef<THREE.Group>(null!);
@@ -328,9 +287,6 @@ function CenterpieceScene({ scrollProgress }: { scrollProgress: number }) {
 
       {/* Hexagonal Algorithmic Syntax Rings */}
       <HexagonalSyntaxRings />
-
-      {/* 3D Voxel Commit / Binary Matrix */}
-      <VoxelCommitMatrix />
     </group>
   );
 }
