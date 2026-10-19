@@ -564,7 +564,7 @@ export default function InteractiveBentoDivisions() {
               </div>
 
               <p className="font-sans text-xs sm:text-sm text-[#8A8F98] leading-relaxed">
-                Rigorous algorithmic discipline. Training IIT Patna engineers in graph theory, dynamic programming, centroid decomposition, and contest velocity for ICPC World Finals and Codeforces Div 1.
+                Committed to honing students&apos; problem-solving skills, algorithmic thinking, and programming prowess through regular coding contests, workshops, and practice sessions to solve complex challenges efficiently.
               </p>
             </div>
 
@@ -595,7 +595,7 @@ export default function InteractiveBentoDivisions() {
               </div>
 
               <p className="font-sans text-xs sm:text-sm text-[#8A8F98] leading-relaxed">
-                Building scalable distributed backends, developer tooling, and global open-source software. Home to the NJACK Winter of Code (NWoC) and Google Summer of Code (GSoC) mentorship.
+                Encourages students to delve into software development and contribute to open-source through hands-on workshops, collaborative projects, and mentorship—building robust, scalable solutions.
               </p>
             </div>
 
@@ -626,7 +626,7 @@ export default function InteractiveBentoDivisions() {
               </div>
 
               <p className="font-sans text-xs sm:text-sm text-[#8A8F98] leading-relaxed">
-                Researching modern transformer architectures, parameter-efficient fine-tuning (LoRA), computer vision pipelines, and production inference engines.
+                Dedicated to exploring artificial intelligence and machine learning through workshops, lectures, and practical sessions—equipping members with the tools to solve complex problems.
               </p>
             </div>
 
@@ -657,7 +657,7 @@ export default function InteractiveBentoDivisions() {
               </div>
 
               <p className="font-sans text-xs sm:text-sm text-[#8A8F98] leading-relaxed">
-                Offensive and defensive security research. Cracking memory corruptions, reverse-engineering x86-64 binaries, and capturing podium spots in global CTFs.
+                Focuses on promoting awareness and technical understanding across cybersecurity through workshops, seminars, and hands-on sessions covering threats, exploitation techniques, and countermeasures.
               </p>
             </div>
 
