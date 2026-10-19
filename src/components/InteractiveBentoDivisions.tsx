@@ -401,22 +401,19 @@ export default function InteractiveBentoDivisions() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="mb-12 grid grid-cols-1 lg:grid-cols-12 gap-6 items-end">
-          <div className="lg:col-span-7 space-y-3">
-            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#FF5722]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#FF5722]" />
-              <span>Four Specialized Divisions</span>
-            </div>
+        <div className="mb-14">
+          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#FF5722]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#FF5722]" />
+            <span>Four Specialized Divisions</span>
+          </div>
 
+          <div className="mt-4 max-w-3xl space-y-4">
             <SplitTextReveal
               text="Engineered Across Four Core Disciplines."
               as="h2"
-              className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#F3F4F6] leading-[1.05]"
+              className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#F3F4F6]"
             />
-          </div>
-
-          <div className="lg:col-span-5">
-            <p className="font-sans text-sm sm:text-base text-[#8A8F98] leading-relaxed">
+            <p className="max-w-2xl font-sans text-sm sm:text-base text-[#8A8F98] leading-relaxed">
               NJACK operates as four deeply integrated divisions—from algorithmic contest supremacy to production cloud systems, AI research, and CSEC offensive security.
             </p>
           </div>
