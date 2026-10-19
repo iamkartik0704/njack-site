@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import {
   Binary,
@@ -8,393 +8,378 @@ import {
   Brain,
   ShieldAlert,
   ArrowUpRight,
-  Play,
-  RefreshCw,
-  GitCommit,
-  Radio,
 } from 'lucide-react';
 import SpotlightBentoCard from '@/components/SpotlightBentoCard';
 import SplitTextReveal from '@/components/SplitTextReveal';
 
-// Interactive Micro-UI 1: Auto-typing C++ snippet & Rating Graph
-function CpMicroUI() {
-  const [isRunning, setIsRunning] = useState(false);
-  const [execTime, setExecTime] = useState('0.0018 ms');
-  const [activeTab, setActiveTab] = useState<'CODE' | 'RATING'>('CODE');
-
-  const fullCode = `#include <bits/stdc++.h>
-using namespace std;
-
-// Segment Tree: Point Update Range Sum
-void update(int v, int tl, int tr, int pos, int new_val) {
-    if (tl == tr) {
-        tree[v] = new_val;
-    } else {
-        int tm = (tl + tr) / 2;
-        if (pos <= tm) update(v*2, tl, tm, pos, new_val);
-        else update(v*2+1, tm+1, tr, pos, new_val);
-        tree[v] = tree[v*2] + tree[v*2+1];
-    }
-}`;
-
-  const [displayedLength, setDisplayedLength] = useState(140);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setDisplayedLength((prev) => (prev >= fullCode.length ? 140 : prev + 6));
-    }, 70);
-    return () => clearInterval(timer);
-  }, [fullCode.length]);
-
-  const handleRun = () => {
-    setIsRunning(true);
-    setTimeout(() => {
-      setIsRunning(false);
-      setExecTime((Math.random() * 0.002 + 0.001).toFixed(4) + ' ms');
-    }, 450);
-  };
-
+// ============================================================================
+// 1. STATIC GRAPHIC 1: COMPETITIVE PROGRAMMING (Abstract Algorithm Topology)
+// ============================================================================
+function CpTopologyGraphic() {
   return (
-    <div className="flex flex-col h-full justify-between gap-4">
-      {/* Top Bar with tab switches & test trigger */}
-      <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
-        <div className="flex items-center gap-1.5 bg-black/40 p-1 rounded-lg border border-white/5 font-mono text-[10px]">
-          <button
-            onClick={() => setActiveTab('CODE')}
-            className={`px-2.5 py-1 rounded transition-colors ${
-              activeTab === 'CODE' ? 'bg-[#FF5722] text-white font-semibold' : 'text-[#8A8F98]'
-            }`}
-          >
-            SOLVER.CPP
-          </button>
-          <button
-            onClick={() => setActiveTab('RATING')}
-            className={`px-2.5 py-1 rounded transition-colors ${
-              activeTab === 'RATING' ? 'bg-[#FF5722] text-white font-semibold' : 'text-[#8A8F98]'
-            }`}
-          >
-            ELO GRAPH
-          </button>
-        </div>
-
-        <button
-          onClick={handleRun}
-          disabled={isRunning}
-          className="flex items-center gap-1.5 rounded-lg border border-[#FF5722]/40 bg-[#FF5722]/10 px-2.5 py-1 font-mono text-[10px] text-[#FF5722] transition-colors hover:bg-[#FF5722]/25"
-        >
-          {isRunning ? (
-            <RefreshCw className="h-3 w-3 animate-spin" />
-          ) : (
-            <Play className="h-3 w-3" />
-          )}
-          <span>{isRunning ? 'EXEC...' : 'TEST [O(log N)]'}</span>
-        </button>
-      </div>
-
-      {/* Main Content Pane */}
-      {activeTab === 'CODE' ? (
-        <div className="relative overflow-hidden rounded-xl border border-white/[0.06] bg-[#07080A]/80 p-3.5 font-mono text-xs text-[#8A8F98]">
-          <pre className="overflow-x-auto leading-relaxed scrollbar-hide text-[11px]">
-            <code className="text-[#F3F4F6]">
-              {fullCode.slice(0, displayedLength)}
-              <span className="inline-block w-2 h-3.5 bg-[#FF5722] align-middle ml-0.5 animate-pulse" />
-            </code>
-          </pre>
-          <div className="mt-3 flex items-center justify-between border-t border-white/[0.06] pt-2 text-[10px] text-[#8A8F98]">
-            <span>TIME: <span className="text-[#FF5722] font-semibold">{execTime}</span></span>
-            <span>MEM: 4.12 MB</span>
-            <span className="text-[#FF8A00] font-semibold">• AC 100/100</span>
-          </div>
-        </div>
-      ) : (
-        <div className="rounded-xl border border-white/[0.06] bg-[#07080A]/80 p-4">
-          <div className="flex items-center justify-between font-mono text-[10px] text-[#8A8F98] mb-2">
-            <span>PEAK ICPC RATING: <strong className="text-[#FF5722]">2,450 (GRANDMASTER)</strong></span>
-            <span>CODEFORCES DIV 1</span>
-          </div>
-          {/* Animated SVG Sparkline in NJACK Orange */}
-          <svg className="w-full h-24 overflow-visible" viewBox="0 0 300 80">
-            <defs>
-              <linearGradient id="cpGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#FF5722" stopOpacity="0.35" />
-                <stop offset="100%" stopColor="#FF8A00" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-            <path
-              d="M0,60 Q40,55 80,45 T160,35 T220,18 T300,8 L300,80 L0,80 Z"
-              fill="url(#cpGrad)"
-            />
-            <path
-              d="M0,60 Q40,55 80,45 T160,35 T220,18 T300,8"
-              fill="none"
-              stroke="#FF5722"
-              strokeWidth="2.5"
-            />
-            <circle cx="300" cy="8" r="4" fill="#FF5722" className="animate-ping" />
-            <circle cx="300" cy="8" r="3.5" fill="#07080A" stroke="#FF8A00" strokeWidth="2" />
-          </svg>
-        </div>
-      )}
-    </div>
-  );
-}
-
-// Interactive Micro-UI 2: Embedded Terminal & CI/CD Pipeline
-function DevOsMicroUI() {
-  const [history, setHistory] = useState<string[]>([
-    'njack dev-os --status',
-    '-> [CLUSTER: US-EAST] 4 nodes active, 0 alerts',
-  ]);
-  const [inputVal, setInputVal] = useState('');
-
-  const executeCmd = (cmd: string) => {
-    const clean = cmd.trim().toLowerCase();
-    let response = '';
-
-    if (clean === 'help') {
-      response = 'Available: help, status, deploy, nwoc, clear';
-    } else if (clean === 'status') {
-      response = 'Cluster online | Kernel: 6.8.0-arch | Uptime: 99.98%';
-    } else if (clean === 'deploy') {
-      response = 'Triggered CI/CD pipeline -> Build #1408 deployed successfully!';
-    } else if (clean === 'nwoc') {
-      response = 'NJACK Winter of Code: 1,400+ contributors, 85 mentored repos';
-    } else if (clean === 'clear') {
-      setHistory([]);
-      return;
-    } else {
-      response = `Command not recognized: "${cmd}". Type "help" for protocol.`;
-    }
-
-    setHistory((prev) => [...prev, `$ ${cmd}`, response]);
-    setInputVal('');
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && inputVal) {
-      executeCmd(inputVal);
-    }
-  };
-
-  return (
-    <div className="flex flex-col h-full justify-between gap-3">
-      {/* CI/CD Simulated Nodes */}
-      <div className="flex items-center justify-between rounded-lg border border-white/[0.06] bg-black/40 px-3 py-2 font-mono text-[10px]">
-        <div className="flex items-center gap-2">
-          <GitCommit className="h-3.5 w-3.5 text-[#FF5722]" />
-          <span className="text-[#F3F4F6]">PIPELINE</span>
-        </div>
-        <div className="flex items-center gap-1.5 text-[9px]">
-          <span className="rounded bg-white/5 px-1.5 py-0.5 text-white/70">BUILD ✓</span>
-          <span className="text-[#8A8F98]">→</span>
-          <span className="rounded bg-white/5 px-1.5 py-0.5 text-white/70">TEST ✓</span>
-          <span className="text-[#8A8F98]">→</span>
-          <span className="rounded bg-[#FF5722]/15 px-1.5 py-0.5 font-semibold text-[#FF5722]">
-            LIVE 99.9%
-          </span>
-        </div>
-      </div>
-
-      {/* Embedded Terminal Body */}
-      <div className="relative flex-1 overflow-hidden rounded-xl border border-white/[0.06] bg-[#07080A]/90 p-3 font-mono text-xs">
-        <div className="flex items-center justify-between border-b border-white/[0.08] pb-1.5 mb-2 text-[10px] text-[#8A8F98]">
-          <span className="flex items-center gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#FF5722]" />
-            DEV_OS_CONTAINER:bash
-          </span>
-          <span>TTY1</span>
-        </div>
-
-        <div className="max-h-[110px] overflow-y-auto scrollbar-hide text-[11px] text-[#8A8F98] space-y-1">
-          {history.map((line, idx) => (
-            <p key={idx} className={line.startsWith('$') ? 'text-[#F3F4F6]' : 'text-[#FF8A00]'}>
-              {line}
-            </p>
-          ))}
-        </div>
-
-        <div className="mt-2 flex items-center gap-1.5 border-t border-white/[0.08] pt-2">
-          <span className="text-[#FF5722] font-bold">$</span>
-          <input
-            type="text"
-            value={inputVal}
-            onChange={(e) => setInputVal(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="type 'help', 'status', 'deploy'..."
-            className="w-full bg-transparent font-mono text-xs text-[#F3F4F6] placeholder-[#8A8F98]/50 focus:outline-none"
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// Interactive Micro-UI 3: Synaptic Neural Network Canvas in Brand Orange
-function AiNeuralMicroUI() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let animationFrameId: number;
-    const width = (canvas.width = canvas.offsetWidth);
-    const height = (canvas.height = canvas.offsetHeight);
-
-    const nodesCount = 28;
-    const nodes: { x: number; y: number; vx: number; vy: number; radius: number }[] = [];
-
-    for (let i = 0; i < nodesCount; i++) {
-      nodes.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.7,
-        vy: (Math.random() - 0.5) * 0.7,
-        radius: Math.random() * 2 + 1.5,
-      });
-    }
-
-    let mouse = { x: -1000, y: -1000 };
-
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse = { x: e.clientX - rect.left, y: e.clientY - rect.top };
-    };
-
-    const handleMouseLeave = () => {
-      mouse = { x: -1000, y: -1000 };
-    };
-
-    canvas.addEventListener('mousemove', handleMouseMove);
-    canvas.addEventListener('mouseleave', handleMouseLeave);
-
-    const render = () => {
-      ctx.clearRect(0, 0, width, height);
-
-      // Draw connections
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-          const dx = nodes[i].x - nodes[j].x;
-          const dy = nodes[i].y - nodes[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-
-          if (dist < 65) {
-            ctx.beginPath();
-            ctx.moveTo(nodes[i].x, nodes[i].y);
-            ctx.lineTo(nodes[j].x, nodes[j].y);
-            ctx.strokeStyle = `rgba(255, 87, 34, ${(1 - dist / 65) * 0.28})`;
-            ctx.lineWidth = 1;
-            ctx.stroke();
-          }
-        }
-
-        // Draw connections to cursor
-        const dmx = nodes[i].x - mouse.x;
-        const dmy = nodes[i].y - mouse.y;
-        const mouseDist = Math.sqrt(dmx * dmx + dmy * dmy);
-        if (mouseDist < 85) {
-          ctx.beginPath();
-          ctx.moveTo(nodes[i].x, nodes[i].y);
-          ctx.lineTo(mouse.x, mouse.y);
-          ctx.strokeStyle = `rgba(255, 138, 0, ${(1 - mouseDist / 85) * 0.65})`;
-          ctx.lineWidth = 1.5;
-          ctx.stroke();
-        }
-
-        // Update positions
-        nodes[i].x += nodes[i].vx;
-        nodes[i].y += nodes[i].vy;
-
-        if (nodes[i].x < 0 || nodes[i].x > width) nodes[i].vx *= -1;
-        if (nodes[i].y < 0 || nodes[i].y > height) nodes[i].vy *= -1;
-
-        // Draw node
-        ctx.beginPath();
-        ctx.arc(nodes[i].x, nodes[i].y, nodes[i].radius, 0, Math.PI * 2);
-        ctx.fillStyle = '#FF5722';
-        ctx.shadowColor = '#FF8A00';
-        ctx.shadowBlur = 5;
-        ctx.fill();
-        ctx.shadowBlur = 0;
-      }
-
-      animationFrameId = requestAnimationFrame(render);
-    };
-
-    render();
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-      canvas.removeEventListener('mousemove', handleMouseMove);
-      canvas.removeEventListener('mouseleave', handleMouseLeave);
-    };
-  }, []);
-
-  return (
-    <div className="relative h-44 w-full overflow-hidden rounded-xl border border-white/[0.06] bg-[#07080A]/80">
-      <canvas ref={canvasRef} className="h-full w-full cursor-crosshair" />
-      <div className="pointer-events-none absolute bottom-2 left-3 right-3 flex items-center justify-between font-mono text-[9px] text-[#8A8F98]">
-        <span>HOVER TO INJECT ATTENTION WEIGHTS</span>
-        <span className="text-[#FF8A00] font-semibold">TENSORS ONLINE</span>
-      </div>
-    </div>
-  );
-}
-
-// Interactive Micro-UI 4: Security Packet Hex Visualizer
-function CyberMicroUI() {
-  const [packets, setPackets] = useState<string[]>([
-    '0x7F 0x45 0x4C 0x46 [ELF_X86_64_MAGIC_OK]',
-    '0x90 0x90 0x90 0x31 [NOP_SLED_DEFENSE_TRIGGERED]',
-    '0xC3 0x55 0x48 0x89 [STACK_CANARY_VERIFIED]',
-    '0x00 0x2A 0xFF 0x00 [PORT_SCAN_ISOLATED]',
-  ]);
-
-  const [counter, setCounter] = useState(1284);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const hexVals = ['0x89', '0xE5', '0x5D', '0xC3', '0x48', '0x83', '0xEC', '0x20'];
-      const randomHex = hexVals[Math.floor(Math.random() * hexVals.length)];
-      const randomId = Math.floor(Math.random() * 9000 + 1000);
-      const newPacket = `${randomHex} 0x00 0x${Math.floor(Math.random() * 99)} [PACKET_ACK_${randomId}]`;
-
-      setPackets((prev) => [newPacket, ...prev.slice(0, 3)]);
-      setCounter((prev) => prev + 1);
-    }, 1400);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <div className="flex flex-col h-full justify-between gap-3">
-      <div className="flex items-center justify-between rounded-lg border border-white/[0.06] bg-black/40 px-3 py-2 font-mono text-[10px]">
+    <div className="rounded-xl border border-white/[0.08] bg-[#07080A]/70 p-4 space-y-3">
+      {/* Top Status Bar */}
+      <div className="flex items-center justify-between text-[11px] font-mono border-b border-white/[0.06] pb-2 text-[#8A8F98]">
         <span className="flex items-center gap-1.5 text-[#FF5722]">
-          <Radio className="h-3.5 w-3.5 animate-pulse" />
-          PACKET_SNIFFER
+          <span className="h-1.5 w-1.5 rounded-full bg-[#FF5722]" />
+          GRAPH_TOPOLOGY // DAG
         </span>
-        <span className="text-[#8A8F98]">INSPECTED: {counter}</span>
+        <span className="text-white/70">O((V + E) log V)</span>
       </div>
 
-      <div className="rounded-xl border border-white/[0.06] bg-[#07080A]/80 p-3 font-mono text-[10px] space-y-1.5">
-        {packets.map((pkt, idx) => (
-          <div
-            key={idx}
-            className={`flex items-center justify-between transition-opacity ${
-              idx === 0 ? 'text-[#FF5722]' : 'text-[#8A8F98]'
-            }`}
-          >
-            <span className="truncate">{pkt}</span>
-            <span className="text-[9px] text-white/30 shrink-0 ml-2">PASS</span>
-          </div>
-        ))}
+      {/* Static Vector Canvas */}
+      <div className="relative h-36 w-full">
+        <svg className="w-full h-full" viewBox="0 0 460 140" fill="none">
+          <defs>
+            <linearGradient id="edgeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#FF5722" stopOpacity="0.8" />
+              <stop offset="100%" stopColor="#FF8A00" stopOpacity="0.8" />
+            </linearGradient>
+            <filter id="glowOrange" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#FF5722" floodOpacity="0.5" />
+            </filter>
+          </defs>
+
+          {/* Grid background reference lines */}
+          <line x1="30" y1="70" x2="430" y2="70" stroke="rgba(255,255,255,0.04)" strokeDasharray="3 3" />
+          <line x1="120" y1="20" x2="120" y2="120" stroke="rgba(255,255,255,0.04)" strokeDasharray="3 3" />
+          <line x1="230" y1="20" x2="230" y2="120" stroke="rgba(255,255,255,0.04)" strokeDasharray="3 3" />
+          <line x1="340" y1="20" x2="340" y2="120" stroke="rgba(255,255,255,0.04)" strokeDasharray="3 3" />
+
+          {/* Inactive Secondary Edges */}
+          <path d="M 50 70 L 140 25" stroke="rgba(255,255,255,0.12)" strokeWidth="1.2" strokeDasharray="4 3" />
+          <path d="M 140 25 L 320 25" stroke="rgba(255,255,255,0.12)" strokeWidth="1.2" strokeDasharray="4 3" />
+          <path d="M 140 115 L 230 70" stroke="rgba(255,255,255,0.12)" strokeWidth="1.2" strokeDasharray="4 3" />
+          <path d="M 320 115 L 410 70" stroke="rgba(255,255,255,0.12)" strokeWidth="1.2" strokeDasharray="4 3" />
+
+          {/* Active Shortest Path / Optimal Spanning Tree Edges (Glowing) */}
+          <path d="M 50 70 L 140 115" stroke="url(#edgeGrad)" strokeWidth="2.5" filter="url(#glowOrange)" />
+          <path d="M 140 115 L 230 70" stroke="url(#edgeGrad)" strokeWidth="2.5" filter="url(#glowOrange)" />
+          <path d="M 230 70 L 320 25" stroke="url(#edgeGrad)" strokeWidth="2.5" filter="url(#glowOrange)" />
+          <path d="M 320 25 L 410 70" stroke="url(#edgeGrad)" strokeWidth="2.5" filter="url(#glowOrange)" />
+
+          {/* Edge Weights */}
+          <rect x="88" y="93" width="18" height="13" rx="3" fill="#0C0E14" stroke="#FF5722" strokeWidth="0.8" />
+          <text x="97" y="103" fill="#FF8A00" fontSize="9" fontFamily="monospace" textAnchor="middle" fontWeight="bold">2</text>
+
+          <rect x="178" y="93" width="18" height="13" rx="3" fill="#0C0E14" stroke="#FF5722" strokeWidth="0.8" />
+          <text x="187" y="103" fill="#FF8A00" fontSize="9" fontFamily="monospace" textAnchor="middle" fontWeight="bold">1</text>
+
+          <rect x="270" y="40" width="18" height="13" rx="3" fill="#0C0E14" stroke="#FF5722" strokeWidth="0.8" />
+          <text x="279" y="50" fill="#FF8A00" fontSize="9" fontFamily="monospace" textAnchor="middle" fontWeight="bold">3</text>
+
+          <rect x="360" y="40" width="18" height="13" rx="3" fill="#0C0E14" stroke="#FF5722" strokeWidth="0.8" />
+          <text x="369" y="50" fill="#FF8A00" fontSize="9" fontFamily="monospace" textAnchor="middle" fontWeight="bold">2</text>
+
+          {/* Secondary Edge Weights */}
+          <text x="90" y="44" fill="#666D7D" fontSize="8" fontFamily="monospace" textAnchor="middle">w=5</text>
+          <text x="230" y="21" fill="#666D7D" fontSize="8" fontFamily="monospace" textAnchor="middle">w=8</text>
+          <text x="370" y="99" fill="#666D7D" fontSize="8" fontFamily="monospace" textAnchor="middle">w=4</text>
+
+          {/* Nodes */}
+          {/* Node S (Start) */}
+          <circle cx="50" cy="70" r="14" fill="#131722" stroke="#FF5722" strokeWidth="2" filter="url(#glowOrange)" />
+          <text x="50" y="74" fill="#FFFFFF" fontSize="10" fontFamily="monospace" textAnchor="middle" fontWeight="bold">S</text>
+
+          {/* Node A */}
+          <circle cx="140" cy="25" r="12" fill="#131722" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" />
+          <text x="140" y="29" fill="#8A8F98" fontSize="10" fontFamily="monospace" textAnchor="middle">A</text>
+
+          {/* Node B (in optimal path) */}
+          <circle cx="140" cy="115" r="13" fill="#131722" stroke="#FF5722" strokeWidth="2" filter="url(#glowOrange)" />
+          <text x="140" y="119" fill="#FFFFFF" fontSize="10" fontFamily="monospace" textAnchor="middle" fontWeight="bold">B</text>
+
+          {/* Node C (in optimal path) */}
+          <circle cx="230" cy="70" r="13" fill="#131722" stroke="#FF5722" strokeWidth="2" filter="url(#glowOrange)" />
+          <text x="230" y="74" fill="#FFFFFF" fontSize="10" fontFamily="monospace" textAnchor="middle" fontWeight="bold">C</text>
+
+          {/* Node D (in optimal path) */}
+          <circle cx="320" cy="25" r="13" fill="#131722" stroke="#FF5722" strokeWidth="2" filter="url(#glowOrange)" />
+          <text x="320" y="29" fill="#FFFFFF" fontSize="10" fontFamily="monospace" textAnchor="middle" fontWeight="bold">D</text>
+
+          {/* Node E */}
+          <circle cx="320" cy="115" r="12" fill="#131722" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" />
+          <text x="320" y="119" fill="#8A8F98" fontSize="10" fontFamily="monospace" textAnchor="middle">E</text>
+
+          {/* Node T (Target) */}
+          <circle cx="410" cy="70" r="14" fill="#131722" stroke="#FF8A00" strokeWidth="2" filter="url(#glowOrange)" />
+          <text x="410" y="74" fill="#FFFFFF" fontSize="10" fontFamily="monospace" textAnchor="middle" fontWeight="bold">T</text>
+        </svg>
+      </div>
+
+      {/* Diagram Metadata Footer */}
+      <div className="flex items-center justify-between text-[10px] font-mono text-[#8A8F98] border-t border-white/[0.06] pt-2">
+        <span>TRAVERSAL: <span className="text-[#FF5722] font-semibold">S → B → C → D → T</span></span>
+        <span>MIN_COST: <span className="text-white font-semibold">8</span></span>
+        <span>STATUS: <span className="text-emerald-400 font-semibold">OPTIMAL</span></span>
       </div>
     </div>
   );
 }
 
+// ============================================================================
+// 2. STATIC GRAPHIC 2: DEV & OS (Distributed Systems Architecture)
+// ============================================================================
+function DevSystemsGraphic() {
+  return (
+    <div className="rounded-xl border border-white/[0.08] bg-[#07080A]/70 p-4 space-y-3">
+      {/* Top Status Bar */}
+      <div className="flex items-center justify-between text-[11px] font-mono border-b border-white/[0.06] pb-2 text-[#8A8F98]">
+        <span className="flex items-center gap-1.5 text-cyan-400">
+          <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
+          SYSTEM_ARCHITECTURE // MESH
+        </span>
+        <span className="text-white/70">DISTRIBUTED SLA 99.98%</span>
+      </div>
+
+      {/* Static Vector Canvas */}
+      <div className="relative h-36 w-full">
+        <svg className="w-full h-full" viewBox="0 0 380 140" fill="none">
+          <defs>
+            <filter id="glowCyan" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#06B6D4" floodOpacity="0.4" />
+            </filter>
+          </defs>
+
+          {/* Connection Lines between layers */}
+          {/* Layer 1 -> Layer 2 */}
+          <path d="M 190 28 L 75 60" stroke="#06B6D4" strokeWidth="1.5" strokeOpacity="0.5" />
+          <path d="M 190 28 L 190 60" stroke="#06B6D4" strokeWidth="1.8" filter="url(#glowCyan)" />
+          <path d="M 190 28 L 305 60" stroke="#06B6D4" strokeWidth="1.5" strokeOpacity="0.5" />
+
+          {/* Layer 2 -> Layer 3 */}
+          <path d="M 75 88 L 120 115" stroke="rgba(255,255,255,0.18)" strokeWidth="1.2" />
+          <path d="M 190 88 L 120 115" stroke="#3B82F6" strokeWidth="1.5" strokeOpacity="0.7" />
+          <path d="M 190 88 L 260 115" stroke="#3B82F6" strokeWidth="1.5" strokeOpacity="0.7" />
+          <path d="M 305 88 L 260 115" stroke="rgba(255,255,255,0.18)" strokeWidth="1.2" />
+
+          {/* Layer 1: Edge Ingress / Gateway */}
+          <rect x="110" y="6" width="160" height="24" rx="6" fill="#0C1019" stroke="#06B6D4" strokeWidth="1.5" filter="url(#glowCyan)" />
+          <circle cx="125" cy="18" r="3" fill="#06B6D4" />
+          <text x="195" y="22" fill="#E2E8F0" fontSize="9.5" fontFamily="monospace" textAnchor="middle" fontWeight="bold">EDGE_INGRESS // GATEWAY</text>
+
+          {/* Layer 2: Microservices Cluster */}
+          {/* Node A: Auth & Identity */}
+          <rect x="15" y="60" width="120" height="28" rx="6" fill="#0C1019" stroke="rgba(255,255,255,0.15)" strokeWidth="1.2" />
+          <text x="75" y="77" fill="#94A3B8" fontSize="8.5" fontFamily="monospace" textAnchor="middle">AUTH_SERVICE</text>
+
+          {/* Node B: Core Engine */}
+          <rect x="145" y="60" width="90" height="28" rx="6" fill="#0E1726" stroke="#06B6D4" strokeWidth="1.5" filter="url(#glowCyan)" />
+          <text x="190" y="77" fill="#38BDF8" fontSize="8.5" fontFamily="monospace" textAnchor="middle" fontWeight="bold">RAFT_CORE</text>
+
+          {/* Node C: Task Scheduler */}
+          <rect x="245" y="60" width="120" height="28" rx="6" fill="#0C1019" stroke="rgba(255,255,255,0.15)" strokeWidth="1.2" />
+          <text x="305" y="77" fill="#94A3B8" fontSize="8.5" fontFamily="monospace" textAnchor="middle">TASK_WORKERS</text>
+
+          {/* Layer 3: Persistence & State Mesh */}
+          <rect x="50" y="112" width="140" height="22" rx="5" fill="#0C1019" stroke="#3B82F6" strokeWidth="1.2" />
+          <text x="120" y="126" fill="#93C5FD" fontSize="8.5" fontFamily="monospace" textAnchor="middle">DISTRIBUTED_KV_CACHE</text>
+
+          <rect x="200" y="112" width="130" height="22" rx="5" fill="#0C1019" stroke="rgba(255,255,255,0.15)" strokeWidth="1.2" />
+          <text x="265" y="126" fill="#94A3B8" fontSize="8.5" fontFamily="monospace" textAnchor="middle">PRIMARY_STORAGE</text>
+        </svg>
+      </div>
+
+      {/* Diagram Metadata Footer */}
+      <div className="flex items-center justify-between text-[10px] font-mono text-[#8A8F98] border-t border-white/[0.06] pt-2">
+        <span>TOPOLOGY: <span className="text-cyan-400 font-semibold">RAFT CONSENSUS</span></span>
+        <span>CLUSTERS: <span className="text-white font-semibold">3 TIERS</span></span>
+        <span>LATENCY: <span className="text-emerald-400 font-semibold">0.4ms</span></span>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================================
+// 3. STATIC GRAPHIC 3: AI & ML (Neural Graph & Latent Transformer Architecture)
+// ============================================================================
+function AiNeuralGraphic() {
+  return (
+    <div className="rounded-xl border border-white/[0.08] bg-[#07080A]/70 p-4 space-y-3">
+      {/* Top Status Bar */}
+      <div className="flex items-center justify-between text-[11px] font-mono border-b border-white/[0.06] pb-2 text-[#8A8F98]">
+        <span className="flex items-center gap-1.5 text-purple-400">
+          <span className="h-1.5 w-1.5 rounded-full bg-purple-400" />
+          NEURAL_TRANSFORMER // ATTENTION
+        </span>
+        <span className="text-white/70">LATENT_DIM: 4096</span>
+      </div>
+
+      {/* Static Vector Canvas */}
+      <div className="relative h-36 w-full">
+        <svg className="w-full h-full" viewBox="0 0 380 140" fill="none">
+          <defs>
+            <filter id="glowPurple" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#A855F7" floodOpacity="0.4" />
+            </filter>
+            <linearGradient id="neuralGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#A855F7" stopOpacity="0.8" />
+              <stop offset="100%" stopColor="#FF5722" stopOpacity="0.8" />
+            </linearGradient>
+          </defs>
+
+          {/* Inter-layer synaptic tensor curves */}
+          {[20, 50, 80, 110].map((y1, i) =>
+            [25, 55, 85, 115].map((y2, j) => (
+              <path
+                key={`l1-l2-${i}-${j}`}
+                d={`M 55 ${y1} C 95 ${y1}, 105 ${y2}, 145 ${y2}`}
+                stroke={(i === 1 && j === 1) || (i === 2 && j === 2) ? '#A855F7' : 'rgba(255,255,255,0.06)'}
+                strokeWidth={(i === 1 && j === 1) || (i === 2 && j === 2) ? 1.8 : 0.8}
+              />
+            ))
+          )}
+
+          {/* Layer 2 to Layer 3 */}
+          {[25, 55, 85, 115].map((y1, i) =>
+            [35, 70, 105].map((y2, j) => (
+              <path
+                key={`l2-l3-${i}-${j}`}
+                d={`M 175 ${y1} C 215 ${y1}, 225 ${y2}, 265 ${y2}`}
+                stroke={(i === 1 && j === 1) ? 'url(#neuralGrad)' : 'rgba(255,255,255,0.06)'}
+                strokeWidth={(i === 1 && j === 1) ? 2 : 0.8}
+              />
+            ))
+          )}
+
+          {/* Layer 3 to Layer 4 */}
+          {[35, 70, 105].map((y1, i) => (
+            <path
+              key={`l3-l4-${i}`}
+              d={`M 295 ${y1} C 320 ${y1}, 330 70, 345 70`}
+              stroke={i === 1 ? '#FF5722' : 'rgba(255,255,255,0.1)'}
+              strokeWidth={i === 1 ? 2 : 1}
+            />
+          ))}
+
+          {/* Layer 1 Nodes: Input Tokens */}
+          <text x="55" y="10" fill="#64748B" fontSize="8" fontFamily="monospace" textAnchor="middle">INPUT EMBED</text>
+          {[20, 50, 80, 110].map((y, idx) => (
+            <g key={`in-${idx}`}>
+              <circle cx="55" cy={y} r="6" fill="#0F172A" stroke="rgba(255,255,255,0.3)" strokeWidth="1.2" />
+              <circle cx="55" cy={y} r="2" fill="#94A3B8" />
+            </g>
+          ))}
+
+          {/* Layer 2 Nodes: Multi-Head Attention Matrices */}
+          <text x="160" y="10" fill="#C084FC" fontSize="8" fontFamily="monospace" textAnchor="middle">MULTI-HEAD ATTN</text>
+          {[25, 55, 85, 115].map((y, idx) => (
+            <g key={`attn-${idx}`}>
+              <rect x="145" y={y - 8} width="30" height="16" rx="4" fill="#180D2A" stroke="#A855F7" strokeWidth="1.2" filter={idx === 1 ? 'url(#glowPurple)' : undefined} />
+              <text x="160" y={y + 3.5} fill="#E9D5FF" fontSize="7.5" fontFamily="monospace" textAnchor="middle" fontWeight="bold">H_{idx+1}</text>
+            </g>
+          ))}
+
+          {/* Layer 3 Nodes: Feed Forward Latent Layer */}
+          <text x="280" y="10" fill="#F472B6" fontSize="8" fontFamily="monospace" textAnchor="middle">LATENT MLP</text>
+          {[35, 70, 105].map((y, idx) => (
+            <g key={`mlp-${idx}`}>
+              <circle cx="280" cy={y} r="8" fill="#180D2A" stroke={idx === 1 ? '#FF5722' : 'rgba(255,255,255,0.2)'} strokeWidth="1.4" />
+              <circle cx="280" cy={y} r="3" fill={idx === 1 ? '#FF5722' : '#64748B'} />
+            </g>
+          ))}
+
+          {/* Layer 4 Node: Softmax Probability Distribution */}
+          <text x="348" y="52" fill="#FF8A00" fontSize="8" fontFamily="monospace" textAnchor="middle">SOFTMAX</text>
+          <circle cx="348" cy="70" r="12" fill="#1A1209" stroke="#FF5722" strokeWidth="2" filter="url(#glowPurple)" />
+          <text x="348" y="73.5" fill="#FFFFFF" fontSize="8" fontFamily="monospace" textAnchor="middle" fontWeight="bold">p(x)</text>
+        </svg>
+      </div>
+
+      {/* Diagram Metadata Footer */}
+      <div className="flex items-center justify-between text-[10px] font-mono text-[#8A8F98] border-t border-white/[0.06] pt-2">
+        <span>ENCODER: <span className="text-purple-400 font-semibold">12 BLOCKS</span></span>
+        <span>HEADS: <span className="text-white font-semibold">32 PARALLEL</span></span>
+        <span>LOSS: <span className="text-emerald-400 font-semibold">0.0142</span></span>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================================
+// 4. STATIC GRAPHIC 4: CYBER SECURITY (CSEC) (Perimeter & Cryptographic Shield)
+// ============================================================================
+function CyberSecurityGraphic() {
+  return (
+    <div className="rounded-xl border border-white/[0.08] bg-[#07080A]/70 p-4 space-y-3">
+      {/* Top Status Bar */}
+      <div className="flex items-center justify-between text-[11px] font-mono border-b border-white/[0.06] pb-2 text-[#8A8F98]">
+        <span className="flex items-center gap-1.5 text-emerald-400">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+          SECURITY_PERIMETER // ZERO_TRUST
+        </span>
+        <span className="text-white/70">EXPLOIT_DEFENSE: ARMED</span>
+      </div>
+
+      {/* Static Vector Canvas */}
+      <div className="relative h-36 w-full">
+        <svg className="w-full h-full" viewBox="0 0 380 140" fill="none">
+          <defs>
+            <filter id="glowGreen" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#10B981" floodOpacity="0.4" />
+            </filter>
+            <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#10B981" stopOpacity="0.25" />
+              <stop offset="100%" stopColor="#059669" stopOpacity="0.05" />
+            </linearGradient>
+          </defs>
+
+          {/* Hexagonal Radar Grid background */}
+          <polygon points="190,20 240,48 240,92 190,120 140,92 140,48" stroke="rgba(255,255,255,0.06)" strokeWidth="1" fill="none" />
+          <polygon points="190,32 225,52 225,88 190,108 155,88 155,52" stroke="rgba(255,255,255,0.08)" strokeWidth="1" fill="none" />
+
+          {/* Concentric Defense Orbit Rings */}
+          <circle cx="190" cy="70" r="54" stroke="rgba(16,185,129,0.2)" strokeWidth="1" strokeDasharray="3 3" />
+          <circle cx="190" cy="70" r="38" stroke="rgba(16,185,129,0.35)" strokeWidth="1" />
+
+          {/* Central Hardened Security Shield */}
+          <path
+            d="M 190 44 L 212 53 C 212 73 190 88 190 88 C 190 88 168 73 168 53 Z"
+            fill="url(#shieldGrad)"
+            stroke="#10B981"
+            strokeWidth="1.8"
+            filter="url(#glowGreen)"
+          />
+          {/* Lock Core inside Shield */}
+          <circle cx="190" cy="62" r="3" fill="#10B981" />
+          <path d="M 189 65 L 191 65 L 192 73 L 188 73 Z" fill="#10B981" />
+
+          {/* Perimeter Node Callouts */}
+          {/* Left: Memory Canary Protection */}
+          <line x1="140" y1="52" x2="80" y2="35" stroke="#10B981" strokeWidth="1" strokeOpacity="0.6" />
+          <rect x="25" y="24" width="95" height="20" rx="4" fill="#091410" stroke="#10B981" strokeWidth="1" />
+          <text x="72" y="37" fill="#6EE7B7" fontSize="8" fontFamily="monospace" textAnchor="middle">STACK_CANARY: OK</text>
+
+          {/* Bottom Left: ASLR & PIE */}
+          <line x1="145" y1="88" x2="85" y2="105" stroke="#10B981" strokeWidth="1" strokeOpacity="0.6" />
+          <rect x="25" y="96" width="95" height="20" rx="4" fill="#091410" stroke="#10B981" strokeWidth="1" />
+          <text x="72" y="109" fill="#6EE7B7" fontSize="8" fontFamily="monospace" textAnchor="middle">ASLR // FULL_RELRO</text>
+
+          {/* Right: Cryptographic Cipher */}
+          <line x1="240" y1="52" x2="300" y2="35" stroke="#10B981" strokeWidth="1" strokeOpacity="0.6" />
+          <rect x="260" y="24" width="95" height="20" rx="4" fill="#091410" stroke="#10B981" strokeWidth="1" />
+          <text x="307" y="37" fill="#6EE7B7" fontSize="8" fontFamily="monospace" textAnchor="middle">RSA_4096 // ECDSA</text>
+
+          {/* Bottom Right: eBPF Network Firewall */}
+          <line x1="235" y1="88" x2="295" y2="105" stroke="#10B981" strokeWidth="1" strokeOpacity="0.6" />
+          <rect x="260" y="96" width="95" height="20" rx="4" fill="#091410" stroke="#10B981" strokeWidth="1" />
+          <text x="307" y="109" fill="#6EE7B7" fontSize="8" fontFamily="monospace" textAnchor="middle">eBPF_ISOLATION</text>
+        </svg>
+      </div>
+
+      {/* Diagram Metadata Footer */}
+      <div className="flex items-center justify-between text-[10px] font-mono text-[#8A8F98] border-t border-white/[0.06] pt-2">
+        <span>HARDENING: <span className="text-emerald-400 font-semibold">CANARY + NX + PIE</span></span>
+        <span>CTF_PODIUM: <span className="text-white font-semibold">JEOPARDY</span></span>
+        <span>STATUS: <span className="text-emerald-400 font-semibold">VERIFIED</span></span>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================================
+// MAIN COMPONENT: INTERACTIVE BENTO DIVISIONS
+// ============================================================================
 export default function InteractiveBentoDivisions() {
   return (
     <section id="divisions" className="relative z-10 py-24 sm:py-32">
@@ -422,7 +407,7 @@ export default function InteractiveBentoDivisions() {
         {/* Asymmetrical Bento Grid */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           
-          {/* Card 1: Competitive Programming & DSA (col-span-7) */}
+          {/* Card 1: Competitive Programming (col-span-7) */}
           <SpotlightBentoCard className="md:col-span-12 lg:col-span-7">
             <div className="flex flex-col justify-between h-full space-y-6">
               <div>
@@ -449,12 +434,12 @@ export default function InteractiveBentoDivisions() {
                 </p>
               </div>
 
-              {/* Live Interactive CP Micro-UI */}
-              <CpMicroUI />
+              {/* Static Abstract Algorithm Topology Graphic */}
+              <CpTopologyGraphic />
             </div>
           </SpotlightBentoCard>
 
-          {/* Card 2: Systems, Web & DevOS (col-span-5) */}
+          {/* Card 2: Development & OS (col-span-5) */}
           <SpotlightBentoCard className="md:col-span-12 lg:col-span-5">
             <div className="flex flex-col justify-between h-full space-y-6">
               <div>
@@ -481,8 +466,8 @@ export default function InteractiveBentoDivisions() {
                 </p>
               </div>
 
-              {/* Live Interactive Terminal Micro-UI */}
-              <DevOsMicroUI />
+              {/* Static Systems Architecture Graphic */}
+              <DevSystemsGraphic />
             </div>
           </SpotlightBentoCard>
 
@@ -513,8 +498,8 @@ export default function InteractiveBentoDivisions() {
                 </p>
               </div>
 
-              {/* Interactive Neural Canvas Micro-UI */}
-              <AiNeuralMicroUI />
+              {/* Static Neural Architecture Graphic */}
+              <AiNeuralGraphic />
             </div>
           </SpotlightBentoCard>
 
@@ -545,8 +530,8 @@ export default function InteractiveBentoDivisions() {
                 </p>
               </div>
 
-              {/* Live Packet Sniffer Micro-UI */}
-              <CyberMicroUI />
+              {/* Static Cryptographic Security Shield Graphic */}
+              <CyberSecurityGraphic />
             </div>
           </SpotlightBentoCard>
 
