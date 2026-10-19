@@ -31,7 +31,7 @@ export async function POST(req: Request) {
     return NextResponse.json({
       success: true,
       id: submission.id,
-      message: 'Anonymous plagiarism report submitted securely to the NJACK CP Wing council.',
+      message: 'Anonymous plagiarism report submitted securely to the NJACK CP Division council.',
     });
   } catch (error) {
     console.error('Report submission error:', error);

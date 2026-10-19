@@ -170,7 +170,7 @@ export default function ResourceCatalog({
                   : 'bg-white/5 text-slate-300 hover:bg-white/10 border border-white/5'
               }`}
             >
-              All Wings
+              All Divisions
             </button>
             {departments.map((dept) => {
               const active = selectedDept === dept.slug;

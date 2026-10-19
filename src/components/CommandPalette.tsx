@@ -56,11 +56,11 @@ export default function CommandPalette() {
         const el = document.getElementById('divisions');
         el?.scrollIntoView({ behavior: 'smooth' });
       },
-      badge: '4 WINGS',
+      badge: '4 DIVISIONS',
     },
     {
       id: 'projects',
-      title: 'Open Source Repositories & Apparatus',
+      title: 'Open Source Repositories & Projects',
       category: 'NAVIGATION',
       icon: Code2,
       shortcut: 'P',

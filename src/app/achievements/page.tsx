@@ -130,7 +130,7 @@ export default function AchievementsPage() {
             Ready to build the next milestone?
           </h3>
           <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto">
-            Join the technical wings, follow our structured roadmaps, and participate in weekly practice contests.
+            Join the technical divisions, follow our structured roadmaps, and participate in weekly practice contests.
           </p>
           <div className="flex items-center justify-center gap-3 pt-2">
             <Link

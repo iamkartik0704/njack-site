@@ -75,7 +75,7 @@ export default function ReportCheatingPage() {
               </span>
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
-              No personal identity, email address, or tracking telemetry is recorded with your submission. Reports are decrypted and examined solely by the NJACK CP Wing council to ensure fair play across Codeforces contests.
+              No personal identity, email address, or tracking telemetry is recorded with your submission. Reports are decrypted and examined solely by the NJACK CP Division council to ensure fair play across Codeforces contests.
             </p>
           </div>
         </div>

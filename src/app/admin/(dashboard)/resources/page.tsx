@@ -30,7 +30,7 @@ export default async function AdminResourcesPage() {
           Learning Resources Catalog
         </h1>
         <p className="text-xs sm:text-sm text-slate-400 mt-1">
-          Add, publish, organize, and delete lecture notes, video playlists, slides, and cheat sheets across wings.
+          Add, publish, organize, and delete lecture notes, video playlists, slides, and cheat sheets across divisions.
         </p>
       </div>
 

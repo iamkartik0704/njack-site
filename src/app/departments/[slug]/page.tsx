@@ -144,7 +144,7 @@ export default async function DepartmentDetailPage({ params }: DeptPageProps) {
       <section className={`relative overflow-hidden border-b border-white/10 bg-gradient-to-b ${config.gradient} py-14 sm:py-20`}>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           
-          {/* Wing Navigation Pills */}
+          {/* Division Navigation Pills */}
           <div className="flex items-center gap-2 overflow-x-auto pb-4 scrollbar-hide mb-6">
             {allDepts.map((d) => (
               <Link
@@ -166,7 +166,7 @@ export default async function DepartmentDetailPage({ params }: DeptPageProps) {
               <div className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-mono font-semibold uppercase tracking-wider backdrop-blur-md"
                 style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
                 <DeptIcon className={`h-4 w-4 ${config.accent}`} />
-                <span>NJACK Technical Wing</span>
+                <span>NJACK Technical Division</span>
               </div>
 
               <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
@@ -207,7 +207,7 @@ export default async function DepartmentDetailPage({ params }: DeptPageProps) {
           <div className="flex items-center gap-2">
             <Compass className={`h-5 w-5 ${config.accent}`} />
             <h2 className="text-xl sm:text-2xl font-bold text-white">
-              What You'll Master in this Wing
+              What You&apos;ll Master in this Division
             </h2>
           </div>
 
@@ -365,7 +365,7 @@ export default async function DepartmentDetailPage({ params }: DeptPageProps) {
             <div className="flex items-center gap-2">
               <Users className={`h-5 w-5 ${config.accent}`} />
               <h2 className="text-xl sm:text-2xl font-bold text-white">
-                Wing Coordinators ({department.teamMembers[0]?.year || '2026-2027'})
+                Division Coordinators ({department.teamMembers[0]?.year || '2026-2027'})
               </h2>
             </div>
 

@@ -414,7 +414,7 @@ export default function InteractiveBentoDivisions() {
               className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#F3F4F6]"
             />
             <p className="max-w-md font-sans text-sm text-[#8A8F98]">
-              NJACK operates as four deeply integrated wings—from algorithmic contest supremacy to production cloud systems, AI research, and offensive cybersecurity.
+              NJACK operates as four deeply integrated divisions—from algorithmic contest supremacy to production cloud systems, AI research, and offensive cybersecurity.
             </p>
           </div>
         </div>
@@ -496,7 +496,7 @@ export default function InteractiveBentoDivisions() {
             </div>
           </SpotlightBentoCard>
 
-          {/* Card 3: AI & Machine Learning Wing (col-span-6) */}
+          {/* Card 3: AI & Machine Learning Division (col-span-6) */}
           <SpotlightBentoCard className="md:col-span-12 lg:col-span-6">
             <div className="flex flex-col justify-between h-full space-y-5">
               <div>

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 
 export default function HeroTerminalTyping() {
-  const fullText = './init_club --wings="CP, Dev & OS, AI/ML, CyberSec"';
+  const fullText = './init_club --divisions="CP, Dev & OS, AI/ML, CyberSec"';
   const [typedLength, setTypedLength] = useState(0);
 
   useEffect(() => {

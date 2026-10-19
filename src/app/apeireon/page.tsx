@@ -20,7 +20,7 @@ export default function ApeireonPage() {
   const events = [
     {
       title: 'King of the Hills',
-      wing: 'Competitive Programming',
+      division: 'Competitive Programming',
       icon: Binary,
       color: 'text-amber-400',
       badge: 'border-amber-500/30 bg-amber-500/10 text-amber-400',
@@ -29,7 +29,7 @@ export default function ApeireonPage() {
     },
     {
       title: 'Forecast Frenzy',
-      wing: 'Machine Learning',
+      division: 'Machine Learning',
       icon: Brain,
       color: 'text-purple-400',
       badge: 'border-purple-500/30 bg-purple-500/10 text-purple-400',
@@ -38,7 +38,7 @@ export default function ApeireonPage() {
     },
     {
       title: 'CACTUS: The Algorithmic Duel',
-      wing: 'Algorithms',
+      division: 'Algorithms',
       icon: Flame,
       color: 'text-rose-400',
       badge: 'border-rose-500/30 bg-rose-500/10 text-rose-400',
@@ -47,7 +47,7 @@ export default function ApeireonPage() {
     },
     {
       title: 'SpeedRun Syntax Blitz',
-      wing: 'Development',
+      division: 'Development',
       icon: Zap,
       color: 'text-cyan-400',
       badge: 'border-cyan-500/30 bg-cyan-500/10 text-cyan-400',
@@ -56,7 +56,7 @@ export default function ApeireonPage() {
     },
     {
       title: 'BidWars: Algorithmic Auction',
-      wing: 'Game Theory & Math',
+      division: 'Game Theory & Math',
       icon: Trophy,
       color: 'text-emerald-400',
       badge: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400',
@@ -126,7 +126,7 @@ export default function ApeireonPage() {
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-4">
                     <span className={`rounded-full px-2.5 py-0.5 text-[10px] font-mono font-semibold border ${ev.badge}`}>
-                      {ev.wing}
+                      {ev.division}
                     </span>
                     <span className="text-xs font-mono font-bold text-amber-400">
                       {ev.prize}

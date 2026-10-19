@@ -128,7 +128,7 @@ export default function AdminEventsManager({ initialEvents }: AdminEventsManager
                     <div className="text-[11px] text-slate-400 font-mono mt-0.5">{ev.venue}</div>
                   </td>
                   <td className="px-5 py-4 font-medium text-cyan-300">
-                    {ev.department || 'All Wings'}
+                    {ev.department || 'All Divisions'}
                   </td>
                   <td className="px-5 py-4 font-mono text-slate-300">
                     {dateStr}
@@ -255,7 +255,7 @@ export default function AdminEventsManager({ initialEvents }: AdminEventsManager
                     <option value="Development & Open Source">Development & Open Source</option>
                     <option value="Machine Learning">Machine Learning</option>
                     <option value="Cyber Security">Cyber Security</option>
-                    <option value="All Wings">All Wings</option>
+                    <option value="All Divisions">All Divisions</option>
                   </select>
                 </div>
               </div>

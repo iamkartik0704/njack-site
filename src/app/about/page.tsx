@@ -79,7 +79,7 @@ export default function AboutPage() {
               Founded over a decade ago by passionate students of the Department of Computer Science & Engineering at IIT Patna, NJACK was born out of a desire to create a collaborative haven for programmers, algorithmic competitors, security researchers, and hackers.
             </p>
             <p className="text-sm text-slate-300 leading-relaxed">
-              Today, NJACK operates across four specialized wings: <strong>Competitive Programming (CP)</strong>, <strong>Development & Open Source (Dev & OS)</strong>, <strong>Machine Learning (ML)</strong>, and <strong>Cyber Security</strong>. We organize campus-wide bootcamps, premier hackathons, flagship coding fests, and the prestigious <strong>NJACK Winter of Code (NWoC)</strong>.
+              Today, NJACK operates across four specialized divisions: <strong>Competitive Programming (CP)</strong>, <strong>Development & Open Source (Dev & OS)</strong>, <strong>Machine Learning (ML)</strong>, and <strong>Cyber Security</strong>. We organize campus-wide bootcamps, premier hackathons, flagship coding fests, and the prestigious <strong>NJACK Winter of Code (NWoC)</strong>.
             </p>
 
             <div className="pt-2">
@@ -114,7 +114,7 @@ export default function AboutPage() {
                 <span className="font-mono text-cyan-400">njack@iitp.ac.in</span>
               </div>
               <div className="flex justify-between py-1 border-b border-white/5">
-                <span className="text-slate-400">Active Technical Wings:</span>
+                <span className="text-slate-400">Active Technical Divisions:</span>
                 <span className="font-medium text-white">4 Specialized Divisions</span>
               </div>
               <div className="flex justify-between py-1">

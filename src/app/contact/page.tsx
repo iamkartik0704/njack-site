@@ -55,7 +55,7 @@ export default function ContactPage() {
             Contact <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">NJACK</span>
           </h1>
           <p className="mt-3 text-sm sm:text-base text-slate-300 leading-relaxed">
-            Have questions about club events, workshop collaborations, sponsorship for Apeireon, or joining our technical wings? Drop us a line below.
+            Have questions about club events, workshop collaborations, sponsorship for Apeireon, or joining our technical divisions? Drop us a line below.
           </p>
         </div>
 
@@ -137,7 +137,7 @@ export default function ContactPage() {
                 <div>
                   <h2 className="text-xl font-bold text-white">Send Us a Direct Message</h2>
                   <p className="text-xs text-slate-400 mt-1">
-                    Fill in the form below and the respective wing coordinators will get in touch.
+                    Fill in the form below and the respective division coordinators will get in touch.
                   </p>
                 </div>
 

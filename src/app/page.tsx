@@ -97,41 +97,73 @@ export default async function HomePage() {
 
             {/* Key Pillars & Club Overview */}
             <div className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-6 border-t border-white/[0.08] pt-8">
-              <div className="space-y-1">
-                <span className="font-display text-3xl sm:text-4xl font-black text-[#F3F4F6]">
+              <Link
+                href="/#divisions"
+                className="group block space-y-1.5 transition-opacity hover:opacity-90"
+              >
+                <div className="font-display text-3xl sm:text-4xl font-black text-[#F3F4F6] tracking-tight group-hover:text-white transition-colors">
                   4
-                </span>
-                <p className="font-sans text-xs text-[#8A8F98]">
-                  Specialized Wings
-                </p>
-              </div>
+                </div>
+                <div>
+                  <p className="font-sans text-xs font-semibold text-neutral-300 group-hover:text-[#FF5722] transition-colors">
+                    Core Divisions
+                  </p>
+                  <p className="font-sans text-[11px] text-[#8A8F98]">
+                    CP · Dev &amp; OS · AI/ML · Cyber
+                  </p>
+                </div>
+              </Link>
 
-              <div className="space-y-1">
-                <span className="font-display text-3xl sm:text-4xl font-black text-[#FF5722]">
-                  2
-                </span>
-                <p className="font-sans text-xs text-[#8A8F98]">
-                  Flagship Annual Events
-                </p>
-              </div>
+              <Link
+                href="/apeireon"
+                className="group block space-y-1.5 transition-opacity hover:opacity-90"
+              >
+                <div className="font-display text-2xl sm:text-3xl lg:text-4xl font-black text-[#FF5722] tracking-tight group-hover:text-[#FF6A3D] transition-colors">
+                  Apeireon
+                </div>
+                <div>
+                  <p className="font-sans text-xs font-semibold text-neutral-300 group-hover:text-[#FF5722] transition-colors">
+                    Flagship Tech Fest
+                  </p>
+                  <p className="font-sans text-[11px] text-[#8A8F98]">
+                    Annual Hackathons &amp; Contests
+                  </p>
+                </div>
+              </Link>
 
-              <div className="space-y-1">
-                <span className="font-display text-3xl sm:text-4xl font-black text-[#F3F4F6]">
-                  15+
-                </span>
-                <p className="font-sans text-xs text-[#8A8F98]">
-                  Years of Active Legacy
-                </p>
-              </div>
+              <Link
+                href="/nwoc"
+                className="group block space-y-1.5 transition-opacity hover:opacity-90"
+              >
+                <div className="font-display text-2xl sm:text-3xl lg:text-4xl font-black text-[#F3F4F6] tracking-tight group-hover:text-white transition-colors">
+                  NWoC
+                </div>
+                <div>
+                  <p className="font-sans text-xs font-semibold text-neutral-300 group-hover:text-[#FF5722] transition-colors">
+                    Winter of Code
+                  </p>
+                  <p className="font-sans text-[11px] text-[#8A8F98]">
+                    Open-Source Mentorship
+                  </p>
+                </div>
+              </Link>
 
-              <div className="space-y-1">
-                <span className="font-display text-3xl sm:text-4xl font-black text-[#FF8A00]">
-                  100%
-                </span>
-                <p className="font-sans text-xs text-[#8A8F98]">
-                  Student-Led Community
-                </p>
-              </div>
+              <Link
+                href="/about"
+                className="group block space-y-1.5 transition-opacity hover:opacity-90"
+              >
+                <div className="font-display text-2xl sm:text-3xl lg:text-4xl font-black text-[#FF8A00] tracking-tight group-hover:text-[#FFA033] transition-colors">
+                  IIT Patna
+                </div>
+                <div>
+                  <p className="font-sans text-xs font-semibold text-neutral-300 group-hover:text-[#FF5722] transition-colors">
+                    Students&apos; Gymkhana
+                  </p>
+                  <p className="font-sans text-[11px] text-[#8A8F98]">
+                    Technical Affairs Council
+                  </p>
+                </div>
+              </Link>
             </div>
           </div>
 
