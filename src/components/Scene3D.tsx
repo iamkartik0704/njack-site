@@ -14,94 +14,213 @@ interface ChoreographyTarget {
   scale: number;
 }
 
-// Procedural 3D Hexagonal 'N' Monolith matching official NJACK Logo
+// Procedural 3D Hexagonal 'N' Folded Ribbon Monolith matching official NJACK Logo
 function NjackHexMonolith() {
   const groupRef = useRef<THREE.Group>(null!);
 
   useFrame((_, delta) => {
     if (groupRef.current) {
-      groupRef.current.rotation.y += delta * 0.3;
-      groupRef.current.rotation.x = Math.sin(Date.now() * 0.001) * 0.08;
+      groupRef.current.rotation.y += delta * 0.35;
+      groupRef.current.rotation.x = Math.sin(Date.now() * 0.001) * 0.12;
     }
   });
 
-  const materialProps = {
-    color: '#14161D',
-    metalness: 0.9,
-    roughness: 0.15,
-  };
+  const {
+    leftShape,
+    topFoldShape,
+    diagShape,
+    botFoldShape,
+    rightShape,
+    extrudeRibbon,
+    extrudeDiag,
+    extrudeFold,
+  } = useMemo(() => {
+    // Exact isometric regular hexagon parameters
+    // Center at (0, 0), Hexagon Outer Radius R = 1.32, Ribbon Width W = 0.34
+    const R = 1.32;
+    const cos30 = Math.cos(Math.PI / 6); // ~0.866025
+    const sin30 = Math.sin(Math.PI / 6); // 0.5
+    const W = 0.34;
+    const Miter = W / cos30; // ~0.3926
+
+    // Outer Hexagon Vertices
+    const xOuter = R * cos30; // ~1.1431
+    const yMid = R * sin30; // 0.66
+
+    // Inner Hexagon Vertices
+    const xInner = xOuter - W; // ~0.8031
+    const yInnerMid = yMid - Miter * 0.5; // ~0.4637
+
+    // Vertical cut parameter (X offset from center)
+    const xCut = 0.40;
+    const slope = (R - yMid) / xOuter; // tan(30°) ~ 0.57735
+    const yCutOuterLower = -R + xCut * slope; // ~ -1.089
+    const yCutInnerLower = -(R - Miter) + xCut * slope; // ~ -0.6965
+    const yCutOuterUpper = R - xCut * slope; // ~ 1.089
+    const yCutInnerUpper = (R - Miter) - xCut * slope; // ~ 0.6965
+
+    // Top fold points
+    const pFoldTopOuter = { x: -0.05, y: 1.29 };
+    const pFoldTopInner = { x: -0.32, y: 0.72 };
+    const pFoldTopCrease = { x: 0.14, y: 1.18 };
+
+    // Bottom fold points (180° rotation: x -> -x, y -> -y)
+    const pFoldBotOuter = { x: -pFoldTopOuter.x, y: -pFoldTopOuter.y };
+    const pFoldBotInner = { x: -pFoldTopInner.x, y: -pFoldTopInner.y };
+    const pFoldBotCrease = { x: -pFoldTopCrease.x, y: -pFoldTopCrease.y };
+
+    // 1. Left Bracket Ribbon Shape
+    const left = new THREE.Shape();
+    left.moveTo(-xCut, yCutOuterLower);
+    left.lineTo(-xOuter, -yMid);
+    left.lineTo(-xOuter, yMid);
+    left.lineTo(pFoldTopOuter.x, pFoldTopOuter.y);
+    left.lineTo(pFoldTopInner.x, pFoldTopInner.y);
+    left.lineTo(-xInner, yInnerMid);
+    left.lineTo(-xInner, -yInnerMid);
+    left.lineTo(-xCut, yCutInnerLower);
+    left.closePath();
+
+    // 2. Top Fold Triangle Shape (crimson shadow fold)
+    const topFold = new THREE.Shape();
+    topFold.moveTo(pFoldTopOuter.x, pFoldTopOuter.y);
+    topFold.lineTo(pFoldTopCrease.x, pFoldTopCrease.y);
+    topFold.lineTo(pFoldTopInner.x, pFoldTopInner.y);
+    topFold.closePath();
+
+    // 3. Central Diagonal Ribbon Shape
+    const diag = new THREE.Shape();
+    diag.moveTo(pFoldTopInner.x, pFoldTopInner.y);
+    diag.lineTo(pFoldTopOuter.x, pFoldTopOuter.y);
+    diag.lineTo(pFoldBotInner.x, pFoldBotInner.y);
+    diag.lineTo(pFoldBotOuter.x, pFoldBotOuter.y);
+    diag.closePath();
+
+    // 4. Bottom Fold Triangle Shape (crimson shadow fold)
+    const botFold = new THREE.Shape();
+    botFold.moveTo(pFoldBotOuter.x, pFoldBotOuter.y);
+    botFold.lineTo(pFoldBotCrease.x, pFoldBotCrease.y);
+    botFold.lineTo(pFoldBotInner.x, pFoldBotInner.y);
+    botFold.closePath();
+
+    // 5. Right Bracket Ribbon Shape (180° rotational symmetry)
+    const right = new THREE.Shape();
+    right.moveTo(pFoldBotOuter.x, pFoldBotOuter.y);
+    right.lineTo(pFoldBotInner.x, pFoldBotInner.y);
+    right.lineTo(xInner, -yInnerMid);
+    right.lineTo(xInner, yInnerMid);
+    right.lineTo(xCut, yCutInnerUpper);
+    right.lineTo(xCut, yCutOuterUpper);
+    right.lineTo(xOuter, yMid);
+    right.lineTo(xOuter, -yMid);
+    right.closePath();
+
+    // Three-dimensional extrusion profiles
+    const extrudeRibbonConfig = {
+      depth: 0.20,
+      bevelEnabled: true,
+      bevelSegments: 4,
+      steps: 1,
+      bevelSize: 0.025,
+      bevelThickness: 0.025,
+    };
+
+    const extrudeDiagConfig = {
+      depth: 0.24,
+      bevelEnabled: true,
+      bevelSegments: 4,
+      steps: 1,
+      bevelSize: 0.025,
+      bevelThickness: 0.025,
+    };
+
+    const extrudeFoldConfig = {
+      depth: 0.16,
+      bevelEnabled: true,
+      bevelSegments: 3,
+      steps: 1,
+      bevelSize: 0.02,
+      bevelThickness: 0.02,
+    };
+
+    return {
+      leftShape: left,
+      topFoldShape: topFold,
+      diagShape: diag,
+      botFoldShape: botFold,
+      rightShape: right,
+      extrudeRibbon: extrudeRibbonConfig,
+      extrudeDiag: extrudeDiagConfig,
+      extrudeFold: extrudeFoldConfig,
+    };
+  }, []);
 
   return (
     <group ref={groupRef}>
-      {/* --- Left Bracket Ribbon --- */}
-      {/* Vertical Column */}
-      <RoundedBox args={[0.34, 1.8, 0.36]} radius={0.04} smoothness={4} position={[-0.95, 0, 0]}>
-        <meshStandardMaterial {...materialProps} />
-        <Edges scale={1.002} threshold={15} color="#FF8A00" />
-      </RoundedBox>
-      {/* Top Angled Facet */}
-      <RoundedBox
-        args={[0.34, 0.82, 0.36]}
-        radius={0.04}
-        smoothness={4}
-        position={[-0.7, 0.95, 0]}
-        rotation={[0, 0, -Math.PI / 6]}
-      >
-        <meshStandardMaterial {...materialProps} />
-        <Edges scale={1.002} threshold={15} color="#FF8A00" />
-      </RoundedBox>
-      {/* Bottom Angled Facet */}
-      <RoundedBox
-        args={[0.34, 0.82, 0.36]}
-        radius={0.04}
-        smoothness={4}
-        position={[-0.7, -0.95, 0]}
-        rotation={[0, 0, Math.PI / 6]}
-      >
-        <meshStandardMaterial {...materialProps} />
-        <Edges scale={1.002} threshold={15} color="#FF8A00" />
-      </RoundedBox>
+      {/* 1. Left Bracket Ribbon (Amber to Tangerine) */}
+      <mesh position={[0, 0, -0.02]}>
+        <extrudeGeometry args={[leftShape, extrudeRibbon]} />
+        <meshStandardMaterial
+          color="#FF8A00"
+          metalness={0.7}
+          roughness={0.25}
+          emissive="#FF5722"
+          emissiveIntensity={0.25}
+        />
+        <Edges scale={1.002} threshold={20} color="#FFD180" />
+      </mesh>
 
-      {/* --- Central Slanted Diagonal Bridge (Tangerine Vermilion) --- */}
-      <RoundedBox
-        args={[0.38, 2.2, 0.4]}
-        radius={0.04}
-        smoothness={4}
-        position={[0, 0, 0.04]}
-        rotation={[0, 0, -Math.PI / 4.4]}
-      >
-        <meshStandardMaterial {...materialProps} color="#181B24" />
-        <Edges scale={1.002} threshold={15} color="#FF5722" />
-      </RoundedBox>
+      {/* 2. Top Fold Crease (Deep Crimson Shadow Facet) */}
+      <mesh position={[0, 0, -0.01]}>
+        <extrudeGeometry args={[topFoldShape, extrudeFold]} />
+        <meshStandardMaterial
+          color="#B71C1C"
+          metalness={0.5}
+          roughness={0.4}
+          emissive="#D32F2F"
+          emissiveIntensity={0.2}
+        />
+        <Edges scale={1.002} threshold={20} color="#D32F2F" />
+      </mesh>
 
-      {/* --- Right Bracket Ribbon --- */}
-      {/* Vertical Column */}
-      <RoundedBox args={[0.34, 1.8, 0.36]} radius={0.04} smoothness={4} position={[0.95, 0, 0]}>
-        <meshStandardMaterial {...materialProps} />
-        <Edges scale={1.002} threshold={15} color="#D9381E" />
-      </RoundedBox>
-      {/* Top Angled Facet */}
-      <RoundedBox
-        args={[0.34, 0.82, 0.36]}
-        radius={0.04}
-        smoothness={4}
-        position={[0.7, 0.95, 0]}
-        rotation={[0, 0, Math.PI / 6]}
-      >
-        <meshStandardMaterial {...materialProps} />
-        <Edges scale={1.002} threshold={15} color="#FF5722" />
-      </RoundedBox>
-      {/* Bottom Angled Facet */}
-      <RoundedBox
-        args={[0.34, 0.82, 0.36]}
-        radius={0.04}
-        smoothness={4}
-        position={[0.7, -0.95, 0]}
-        rotation={[0, 0, -Math.PI / 6]}
-      >
-        <meshStandardMaterial {...materialProps} />
-        <Edges scale={1.002} threshold={15} color="#D9381E" />
-      </RoundedBox>
+      {/* 3. Central Diagonal Ribbon (Vibrant Tangerine Vermilion - Proud Front Layer) */}
+      <mesh position={[0, 0, 0.04]}>
+        <extrudeGeometry args={[diagShape, extrudeDiag]} />
+        <meshStandardMaterial
+          color="#FF5722"
+          metalness={0.8}
+          roughness={0.2}
+          emissive="#E64A19"
+          emissiveIntensity={0.3}
+        />
+        <Edges scale={1.002} threshold={20} color="#FF7043" />
+      </mesh>
+
+      {/* 4. Bottom Fold Crease (Deep Crimson Shadow Facet) */}
+      <mesh position={[0, 0, -0.01]}>
+        <extrudeGeometry args={[botFoldShape, extrudeFold]} />
+        <meshStandardMaterial
+          color="#B71C1C"
+          metalness={0.5}
+          roughness={0.4}
+          emissive="#D32F2F"
+          emissiveIntensity={0.2}
+        />
+        <Edges scale={1.002} threshold={20} color="#D32F2F" />
+      </mesh>
+
+      {/* 5. Right Bracket Ribbon (Glowing Orange) */}
+      <mesh position={[0, 0, -0.02]}>
+        <extrudeGeometry args={[rightShape, extrudeRibbon]} />
+        <meshStandardMaterial
+          color="#FF6F00"
+          metalness={0.7}
+          roughness={0.25}
+          emissive="#FF5722"
+          emissiveIntensity={0.25}
+        />
+        <Edges scale={1.002} threshold={20} color="#FFA726" />
+      </mesh>
     </group>
   );
 }

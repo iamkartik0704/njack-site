@@ -24,61 +24,70 @@ export default function NjackLogo({
         viewBox="0 0 100 100"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="w-full h-full transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(255,87,34,0.65)]"
+        className="w-full h-full transition-all duration-300 group-hover:drop-shadow-[0_0_14px_rgba(255,87,34,0.7)]"
       >
         <defs>
-          {/* Highlight Amber Gradient (Left outer ribbon) */}
-          <linearGradient id="njackAmberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          {/* Highlight Amber to Orange Gradient (Left ribbon) */}
+          <linearGradient id="njackAmberGrad" x1="0%" y1="100%" x2="50%" y2="0%">
             <stop offset="0%" stopColor="#FFA000" />
             <stop offset="50%" stopColor="#FF8A00" />
             <stop offset="100%" stopColor="#FF5722" />
           </linearGradient>
 
-          {/* Central Diagonal Orange Gradient */}
-          <linearGradient id="njackOrangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#FF8A00" />
-            <stop offset="50%" stopColor="#FF5722" />
-            <stop offset="100%" stopColor="#D9381E" />
+          {/* Central Diagonal Tangerine-Vermilion Gradient */}
+          <linearGradient id="njackDiagonalGrad" x1="30%" y1="0%" x2="70%" y2="100%">
+            <stop offset="0%" stopColor="#FF7A00" />
+            <stop offset="45%" stopColor="#FF5722" />
+            <stop offset="100%" stopColor="#E64A19" />
           </linearGradient>
 
-          {/* Deep Fold Crimson Gradient (Right bracket & inner fold) */}
-          <linearGradient id="njackCrimsonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#FF5722" />
-            <stop offset="70%" stopColor="#D9381E" />
+          {/* Deep Fold Crimson Shadow Gradient */}
+          <linearGradient id="njackFoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#C62828" />
             <stop offset="100%" stopColor="#B71C1C" />
           </linearGradient>
 
-          {/* Shadow Filter */}
-          <filter id="njackDropGlow" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#FF5722" floodOpacity="0.4" />
-          </filter>
+          {/* Right Ribbon Glowing Orange Gradient */}
+          <linearGradient id="njackRightGrad" x1="50%" y1="100%" x2="0%" y2="0%">
+            <stop offset="0%" stopColor="#E64A19" />
+            <stop offset="50%" stopColor="#FF5722" />
+            <stop offset="100%" stopColor="#FF8A00" />
+          </linearGradient>
         </defs>
 
-        {/* Segment 1: Left Bracket Ribbon (Amber highlight) */}
+        {/* 1. Left Bracket Ribbon (from bottom-left vertical cut, around V4, up to V5, to top fold) */}
         <motion.path
-          d="M 28 18 L 12 30 L 12 68 L 28 80 L 28 66 L 22 61 L 22 37 L 34 28 Z"
+          d="M 36 86.92 L 11.03 72.5 L 11.03 27.5 L 48 6.15 L 38 17.5 L 22.53 34.14 L 22.53 65.86 L 36 73.64 Z"
           fill="url(#njackAmberGrad)"
           className="transition-transform duration-300 origin-center group-hover:-translate-x-0.5 group-hover:-translate-y-0.5"
         />
 
-        {/* Segment 2: Central Slanted Diagonal Bridge (Tangerine Vermilion to Crimson) */}
+        {/* 2. Top Fold Shadow Triangle (crease under diagonal ribbon) */}
         <motion.path
-          d="M 34 26 L 46 36 L 40 76 L 28 66 Z"
-          fill="url(#njackOrangeGrad)"
+          d="M 48 6.15 L 55 10.2 L 38 17.5 Z"
+          fill="url(#njackFoldGrad)"
+          className="transition-opacity duration-300"
+        />
+
+        {/* 3. Central Diagonal Ribbon (Front layer, crossing center to bottom fold) */}
+        <motion.path
+          d="M 38 17.5 L 48 6.15 L 62 82.5 L 52 93.85 Z"
+          fill="url(#njackDiagonalGrad)"
           className="transition-transform duration-300 origin-center group-hover:scale-[1.02]"
         />
 
-        {/* Segment 3: Right Bracket Ribbon (Crimson shadow to Orange) */}
+        {/* 4. Bottom Fold Shadow Triangle */}
         <motion.path
-          d="M 46 36 L 68 18 L 68 56 L 52 74 L 40 76 L 56 58 L 56 34 Z"
-          fill="url(#njackCrimsonGrad)"
-          className="transition-transform duration-300 origin-center group-hover:translate-x-0.5 group-hover:translate-y-0.5"
+          d="M 52 93.85 L 45 89.8 L 62 82.5 Z"
+          fill="url(#njackFoldGrad)"
+          className="transition-opacity duration-300"
         />
 
-        {/* Segment 4: Lower Right Base Return */}
+        {/* 5. Right Bracket Ribbon (from bottom fold, around V2, up to V1, to top-right vertical cut) */}
         <motion.path
-          d="M 40 76 L 52 74 L 64 64 L 64 74 L 46 88 L 34 80 Z"
-          fill="url(#njackOrangeGrad)"
+          d="M 52 93.85 L 62 82.5 L 77.47 65.86 L 77.47 34.14 L 64 26.36 L 64 13.08 L 88.97 27.5 L 88.97 72.5 Z"
+          fill="url(#njackRightGrad)"
+          className="transition-transform duration-300 origin-center group-hover:translate-x-0.5 group-hover:translate-y-0.5"
         />
       </svg>
     </motion.div>
