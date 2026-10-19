@@ -12,6 +12,7 @@ import SpotlightBentoCard from '@/components/SpotlightBentoCard';
 import InteractiveBentoDivisions from '@/components/InteractiveBentoDivisions';
 import ProjectsShowcase from '@/components/ProjectsShowcase';
 import EventsTimeline from '@/components/EventsTimeline';
+import HeroTerminalTyping from '@/components/HeroTerminalTyping';
 import { BorderBeam } from '@/components/ui/border-beam';
 
 export default async function HomePage() {
@@ -42,39 +43,57 @@ export default async function HomePage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           
           <div className="max-w-3xl">
-            {/* Monospace Terminal Status Badge */}
-            <div className="inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.04] px-4 py-1.5 backdrop-blur-md">
+            {/* Top Status Pill: NJACK EST. IIT_PATNA • NOT JUST ANOTHER CS KLUB */}
+            <div className="inline-flex items-center gap-2.5 rounded-full border border-[#FF5722]/30 bg-[#FF5722]/10 px-4 py-1.5 backdrop-blur-md shadow-[0_0_15px_rgba(255,87,34,0.15)]">
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#CCFF00] opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#CCFF00]" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#FF5722] opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#FF5722]" />
               </span>
-              <span className="font-mono text-xs uppercase tracking-widest text-[#8A8F98]">
-                {'[ NJACK // V2.0_ORBIT ]'}
+              <span className="font-mono text-xs uppercase tracking-widest text-[#FF8A00] font-semibold">
+                {'[ NJACK // EST. IIT_PATNA ]'}
               </span>
-              <span className="text-white/20">|</span>
-              <span className="font-mono text-xs text-[#CCFF00] font-semibold">
-                {'IIT_PATNA // CS_POWERHOUSE'}
+              <span className="text-white/20">•</span>
+              <span className="font-mono text-xs text-[#F3F4F6] font-semibold tracking-wide">
+                NOT JUST ANOTHER CS KLUB
               </span>
             </div>
 
-            {/* Oversized Display Typography with Masked Staggered Reveals */}
-            <div className="mt-8 space-y-2">
+            {/* Main Hero Title (3 Stacked Lines with Masked Spring Reveal) */}
+            <div className="mt-8 space-y-1 sm:space-y-2">
+              {/* Line 1: NJACK */}
               <SplitTextReveal
-                text="ARCHITECTING SYSTEMS."
+                text="NJACK"
                 as="h1"
-                className="font-display text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tight text-[#F3F4F6]"
+                wordClassName="text-[#F3F4F6]"
+                className="font-display text-6xl sm:text-8xl lg:text-9xl font-black tracking-[-0.05em] text-[#F3F4F6] leading-[0.9]"
               />
+
+              {/* Line 2: CODE. COMPILE. */}
               <SplitTextReveal
-                text="SOLVING COMPLEXITY."
+                text="CODE. COMPILE."
                 as="h1"
-                delay={0.15}
-                wordClassName="text-[#CCFF00]"
-                className="font-display text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tight text-[#CCFF00]"
+                delay={0.1}
+                wordClassName="text-[#F3F4F6]"
+                className="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-[#F3F4F6] leading-[0.95]"
               />
+
+              {/* Line 3: CONQUER. in NJACK Orange Gradient */}
+              <SplitTextReveal
+                text="CONQUER."
+                as="h1"
+                delay={0.2}
+                wordClassName="text-gradient-njack drop-shadow-[0_0_35px_rgba(255,87,34,0.45)]"
+                className="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[0.95]"
+              />
+            </div>
+
+            {/* Interactive Monospace Terminal Subtitle */}
+            <div className="mt-7">
+              <HeroTerminalTyping />
             </div>
 
             {/* Editorial Subtitle */}
-            <p className="mt-8 max-w-2xl font-sans text-base sm:text-lg leading-relaxed text-[#8A8F98]">
+            <p className="mt-6 max-w-2xl font-sans text-base sm:text-lg leading-relaxed text-[#8A8F98]">
               The official Computer Science Club of Indian Institute of Technology Patna. We build distributed production systems, train ICPC algorithmic contenders, conduct AI research, and defend digital infrastructure.
             </p>
 
@@ -83,20 +102,20 @@ export default async function HomePage() {
               <Magnetic pullFactor={0.25}>
                 <Link
                   href="/#divisions"
-                  className="relative group inline-flex items-center gap-3 overflow-hidden rounded-full border border-[#CCFF00]/40 bg-[#CCFF00] px-6 py-3 font-mono text-xs font-bold uppercase tracking-wider text-black transition-all hover:bg-white shadow-[0_0_25px_rgba(204,255,0,0.3)]"
+                  className="relative group inline-flex items-center gap-3 overflow-hidden rounded-full border border-[#FF5722]/50 bg-[#FF5722] px-6 py-3 font-mono text-xs font-bold uppercase tracking-wider text-white transition-all hover:bg-[#FF8A00] shadow-[0_0_30px_rgba(255,87,34,0.45)]"
                 >
                   <span>EXPLORE APPARATUS</span>
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  <BorderBeam size={80} duration={4} colorFrom="#ffffff" colorTo="#000000" />
+                  <BorderBeam size={80} duration={4} colorFrom="#ffffff" colorTo="#FF8A00" />
                 </Link>
               </Magnetic>
 
               <Magnetic pullFactor={0.2}>
                 <Link
                   href="/resources/tracks"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-6 py-3 font-mono text-xs font-medium uppercase tracking-wider text-[#F3F4F6] backdrop-blur-md transition-all hover:border-white/30 hover:bg-white/[0.08]"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-6 py-3 font-mono text-xs font-medium uppercase tracking-wider text-[#F3F4F6] backdrop-blur-md transition-all hover:border-[#FF5722]/40 hover:bg-[#FF5722]/10"
                 >
-                  <Sparkles className="h-4 w-4 text-[#CCFF00]" />
+                  <Sparkles className="h-4 w-4 text-[#FF8A00]" />
                   <span>CURATED TRACKS</span>
                 </Link>
               </Magnetic>
@@ -114,7 +133,7 @@ export default async function HomePage() {
               </div>
 
               <div className="space-y-1">
-                <span className="font-mono text-2xl sm:text-3xl font-extrabold text-[#CCFF00]">
+                <span className="font-mono text-2xl sm:text-3xl font-extrabold text-[#FF5722]">
                   3,400+
                 </span>
                 <p className="font-mono text-[10px] uppercase tracking-wider text-[#8A8F98]">
@@ -132,7 +151,7 @@ export default async function HomePage() {
               </div>
 
               <div className="space-y-1">
-                <span className="font-mono text-2xl sm:text-3xl font-extrabold text-[#CCFF00]">
+                <span className="font-mono text-2xl sm:text-3xl font-extrabold text-[#FF8A00]">
                   38+
                 </span>
                 <p className="font-mono text-[10px] uppercase tracking-wider text-[#8A8F98]">
@@ -168,7 +187,7 @@ export default async function HomePage() {
           
           <div className="mb-14 flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
-              <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-[#CCFF00]">
+              <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-[#FF5722]">
                 <span>{'[ 04 // LEARNING_TRACKS ]'}</span>
                 <span className="text-white/20">{'///'}</span>
                 <span className="text-[#8A8F98]">STEP-BY-STEP ROADMAPS</span>
@@ -180,10 +199,10 @@ export default async function HomePage() {
 
             <Link
               href="/resources/tracks"
-              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 font-mono text-xs text-[#8A8F98] hover:text-white hover:border-[#CCFF00]/40 transition-colors"
+              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 font-mono text-xs text-[#8A8F98] hover:text-white hover:border-[#FF5722]/40 transition-colors"
             >
               <span>BROWSE ALL TRACKS</span>
-              <ArrowRight className="h-3.5 w-3.5 text-[#CCFF00]" />
+              <ArrowRight className="h-3.5 w-3.5 text-[#FF5722]" />
             </Link>
           </div>
 
@@ -194,7 +213,7 @@ export default async function HomePage() {
                   <div className="flex flex-col justify-between h-full space-y-4">
                     <div>
                       <div className="flex items-center justify-between font-mono text-[10px] text-[#8A8F98] mb-3">
-                        <span className="text-[#CCFF00] uppercase font-semibold">
+                        <span className="text-[#FF5722] uppercase font-semibold">
                           [{track.department?.slug || 'CORE'}]
                         </span>
                         <span>{track.items?.length || 5} MODULES</span>
@@ -210,7 +229,7 @@ export default async function HomePage() {
                     <div className="pt-3 border-t border-white/[0.06]">
                       <Link
                         href={`/resources/tracks/${track.slug}`}
-                        className="inline-flex items-center gap-1 font-mono text-xs text-[#CCFF00] hover:underline"
+                        className="inline-flex items-center gap-1 font-mono text-xs text-[#FF5722] hover:underline"
                       >
                         <span>BEGIN TRACK</span>
                         <span>→</span>
@@ -236,7 +255,7 @@ export default async function HomePage() {
           <SpotlightBentoCard className="w-full">
             <div className="flex flex-col lg:flex-row items-center justify-between gap-8 py-4">
               <div className="space-y-3 max-w-2xl">
-                <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#CCFF00]">
+                <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#FF5722]">
                   <HelpCircle className="h-4 w-4" />
                   <span>{'[ NJACK // ARENA_EVALUATION ]'}</span>
                 </div>
@@ -251,7 +270,7 @@ export default async function HomePage() {
               <Magnetic pullFactor={0.25}>
                 <Link
                   href="/quizzes"
-                  className="inline-flex items-center gap-2.5 rounded-full border border-[#CCFF00] bg-[#CCFF00] px-6 py-3 font-mono text-xs font-bold uppercase tracking-wider text-black transition-all hover:bg-white shadow-[0_0_20px_rgba(204,255,0,0.3)] shrink-0"
+                  className="inline-flex items-center gap-2.5 rounded-full border border-[#FF5722] bg-[#FF5722] px-6 py-3 font-mono text-xs font-bold uppercase tracking-wider text-white transition-all hover:bg-[#FF8A00] shadow-[0_0_25px_rgba(255,87,34,0.4)] shrink-0"
                 >
                   <Trophy className="h-4 w-4" />
                   <span>ENTER ARENA</span>

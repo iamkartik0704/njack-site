@@ -2,14 +2,14 @@
 
 import React, { useEffect, useRef } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import {
   ExternalLink,
   ArrowUp,
 } from 'lucide-react';
 import Magnetic from '@/components/Magnetic';
+import NjackLogo from '@/components/NjackLogo';
 
-// Canvas interactive ASCII / Matrix wireframe canvas
+// Canvas interactive ASCII / Matrix wireframe stream in NJACK Orange
 function FooterCanvasVisualizer() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -31,7 +31,7 @@ function FooterCanvasVisualizer() {
       ctx.fillStyle = 'rgba(7, 8, 10, 0.2)';
       ctx.fillRect(0, 0, width, height);
 
-      ctx.fillStyle = 'rgba(204, 255, 0, 0.18)';
+      ctx.fillStyle = 'rgba(255, 87, 34, 0.18)';
       ctx.font = '10px monospace';
 
       for (let i = 0; i < drops.length; i++) {
@@ -66,7 +66,7 @@ export default function Footer() {
 
   return (
     <footer className="relative z-10 overflow-hidden border-t border-white/[0.08] bg-[#07080A] pt-20 pb-12">
-      {/* Background Matrix/ASCII Stream Canvas */}
+      {/* Background Matrix/ASCII Stream Canvas in NJACK Orange */}
       <FooterCanvasVisualizer />
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -74,8 +74,8 @@ export default function Footer() {
         {/* Top Status & Coordinates Bar */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-white/[0.08] pb-8 mb-14 gap-4">
           <div className="flex items-center gap-3 font-mono text-xs text-[#8A8F98]">
-            <span className="h-2 w-2 rounded-full bg-[#CCFF00]" />
-            <span className="text-[#CCFF00] font-semibold">SYS.COORDINATES</span>
+            <span className="h-2 w-2 rounded-full bg-[#FF5722]" />
+            <span className="text-[#FF8A00] font-semibold">SYS.COORDINATES</span>
             <span>25.5357° N, 84.8510° E</span>
             <span className="hidden sm:inline text-white/20">|</span>
             <span className="hidden sm:inline">BIHTA, PATNA, BIHAR, INDIA</span>
@@ -84,10 +84,10 @@ export default function Footer() {
           <Magnetic pullFactor={0.25}>
             <button
               onClick={scrollToTop}
-              className="group flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 font-mono text-xs text-[#8A8F98] transition-colors hover:border-[#CCFF00]/40 hover:text-white"
+              className="group flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 font-mono text-xs text-[#8A8F98] transition-colors hover:border-[#FF5722]/40 hover:text-white"
             >
               <span>RETURN TO APEX</span>
-              <ArrowUp className="h-3.5 w-3.5 text-[#CCFF00] transition-transform group-hover:-translate-y-0.5" />
+              <ArrowUp className="h-3.5 w-3.5 text-[#FF5722] transition-transform group-hover:-translate-y-0.5" />
             </button>
           </Magnetic>
         </div>
@@ -95,18 +95,10 @@ export default function Footer() {
         {/* 4-Column Navigation Layout */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
           
-          {/* Col 1: Brand & Synopsis */}
+          {/* Col 1: Brand & Synopsis with NjackLogo */}
           <div className="col-span-2 md:col-span-1 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-black/60 p-1">
-                <Image
-                  src="/njack-logo.png"
-                  alt="NJACK Logo"
-                  width={28}
-                  height={28}
-                  className="object-contain"
-                />
-              </div>
+              <NjackLogo size={36} />
               <span className="font-display text-lg font-bold text-[#F3F4F6]">
                 NJACK 2.0
               </span>
@@ -115,7 +107,7 @@ export default function Footer() {
               The official Computer Science Club of IIT Patna. Fostering algorithmic supremacy, production systems, and artificial intelligence research.
             </p>
             <div className="pt-2 font-mono text-[10px] text-[#8A8F98]">
-              [ PROTOCOL VERSION 2.4.0 ]
+              [ PROTOCOL VERSION 2.5.0 ]
             </div>
           </div>
 
@@ -126,22 +118,22 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-[#8A8F98]">
               <li>
-                <Link href="/departments/cp" className="hover:text-[#CCFF00] transition-colors">
+                <Link href="/departments/cp" className="hover:text-[#FF5722] transition-colors">
                   Competitive Programming
                 </Link>
               </li>
               <li>
-                <Link href="/departments/dev-os" className="hover:text-[#CCFF00] transition-colors">
+                <Link href="/departments/dev-os" className="hover:text-[#FF5722] transition-colors">
                   Development & OS
                 </Link>
               </li>
               <li>
-                <Link href="/departments/ml" className="hover:text-[#CCFF00] transition-colors">
+                <Link href="/departments/ml" className="hover:text-[#FF5722] transition-colors">
                   AI & Machine Learning
                 </Link>
               </li>
               <li>
-                <Link href="/departments/cyber-security" className="hover:text-[#CCFF00] transition-colors">
+                <Link href="/departments/cyber-security" className="hover:text-[#FF5722] transition-colors">
                   Cybersecurity & InfoSec
                 </Link>
               </li>
@@ -155,27 +147,27 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-[#8A8F98]">
               <li>
-                <Link href="/resources" className="hover:text-[#CCFF00] transition-colors">
+                <Link href="/resources" className="hover:text-[#FF5722] transition-colors">
                   Resource Catalog
                 </Link>
               </li>
               <li>
-                <Link href="/resources/tracks" className="hover:text-[#CCFF00] transition-colors">
+                <Link href="/resources/tracks" className="hover:text-[#FF5722] transition-colors">
                   Learning Tracks
                 </Link>
               </li>
               <li>
-                <Link href="/quizzes" className="hover:text-[#CCFF00] transition-colors">
+                <Link href="/quizzes" className="hover:text-[#FF5722] transition-colors">
                   Technical Quizzes
                 </Link>
               </li>
               <li>
-                <Link href="/apeireon" className="hover:text-[#CCFF00] transition-colors">
+                <Link href="/apeireon" className="hover:text-[#FF5722] transition-colors">
                   Apeireon Hackathon
                 </Link>
               </li>
               <li>
-                <Link href="/nwoc" className="hover:text-[#CCFF00] transition-colors">
+                <Link href="/nwoc" className="hover:text-[#FF5722] transition-colors">
                   NWoC Open Source
                 </Link>
               </li>
@@ -189,17 +181,17 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-[#8A8F98]">
               <li>
-                <Link href="/team" className="hover:text-[#CCFF00] transition-colors">
+                <Link href="/team" className="hover:text-[#FF5722] transition-colors">
                   Executive Committee
                 </Link>
               </li>
               <li>
-                <Link href="/report-cheating" className="hover:text-[#CCFF00] transition-colors text-red-400/80">
+                <Link href="/report-cheating" className="hover:text-[#FF5722] transition-colors text-red-400/80">
                   Academic Integrity Portal
                 </Link>
               </li>
               <li>
-                <Link href="/admin" className="hover:text-[#CCFF00] transition-colors">
+                <Link href="/admin" className="hover:text-[#FF5722] transition-colors">
                   Council Terminal Login
                 </Link>
               </li>
@@ -208,7 +200,7 @@ export default function Footer() {
                   href="https://github.com/iamkartik0704/njack-site"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-[#CCFF00] transition-colors flex items-center gap-1"
+                  className="hover:text-[#FF5722] transition-colors flex items-center gap-1"
                 >
                   <span>GitHub Repository</span>
                   <ExternalLink className="h-3 w-3" />
@@ -230,7 +222,7 @@ export default function Footer() {
               href="https://github.com/iamkartik0704"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#CCFF00] font-semibold hover:underline"
+              className="text-[#FF5722] font-semibold hover:underline"
             >
               iamkartik0704
             </Link>

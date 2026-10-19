@@ -2,7 +2,7 @@
 
 import React, { useRef, useMemo, useEffect, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Environment, Float, MeshTransmissionMaterial, Sparkles } from '@react-three/drei';
+import { Environment, Float, RoundedBox, Edges, Text, Sparkles } from '@react-three/drei';
 import * as THREE from 'three';
 
 interface ChoreographyTarget {
@@ -14,22 +14,219 @@ interface ChoreographyTarget {
   scale: number;
 }
 
-function CenterpieceGeometry({ scrollProgress }: { scrollProgress: number }) {
-  const outerKnotRef = useRef<THREE.Mesh>(null!);
-  const innerIcosaRef = useRef<THREE.Mesh>(null!);
-  const ring1Ref = useRef<THREE.Mesh>(null!);
-  const ring2Ref = useRef<THREE.Mesh>(null!);
+// Procedural 3D Hexagonal 'N' Monolith matching official NJACK Logo
+function NjackHexMonolith() {
   const groupRef = useRef<THREE.Group>(null!);
 
-  // Smooth lerped scroll and pointer tracking
+  useFrame((_, delta) => {
+    if (groupRef.current) {
+      groupRef.current.rotation.y += delta * 0.3;
+      groupRef.current.rotation.x = Math.sin(Date.now() * 0.001) * 0.08;
+    }
+  });
+
+  const materialProps = {
+    color: '#14161D',
+    metalness: 0.9,
+    roughness: 0.15,
+  };
+
+  return (
+    <group ref={groupRef}>
+      {/* --- Left Bracket Ribbon --- */}
+      {/* Vertical Column */}
+      <RoundedBox args={[0.34, 1.8, 0.36]} radius={0.04} smoothness={4} position={[-0.95, 0, 0]}>
+        <meshStandardMaterial {...materialProps} />
+        <Edges scale={1.002} threshold={15} color="#FF8A00" />
+      </RoundedBox>
+      {/* Top Angled Facet */}
+      <RoundedBox
+        args={[0.34, 0.82, 0.36]}
+        radius={0.04}
+        smoothness={4}
+        position={[-0.7, 0.95, 0]}
+        rotation={[0, 0, -Math.PI / 6]}
+      >
+        <meshStandardMaterial {...materialProps} />
+        <Edges scale={1.002} threshold={15} color="#FF8A00" />
+      </RoundedBox>
+      {/* Bottom Angled Facet */}
+      <RoundedBox
+        args={[0.34, 0.82, 0.36]}
+        radius={0.04}
+        smoothness={4}
+        position={[-0.7, -0.95, 0]}
+        rotation={[0, 0, Math.PI / 6]}
+      >
+        <meshStandardMaterial {...materialProps} />
+        <Edges scale={1.002} threshold={15} color="#FF8A00" />
+      </RoundedBox>
+
+      {/* --- Central Slanted Diagonal Bridge (Tangerine Vermilion) --- */}
+      <RoundedBox
+        args={[0.38, 2.2, 0.4]}
+        radius={0.04}
+        smoothness={4}
+        position={[0, 0, 0.04]}
+        rotation={[0, 0, -Math.PI / 4.4]}
+      >
+        <meshStandardMaterial {...materialProps} color="#181B24" />
+        <Edges scale={1.002} threshold={15} color="#FF5722" />
+      </RoundedBox>
+
+      {/* --- Right Bracket Ribbon --- */}
+      {/* Vertical Column */}
+      <RoundedBox args={[0.34, 1.8, 0.36]} radius={0.04} smoothness={4} position={[0.95, 0, 0]}>
+        <meshStandardMaterial {...materialProps} />
+        <Edges scale={1.002} threshold={15} color="#D9381E" />
+      </RoundedBox>
+      {/* Top Angled Facet */}
+      <RoundedBox
+        args={[0.34, 0.82, 0.36]}
+        radius={0.04}
+        smoothness={4}
+        position={[0.7, 0.95, 0]}
+        rotation={[0, 0, Math.PI / 6]}
+      >
+        <meshStandardMaterial {...materialProps} />
+        <Edges scale={1.002} threshold={15} color="#FF5722" />
+      </RoundedBox>
+      {/* Bottom Angled Facet */}
+      <RoundedBox
+        args={[0.34, 0.82, 0.36]}
+        radius={0.04}
+        smoothness={4}
+        position={[0.7, -0.95, 0]}
+        rotation={[0, 0, -Math.PI / 6]}
+      >
+        <meshStandardMaterial {...materialProps} />
+        <Edges scale={1.002} threshold={15} color="#D9381E" />
+      </RoundedBox>
+    </group>
+  );
+}
+
+// 3D Floating Mechanical Keycap with glowing code symbol
+function MechanicalKeycap({
+  position,
+  rotation = [0, 0, 0],
+  text,
+  textColor = '#FF5722',
+  floatSpeed = 2,
+}: {
+  position: [number, number, number];
+  rotation?: [number, number, number];
+  text: string;
+  textColor?: string;
+  floatSpeed?: number;
+}) {
+  return (
+    <Float speed={floatSpeed} rotationIntensity={0.6} floatIntensity={0.8}>
+      <group position={position} rotation={rotation}>
+        <RoundedBox args={[0.62, 0.62, 0.38]} radius={0.06} smoothness={4}>
+          <meshStandardMaterial color="#111319" metalness={0.7} roughness={0.25} />
+          <Edges scale={1.002} threshold={20} color={textColor} />
+        </RoundedBox>
+        <Text
+          position={[0, 0, 0.2]}
+          fontSize={0.2}
+          color={textColor}
+          anchorX="center"
+          anchorY="middle"
+        >
+          {text}
+        </Text>
+      </group>
+    </Float>
+  );
+}
+
+// Algorithmic Concentric Hexagonal Syntax Rings
+function HexagonalSyntaxRings() {
+  const ring1 = useRef<THREE.LineSegments>(null!);
+  const ring2 = useRef<THREE.LineSegments>(null!);
+
+  useFrame((_, delta) => {
+    if (ring1.current) {
+      ring1.current.rotation.z += delta * 0.2;
+      ring1.current.rotation.x += delta * 0.1;
+    }
+    if (ring2.current) {
+      ring2.current.rotation.z -= delta * 0.25;
+      ring2.current.rotation.y += delta * 0.15;
+    }
+  });
+
+  return (
+    <group>
+      {/* Inner Orange Hexagon Ring */}
+      <lineSegments ref={ring1} rotation={[Math.PI / 4, 0, 0]}>
+        <edgesGeometry args={[new THREE.CircleGeometry(2.35, 6)]} />
+        <lineBasicMaterial color="#FF5722" transparent opacity={0.4} />
+      </lineSegments>
+
+      {/* Outer Amber Hexagon Ring */}
+      <lineSegments ref={ring2} rotation={[-Math.PI / 3, Math.PI / 6, 0]}>
+        <edgesGeometry args={[new THREE.CircleGeometry(2.75, 6)]} />
+        <lineBasicMaterial color="#FF8A00" transparent opacity={0.25} />
+      </lineSegments>
+    </group>
+  );
+}
+
+// 3D Voxel Commit / Binary Matrix
+function VoxelCommitMatrix() {
+  const meshRef = useRef<THREE.InstancedMesh>(null!);
+  const size = 7;
+  const count = size * size;
+
+  const dummy = useMemo(() => new THREE.Object3D(), []);
+
+  useFrame(({ clock, pointer }) => {
+    if (!meshRef.current) return;
+    const t = clock.getElapsedTime() * 1.5;
+
+    let idx = 0;
+    for (let x = 0; x < size; x++) {
+      for (let y = 0; y < size; y++) {
+        const posX = (x - size / 2) * 0.42;
+        const posY = (y - size / 2) * 0.42;
+
+        const distToMouse = Math.sqrt(
+          Math.pow(pointer.x * 3 - posX, 2) + Math.pow(pointer.y * 3 - posY, 2)
+        );
+        const mouseEffect = Math.max(0, 1 - distToMouse / 2) * 0.4;
+        const wave = Math.sin(t + posX * 2 + posY * 2) * 0.18 + mouseEffect;
+
+        dummy.position.set(posX, posY, -1.4 + wave);
+        dummy.scale.set(1, 1, 1 + wave * 2);
+        dummy.updateMatrix();
+
+        meshRef.current.setMatrixAt(idx, dummy.matrix);
+        idx++;
+      }
+    }
+    meshRef.current.instanceMatrix.needsUpdate = true;
+  });
+
+  return (
+    <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
+      <boxGeometry args={[0.1, 0.1, 0.1]} />
+      <meshStandardMaterial color="#FF5722" metalness={0.8} roughness={0.2} emissive="#D9381E" emissiveIntensity={0.3} />
+    </instancedMesh>
+  );
+}
+
+function CenterpieceScene({ scrollProgress }: { scrollProgress: number }) {
+  const groupRef = useRef<THREE.Group>(null!);
+
   const targetTransform = useMemo<ChoreographyTarget>(() => {
-    // Stage choreography based on scroll progress (0.0 to 1.0)
     if (scrollProgress < 0.22) {
       // Hero stage: Prominent centerpiece, tilted slightly right
       return {
         x: typeof window !== 'undefined' && window.innerWidth < 1024 ? 0 : 1.35,
-        y: typeof window !== 'undefined' && window.innerWidth < 1024 ? 0.3 : 0,
-        z: 0.2,
+        y: typeof window !== 'undefined' && window.innerWidth < 1024 ? 0.2 : 0,
+        z: 0.3,
         rotX: 0.2,
         rotY: 0.4,
         scale: typeof window !== 'undefined' && window.innerWidth < 1024 ? 0.85 : 1.1,
@@ -78,167 +275,84 @@ function CenterpieceGeometry({ scrollProgress }: { scrollProgress: number }) {
   }, [scrollProgress]);
 
   useFrame((state, delta) => {
+    if (!groupRef.current) return;
     const pointer = state.pointer;
+    const lerpSpeed = THREE.MathUtils.clamp(delta * 2.8, 0.01, 0.15);
 
-    // Autonomous slow rotation + pointer reaction
-    if (outerKnotRef.current) {
-      outerKnotRef.current.rotation.x += delta * 0.25;
-      outerKnotRef.current.rotation.y += delta * 0.35;
-    }
+    const mouseParallaxX = pointer.x * 0.4;
+    const mouseParallaxY = pointer.y * 0.3;
 
-    if (innerIcosaRef.current) {
-      innerIcosaRef.current.rotation.x -= delta * 0.4;
-      innerIcosaRef.current.rotation.z += delta * 0.3;
-    }
+    groupRef.current.position.x = THREE.MathUtils.lerp(
+      groupRef.current.position.x,
+      targetTransform.x + mouseParallaxX,
+      lerpSpeed
+    );
+    groupRef.current.position.y = THREE.MathUtils.lerp(
+      groupRef.current.position.y,
+      targetTransform.y + mouseParallaxY,
+      lerpSpeed
+    );
+    groupRef.current.position.z = THREE.MathUtils.lerp(
+      groupRef.current.position.z,
+      targetTransform.z,
+      lerpSpeed
+    );
 
-    if (ring1Ref.current) {
-      ring1Ref.current.rotation.z += delta * 0.15;
-      ring1Ref.current.rotation.x += delta * 0.1;
-    }
+    groupRef.current.rotation.x = THREE.MathUtils.lerp(
+      groupRef.current.rotation.x,
+      targetTransform.rotX + pointer.y * 0.2,
+      lerpSpeed
+    );
+    groupRef.current.rotation.y = THREE.MathUtils.lerp(
+      groupRef.current.rotation.y,
+      targetTransform.rotY + pointer.x * 0.25,
+      lerpSpeed
+    );
 
-    if (ring2Ref.current) {
-      ring2Ref.current.rotation.z -= delta * 0.2;
-      ring2Ref.current.rotation.y += delta * 0.12;
-    }
-
-    // Smooth lerp of entire group to choreographed target + subtle mouse parallax
-    if (groupRef.current) {
-      const lerpSpeed = THREE.MathUtils.clamp(delta * 2.8, 0.01, 0.15);
-      const mouseParallaxX = pointer.x * 0.45;
-      const mouseParallaxY = pointer.y * 0.35;
-
-      groupRef.current.position.x = THREE.MathUtils.lerp(
-        groupRef.current.position.x,
-        targetTransform.x + mouseParallaxX,
-        lerpSpeed
-      );
-      groupRef.current.position.y = THREE.MathUtils.lerp(
-        groupRef.current.position.y,
-        targetTransform.y + mouseParallaxY,
-        lerpSpeed
-      );
-      groupRef.current.position.z = THREE.MathUtils.lerp(
-        groupRef.current.position.z,
-        targetTransform.z,
-        lerpSpeed
-      );
-
-      groupRef.current.rotation.x = THREE.MathUtils.lerp(
-        groupRef.current.rotation.x,
-        targetTransform.rotX + pointer.y * 0.2,
-        lerpSpeed
-      );
-      groupRef.current.rotation.y = THREE.MathUtils.lerp(
-        groupRef.current.rotation.y,
-        targetTransform.rotY + pointer.x * 0.3,
-        lerpSpeed
-      );
-
-      const currentScale = groupRef.current.scale.x;
-      const nextScale = THREE.MathUtils.lerp(currentScale, targetTransform.scale, lerpSpeed);
-      groupRef.current.scale.set(nextScale, nextScale, nextScale);
-    }
+    const nextScale = THREE.MathUtils.lerp(
+      groupRef.current.scale.x,
+      targetTransform.scale,
+      lerpSpeed
+    );
+    groupRef.current.scale.set(nextScale, nextScale, nextScale);
   });
 
   return (
     <group ref={groupRef} position={[1.2, 0, 0]}>
-      <Float speed={1.8} rotationIntensity={0.4} floatIntensity={0.6}>
-        {/* Layer 1: Inner Wireframe Icosahedron Core */}
-        <mesh ref={innerIcosaRef}>
-          <icosahedronGeometry args={[1.05, 1]} />
-          <meshBasicMaterial
-            wireframe
-            color="#CCFF00"
-            transparent
-            opacity={0.45}
-          />
-        </mesh>
-
-        {/* Layer 2: Centerpiece Refractive Glass Torus Knot */}
-        <mesh ref={outerKnotRef}>
-          <torusKnotGeometry args={[1.35, 0.36, 128, 32, 2, 3]} />
-          <MeshTransmissionMaterial
-            backside={true}
-            samples={4}
-            thickness={1.5}
-            chromaticAberration={0.08}
-            anisotropy={0.3}
-            distortion={0.2}
-            roughness={0.12}
-            color="#ffffff"
-            transmission={0.96}
-            ior={1.35}
-          />
-        </mesh>
-
-        {/* Layer 3: Gyroscopic Cybernetic Rings */}
-        <mesh ref={ring1Ref} rotation={[Math.PI / 4, 0, 0]}>
-          <ringGeometry args={[2.0, 2.03, 64]} />
-          <meshBasicMaterial
-            color="#F3F4F6"
-            transparent
-            opacity={0.16}
-            side={THREE.DoubleSide}
-          />
-        </mesh>
-
-        <mesh ref={ring2Ref} rotation={[-Math.PI / 3, Math.PI / 6, 0]}>
-          <ringGeometry args={[2.25, 2.27, 64]} />
-          <meshBasicMaterial
-            color="#CCFF00"
-            transparent
-            opacity={0.22}
-            side={THREE.DoubleSide}
-          />
-        </mesh>
+      {/* Central 3D Hexagonal Isometric NJACK Monolith */}
+      <Float speed={1.5} rotationIntensity={0.3} floatIntensity={0.5}>
+        <NjackHexMonolith />
       </Float>
-    </group>
-  );
-}
 
-function AtmosphericParticles() {
-  const pointsRef = useRef<THREE.Points>(null!);
-  const count = 400;
-
-  const [positions] = useMemo(() => {
-    const pos = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 14;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 14;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 10;
-    }
-    return [pos];
-  }, [count]);
-
-  useFrame((state, delta) => {
-    if (pointsRef.current) {
-      pointsRef.current.rotation.y += delta * 0.04;
-      pointsRef.current.rotation.x = THREE.MathUtils.lerp(
-        pointsRef.current.rotation.x,
-        state.pointer.y * 0.12,
-        0.05
-      );
-    }
-  });
-
-  return (
-    <points ref={pointsRef}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={count}
-          array={positions}
-          itemSize={3}
-        />
-      </bufferGeometry>
-      <pointsMaterial
-        size={0.035}
-        color="#E2E8F0"
-        transparent
-        opacity={0.35}
-        sizeAttenuation
+      {/* Orbiting Mechanical Keycaps with code symbols */}
+      <MechanicalKeycap
+        position={[-1.9, 1.2, 0.6]}
+        rotation={[0.2, 0.3, -0.1]}
+        text="</>"
+        textColor="#FF8A00"
+        floatSpeed={2.2}
       />
-    </points>
+      <MechanicalKeycap
+        position={[2.1, -1.1, 0.7]}
+        rotation={[-0.2, -0.4, 0.15]}
+        text="{ }"
+        textColor="#FF5722"
+        floatSpeed={1.8}
+      />
+      <MechanicalKeycap
+        position={[1.8, 1.4, -0.5]}
+        rotation={[0.3, -0.2, 0.2]}
+        text="0x1"
+        textColor="#D9381E"
+        floatSpeed={2.5}
+      />
+
+      {/* Hexagonal Algorithmic Syntax Rings */}
+      <HexagonalSyntaxRings />
+
+      {/* 3D Voxel Commit / Binary Matrix */}
+      <VoxelCommitMatrix />
+    </group>
   );
 }
 
@@ -287,24 +401,23 @@ export default function Scene3D() {
           powerPreference: 'high-performance',
         }}
       >
-        {/* Ambient & Directional Rim Lighting */}
+        {/* Crisp Physical Lighting for NJACK Brand */}
         <ambientLight intensity={0.4} />
-        <directionalLight position={[10, 10, 5]} intensity={1.5} color="#ffffff" />
-        <directionalLight position={[-10, -10, -5]} intensity={0.85} color="#CCFF00" />
-        <pointLight position={[0, -2, 2]} intensity={0.5} color="#8A8F98" />
+        <pointLight position={[4, 4, 4]} intensity={40} color="#FF5722" />
+        <pointLight position={[-4, -3, 2]} intensity={25} color="#FF8A00" />
+        <directionalLight position={[0, 10, 0]} intensity={1.0} color="#ffffff" />
 
-        {/* Centerpiece 3D Glass & Wireframe Apparatus */}
-        <CenterpieceGeometry scrollProgress={scrollProgress} />
+        {/* Centerpiece 3D NJACK Coding Core */}
+        <CenterpieceScene scrollProgress={scrollProgress} />
 
-        {/* Spatial Particles & Sparkles */}
-        <AtmosphericParticles />
+        {/* Floating Sparks / Particles */}
         <Sparkles
-          count={80}
+          count={70}
           scale={10}
-          size={1.4}
+          size={1.6}
           speed={0.4}
-          opacity={0.25}
-          color="#CCFF00"
+          opacity={0.3}
+          color="#FF5722"
         />
 
         {/* Spatial HDR Environment Preset */}

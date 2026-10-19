@@ -93,7 +93,7 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
         
         {/* Section Header with Technical Coordinates */}
         <div className="mb-14">
-          <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-[#CCFF00]">
+          <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-[#FF5722]">
             <span>{'[ 02 // OPEN_SOURCE_REPOS ]'}</span>
             <span className="text-white/20">{'///'}</span>
             <span className="text-[#8A8F98]">PUBLIC APPARATUS</span>
@@ -108,10 +108,10 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
             <Magnetic pullFactor={0.2}>
               <Link
                 href="/projects"
-                className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 font-mono text-xs text-[#8A8F98] transition-all hover:border-[#CCFF00]/40 hover:text-white"
+                className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 font-mono text-xs text-[#8A8F98] transition-all hover:border-[#FF5722]/40 hover:text-white"
               >
                 <span>EXPLORE ALL REPOSITORIES</span>
-                <ArrowRight className="h-3.5 w-3.5 text-[#CCFF00] transition-transform group-hover:translate-x-1" />
+                <ArrowRight className="h-3.5 w-3.5 text-[#FF5722] transition-transform group-hover:translate-x-1" />
               </Link>
             </Magnetic>
           </div>
@@ -132,13 +132,13 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
                     {/* Top Status & Metrics Row */}
                     <div className="flex items-center justify-between border-b border-white/[0.08] pb-4 mb-4">
                       <div className="flex items-center gap-2 font-mono text-[10px] text-[#8A8F98]">
-                        <span className="h-2 w-2 rounded-full bg-[#CCFF00]" />
+                        <span className="h-2 w-2 rounded-full bg-[#FF5722] shadow-[0_0_8px_rgba(255,87,34,0.6)]" />
                         <span className="uppercase">SYS.REPO_{idx + 1}</span>
                       </div>
 
                       <div className="flex items-center gap-3 font-mono text-xs text-[#8A8F98]">
                         <span className="flex items-center gap-1 hover:text-white transition-colors">
-                          <Star className="h-3.5 w-3.5 text-[#CCFF00]" />
+                          <Star className="h-3.5 w-3.5 text-[#FF8A00]" />
                           <span>{proj.stars || 140 + idx * 80}</span>
                         </span>
                         <span className="flex items-center gap-1 hover:text-white transition-colors">
@@ -176,7 +176,7 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
                           href={repoUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-[#8A8F98] hover:text-[#CCFF00] transition-colors"
+                          className="inline-flex items-center gap-1.5 text-[#8A8F98] hover:text-[#FF5722] transition-colors"
                         >
                           <FolderGit2 className="h-3.5 w-3.5" />
                           <span>GITHUB REPO</span>
@@ -186,7 +186,7 @@ export default function ProjectsShowcase({ projects }: ProjectsShowcaseProps) {
 
                       <Link
                         href={`/projects#${proj.slug}`}
-                        className="inline-flex items-center gap-1 text-[#CCFF00] hover:underline"
+                        className="inline-flex items-center gap-1 text-[#FF5722] hover:underline"
                       >
                         <span>INSPECT</span>
                         <span>→</span>

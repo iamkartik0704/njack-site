@@ -10,12 +10,18 @@
   --specular-top: inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
   --text-primary: #F3F4F6;
   --text-muted: #8A8F98;
-  --accent-lime: #CCFF00;
-  --accent-lime-dim: rgba(204, 255, 0, 0.12);
-  --accent-lime-glow: rgba(204, 255, 0, 0.35);
-  --font-display: var(--font-syne), var(--font-space-grotesk), sans-serif;
-  --font-heading: var(--font-space-grotesk), sans-serif;
-  --font-mono: var(--font-jetbrains-mono), monospace;
+
+  /* Official NJACK Brand Palette */
+  --njack-orange: #FF5722;
+  --njack-amber: #FF8A00;
+  --njack-crimson: #D9381E;
+  --njack-glow: rgba(255, 87, 34, 0.35);
+  --njack-dim: rgba(255, 87, 34, 0.12);
+
+  /* Fonts */
+  --font-display: var(--font-space-grotesk), var(--font-syne), 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-heading: var(--font-space-grotesk), 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 html {
@@ -30,13 +36,21 @@ body {
   font-family: var(--font-heading);
   overflow-x: clip;
   min-height: 100vh;
-  selection-background-color: #CCFF00;
-  selection-color: #07080A;
+}
+
+/* Explicit Anti-Serif Rule: NEVER fall back to serif */
+h1, h2, h3, h4, h5, h6, .font-display, .font-heading {
+  font-family: var(--font-space-grotesk), var(--font-syne), 'Space Grotesk', system-ui, -apple-system, sans-serif !important;
+  letter-spacing: -0.04em;
+}
+
+code, pre, kbd, .font-mono, .font-mono-tech {
+  font-family: var(--font-jetbrains-mono), 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace !important;
 }
 
 ::selection {
-  background: #CCFF00;
-  color: #07080A;
+  background: #FF5722;
+  color: #FFFFFF;
 }
 
 /* Lenis Recommended Inertia Smooth Scroll CSS */
@@ -100,7 +114,7 @@ html.lenis, html.lenis body {
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #CCFF00;
+  background: #FF5722;
 }
 
 /* Typography Headings Utility */
@@ -120,6 +134,13 @@ html.lenis, html.lenis body {
   letter-spacing: 0.15em;
   text-transform: uppercase;
   font-size: 0.75rem;
+}
+
+/* Official NJACK Brand Gradient Text */
+.text-gradient-njack {
+  background: linear-gradient(135deg, #FF8A00 0%, #FF5722 50%, #D9381E 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Markdown typography for technical articles */
@@ -161,19 +182,19 @@ html.lenis, html.lenis body {
 }
 .markdown-body code {
   font-family: var(--font-mono);
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 87, 34, 0.08);
   padding: 0.2rem 0.4rem;
   border-radius: 0.25rem;
   font-size: 0.875em;
-  color: #CCFF00;
+  color: #FF5722;
 }
 .markdown-body blockquote {
-  border-left: 2px solid #CCFF00;
+  border-left: 2px solid #FF5722;
   padding-left: 1rem;
   margin: 1.25rem 0;
   color: #8A8F98;
   font-style: italic;
-  background: rgba(204, 255, 0, 0.04);
+  background: rgba(255, 87, 34, 0.04);
   border-radius: 0 0.5rem 0.5rem 0;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;

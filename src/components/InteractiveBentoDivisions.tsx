@@ -62,7 +62,7 @@ void update(int v, int tl, int tr, int pos, int new_val) {
           <button
             onClick={() => setActiveTab('CODE')}
             className={`px-2.5 py-1 rounded transition-colors ${
-              activeTab === 'CODE' ? 'bg-[#CCFF00] text-black font-semibold' : 'text-[#8A8F98]'
+              activeTab === 'CODE' ? 'bg-[#FF5722] text-white font-semibold' : 'text-[#8A8F98]'
             }`}
           >
             SOLVER.CPP
@@ -70,7 +70,7 @@ void update(int v, int tl, int tr, int pos, int new_val) {
           <button
             onClick={() => setActiveTab('RATING')}
             className={`px-2.5 py-1 rounded transition-colors ${
-              activeTab === 'RATING' ? 'bg-[#CCFF00] text-black font-semibold' : 'text-[#8A8F98]'
+              activeTab === 'RATING' ? 'bg-[#FF5722] text-white font-semibold' : 'text-[#8A8F98]'
             }`}
           >
             ELO GRAPH
@@ -80,7 +80,7 @@ void update(int v, int tl, int tr, int pos, int new_val) {
         <button
           onClick={handleRun}
           disabled={isRunning}
-          className="flex items-center gap-1.5 rounded-lg border border-[#CCFF00]/30 bg-[#CCFF00]/10 px-2.5 py-1 font-mono text-[10px] text-[#CCFF00] transition-colors hover:bg-[#CCFF00]/20"
+          className="flex items-center gap-1.5 rounded-lg border border-[#FF5722]/40 bg-[#FF5722]/10 px-2.5 py-1 font-mono text-[10px] text-[#FF5722] transition-colors hover:bg-[#FF5722]/25"
         >
           {isRunning ? (
             <RefreshCw className="h-3 w-3 animate-spin" />
@@ -97,27 +97,27 @@ void update(int v, int tl, int tr, int pos, int new_val) {
           <pre className="overflow-x-auto leading-relaxed scrollbar-hide text-[11px]">
             <code className="text-[#F3F4F6]">
               {fullCode.slice(0, displayedLength)}
-              <span className="inline-block w-2 h-3.5 bg-[#CCFF00] align-middle ml-0.5 animate-pulse" />
+              <span className="inline-block w-2 h-3.5 bg-[#FF5722] align-middle ml-0.5 animate-pulse" />
             </code>
           </pre>
           <div className="mt-3 flex items-center justify-between border-t border-white/[0.06] pt-2 text-[10px] text-[#8A8F98]">
-            <span>TIME: <span className="text-[#CCFF00] font-semibold">{execTime}</span></span>
+            <span>TIME: <span className="text-[#FF5722] font-semibold">{execTime}</span></span>
             <span>MEM: 4.12 MB</span>
-            <span className="text-[#CCFF00]">• AC 100/100</span>
+            <span className="text-[#FF8A00] font-semibold">• AC 100/100</span>
           </div>
         </div>
       ) : (
         <div className="rounded-xl border border-white/[0.06] bg-[#07080A]/80 p-4">
           <div className="flex items-center justify-between font-mono text-[10px] text-[#8A8F98] mb-2">
-            <span>PEAK ICPC RATING: <strong className="text-[#CCFF00]">2,450 (GRANDMASTER)</strong></span>
+            <span>PEAK ICPC RATING: <strong className="text-[#FF5722]">2,450 (GRANDMASTER)</strong></span>
             <span>CODEFORCES DIV 1</span>
           </div>
-          {/* Animated SVG Sparkline */}
+          {/* Animated SVG Sparkline in NJACK Orange */}
           <svg className="w-full h-24 overflow-visible" viewBox="0 0 300 80">
             <defs>
               <linearGradient id="cpGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#CCFF00" stopOpacity="0.25" />
-                <stop offset="100%" stopColor="#CCFF00" stopOpacity="0" />
+                <stop offset="0%" stopColor="#FF5722" stopOpacity="0.35" />
+                <stop offset="100%" stopColor="#FF8A00" stopOpacity="0" />
               </linearGradient>
             </defs>
             <path
@@ -127,11 +127,11 @@ void update(int v, int tl, int tr, int pos, int new_val) {
             <path
               d="M0,60 Q40,55 80,45 T160,35 T220,18 T300,8"
               fill="none"
-              stroke="#CCFF00"
+              stroke="#FF5722"
               strokeWidth="2.5"
             />
-            <circle cx="300" cy="8" r="4" fill="#CCFF00" className="animate-ping" />
-            <circle cx="300" cy="8" r="3.5" fill="#07080A" stroke="#CCFF00" strokeWidth="2" />
+            <circle cx="300" cy="8" r="4" fill="#FF5722" className="animate-ping" />
+            <circle cx="300" cy="8" r="3.5" fill="#07080A" stroke="#FF8A00" strokeWidth="2" />
           </svg>
         </div>
       )}
@@ -181,7 +181,7 @@ function DevOsMicroUI() {
       {/* CI/CD Simulated Nodes */}
       <div className="flex items-center justify-between rounded-lg border border-white/[0.06] bg-black/40 px-3 py-2 font-mono text-[10px]">
         <div className="flex items-center gap-2">
-          <GitCommit className="h-3.5 w-3.5 text-[#CCFF00]" />
+          <GitCommit className="h-3.5 w-3.5 text-[#FF5722]" />
           <span className="text-[#F3F4F6]">PIPELINE</span>
         </div>
         <div className="flex items-center gap-1.5 text-[9px]">
@@ -189,7 +189,7 @@ function DevOsMicroUI() {
           <span className="text-[#8A8F98]">→</span>
           <span className="rounded bg-white/5 px-1.5 py-0.5 text-white/70">TEST ✓</span>
           <span className="text-[#8A8F98]">→</span>
-          <span className="rounded bg-[#CCFF00]/10 px-1.5 py-0.5 font-semibold text-[#CCFF00]">
+          <span className="rounded bg-[#FF5722]/15 px-1.5 py-0.5 font-semibold text-[#FF5722]">
             LIVE 99.9%
           </span>
         </div>
@@ -199,7 +199,7 @@ function DevOsMicroUI() {
       <div className="relative flex-1 overflow-hidden rounded-xl border border-white/[0.06] bg-[#07080A]/90 p-3 font-mono text-xs">
         <div className="flex items-center justify-between border-b border-white/[0.08] pb-1.5 mb-2 text-[10px] text-[#8A8F98]">
           <span className="flex items-center gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#CCFF00]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-[#FF5722]" />
             DEV_OS_CONTAINER:bash
           </span>
           <span>TTY1</span>
@@ -207,14 +207,14 @@ function DevOsMicroUI() {
 
         <div className="max-h-[110px] overflow-y-auto scrollbar-hide text-[11px] text-[#8A8F98] space-y-1">
           {history.map((line, idx) => (
-            <p key={idx} className={line.startsWith('$') ? 'text-[#F3F4F6]' : 'text-[#CCFF00]'}>
+            <p key={idx} className={line.startsWith('$') ? 'text-[#F3F4F6]' : 'text-[#FF8A00]'}>
               {line}
             </p>
           ))}
         </div>
 
         <div className="mt-2 flex items-center gap-1.5 border-t border-white/[0.08] pt-2">
-          <span className="text-[#CCFF00] font-bold">$</span>
+          <span className="text-[#FF5722] font-bold">$</span>
           <input
             type="text"
             value={inputVal}
@@ -229,7 +229,7 @@ function DevOsMicroUI() {
   );
 }
 
-// Interactive Micro-UI 3: Synaptic Neural Network Canvas
+// Interactive Micro-UI 3: Synaptic Neural Network Canvas in Brand Orange
 function AiNeuralMicroUI() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -284,7 +284,7 @@ function AiNeuralMicroUI() {
             ctx.beginPath();
             ctx.moveTo(nodes[i].x, nodes[i].y);
             ctx.lineTo(nodes[j].x, nodes[j].y);
-            ctx.strokeStyle = `rgba(204, 255, 0, ${(1 - dist / 65) * 0.25})`;
+            ctx.strokeStyle = `rgba(255, 87, 34, ${(1 - dist / 65) * 0.28})`;
             ctx.lineWidth = 1;
             ctx.stroke();
           }
@@ -298,7 +298,7 @@ function AiNeuralMicroUI() {
           ctx.beginPath();
           ctx.moveTo(nodes[i].x, nodes[i].y);
           ctx.lineTo(mouse.x, mouse.y);
-          ctx.strokeStyle = `rgba(204, 255, 0, ${(1 - mouseDist / 85) * 0.6})`;
+          ctx.strokeStyle = `rgba(255, 138, 0, ${(1 - mouseDist / 85) * 0.65})`;
           ctx.lineWidth = 1.5;
           ctx.stroke();
         }
@@ -313,9 +313,9 @@ function AiNeuralMicroUI() {
         // Draw node
         ctx.beginPath();
         ctx.arc(nodes[i].x, nodes[i].y, nodes[i].radius, 0, Math.PI * 2);
-        ctx.fillStyle = '#CCFF00';
-        ctx.shadowColor = '#CCFF00';
-        ctx.shadowBlur = 4;
+        ctx.fillStyle = '#FF5722';
+        ctx.shadowColor = '#FF8A00';
+        ctx.shadowBlur = 5;
         ctx.fill();
         ctx.shadowBlur = 0;
       }
@@ -337,7 +337,7 @@ function AiNeuralMicroUI() {
       <canvas ref={canvasRef} className="h-full w-full cursor-crosshair" />
       <div className="pointer-events-none absolute bottom-2 left-3 right-3 flex items-center justify-between font-mono text-[9px] text-[#8A8F98]">
         <span>HOVER TO INJECT ATTENTION WEIGHTS</span>
-        <span className="text-[#CCFF00] font-semibold">TENSORS ONLINE</span>
+        <span className="text-[#FF8A00] font-semibold">TENSORS ONLINE</span>
       </div>
     </div>
   );
@@ -371,7 +371,7 @@ function CyberMicroUI() {
   return (
     <div className="flex flex-col h-full justify-between gap-3">
       <div className="flex items-center justify-between rounded-lg border border-white/[0.06] bg-black/40 px-3 py-2 font-mono text-[10px]">
-        <span className="flex items-center gap-1.5 text-[#CCFF00]">
+        <span className="flex items-center gap-1.5 text-[#FF5722]">
           <Radio className="h-3.5 w-3.5 animate-pulse" />
           PACKET_SNIFFER
         </span>
@@ -383,7 +383,7 @@ function CyberMicroUI() {
           <div
             key={idx}
             className={`flex items-center justify-between transition-opacity ${
-              idx === 0 ? 'text-[#CCFF00]' : 'text-[#8A8F98]'
+              idx === 0 ? 'text-[#FF5722]' : 'text-[#8A8F98]'
             }`}
           >
             <span className="truncate">{pkt}</span>
@@ -402,7 +402,7 @@ export default function InteractiveBentoDivisions() {
         
         {/* Section Header with Technical Coordinates */}
         <div className="mb-14">
-          <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-[#CCFF00]">
+          <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-[#FF5722]">
             <span>{'[ 01 // CLUB_DIVISIONS ]'}</span>
             <span className="text-white/20">{'///'}</span>
             <span className="text-[#8A8F98]">4 SPECIALIZED WINGS</span>
@@ -429,7 +429,7 @@ export default function InteractiveBentoDivisions() {
               <div>
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-[#CCFF00]">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-[#FF5722]">
                       <Binary className="h-5 w-5" />
                     </div>
                     <div>
@@ -444,7 +444,7 @@ export default function InteractiveBentoDivisions() {
 
                   <Link
                     href="/departments/cp"
-                    className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#8A8F98] transition-colors hover:border-[#CCFF00] hover:text-[#CCFF00]"
+                    className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#8A8F98] transition-colors hover:border-[#FF5722] hover:text-[#FF5722]"
                   >
                     <ArrowUpRight className="h-4 w-4" />
                   </Link>
@@ -466,7 +466,7 @@ export default function InteractiveBentoDivisions() {
               <div>
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-[#CCFF00]">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-[#FF5722]">
                       <Code2 className="h-5 w-5" />
                     </div>
                     <div>
@@ -481,7 +481,7 @@ export default function InteractiveBentoDivisions() {
 
                   <Link
                     href="/departments/dev-os"
-                    className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#8A8F98] transition-colors hover:border-[#CCFF00] hover:text-[#CCFF00]"
+                    className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#8A8F98] transition-colors hover:border-[#FF5722] hover:text-[#FF5722]"
                   >
                     <ArrowUpRight className="h-4 w-4" />
                   </Link>
@@ -503,7 +503,7 @@ export default function InteractiveBentoDivisions() {
               <div>
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-[#CCFF00]">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-[#FF5722]">
                       <Brain className="h-5 w-5" />
                     </div>
                     <div>
@@ -518,7 +518,7 @@ export default function InteractiveBentoDivisions() {
 
                   <Link
                     href="/departments/ml"
-                    className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#8A8F98] transition-colors hover:border-[#CCFF00] hover:text-[#CCFF00]"
+                    className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#8A8F98] transition-colors hover:border-[#FF5722] hover:text-[#FF5722]"
                   >
                     <ArrowUpRight className="h-4 w-4" />
                   </Link>
@@ -540,7 +540,7 @@ export default function InteractiveBentoDivisions() {
               <div>
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-[#CCFF00]">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-[#FF5722]">
                       <ShieldAlert className="h-5 w-5" />
                     </div>
                     <div>
@@ -555,7 +555,7 @@ export default function InteractiveBentoDivisions() {
 
                   <Link
                     href="/departments/cyber-security"
-                    className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#8A8F98] transition-colors hover:border-[#CCFF00] hover:text-[#CCFF00]"
+                    className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#8A8F98] transition-colors hover:border-[#FF5722] hover:text-[#FF5722]"
                   >
                     <ArrowUpRight className="h-4 w-4" />
                   </Link>

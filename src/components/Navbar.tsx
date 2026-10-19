@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -12,6 +11,7 @@ import {
   Shield,
 } from 'lucide-react';
 import Magnetic from '@/components/Magnetic';
+import NjackLogo from '@/components/NjackLogo';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -56,27 +56,20 @@ export default function Navbar() {
   return (
     <header className="sticky top-4 z-40 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
       {/* HUD Floating Pill Dock */}
-      <div className="relative flex items-center justify-between rounded-full border border-white/[0.08] bg-[#0E1016]/75 px-4 py-2.5 backdrop-blur-2xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.15),0_15px_35px_-10px_rgba(0,0,0,0.6)]">
+      <div className="relative flex items-center justify-between rounded-full border border-white/[0.08] bg-[#0E1016]/80 px-4 py-2 backdrop-blur-2xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.15),0_15px_35px_-10px_rgba(0,0,0,0.6)]">
         
-        {/* Left: Brand Identity + System Status Indicator */}
+        {/* Left: Brand Identity with Official NJACK Hexagonal Logo Mark */}
         <div className="flex items-center gap-4">
           <Link
             href="/"
-            className="group flex items-center gap-3 transition-transform hover:scale-[1.02]"
+            className="group flex items-center gap-2.5 transition-transform hover:scale-[1.02]"
             id="nav-brand-logo"
           >
-            <div className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-black/60 p-1 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] transition-colors group-hover:border-[#CCFF00]/40">
-              <Image
-                src="/njack-logo.png"
-                alt="NJACK Logo"
-                width={28}
-                height={28}
-                className="object-contain"
-                priority
-              />
+            <div className="relative flex items-center justify-center rounded-xl p-0.5 transition-transform group-hover:scale-105">
+              <NjackLogo size={32} />
             </div>
             <div className="flex flex-col">
-              <span className="font-display text-sm font-bold tracking-tight text-[#F3F4F6] transition-colors group-hover:text-white">
+              <span className="font-display text-base font-extrabold tracking-tight text-[#F3F4F6] transition-colors group-hover:text-white">
                 NJACK
               </span>
               <span className="font-mono text-[9px] uppercase tracking-wider text-[#8A8F98]">
@@ -88,10 +81,10 @@ export default function Navbar() {
           {/* Telemetry Status Dot + Timestamp (Desktop) */}
           <div className="hidden xl:flex items-center gap-2.5 rounded-full border border-white/[0.06] bg-black/40 px-3 py-1 font-mono text-[10px] text-[#8A8F98]">
             <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#CCFF00] opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#CCFF00]" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#FF5722] opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#FF5722]" />
             </span>
-            <span className="text-[#CCFF00] font-semibold">SYS.ONLINE</span>
+            <span className="text-[#FF8A00] font-semibold">SYS.ONLINE</span>
             <span className="text-white/20">|</span>
             <span className="text-white/70">{timestamp}</span>
           </div>
@@ -107,14 +100,14 @@ export default function Navbar() {
                   href={item.href}
                   className={`relative rounded-full px-3.5 py-1.5 font-sans text-xs font-medium transition-colors ${
                     active
-                      ? 'text-[#07080A]'
+                      ? 'text-white'
                       : 'text-[#8A8F98] hover:text-[#F3F4F6]'
                   }`}
                 >
                   {active && (
                     <motion.div
                       layoutId="activeNavIndicator"
-                      className="absolute inset-0 rounded-full bg-[#CCFF00] shadow-[0_0_15px_rgba(204,255,0,0.35)]"
+                      className="absolute inset-0 rounded-full bg-gradient-to-r from-[#FF8A00] to-[#FF5722] shadow-[0_0_15px_rgba(255,87,34,0.4)]"
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -131,11 +124,11 @@ export default function Navbar() {
           <Magnetic pullFactor={0.2}>
             <button
               onClick={triggerCommandPalette}
-              className="group flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 font-mono text-xs text-[#8A8F98] transition-all hover:border-[#CCFF00]/40 hover:bg-[#CCFF00]/10 hover:text-white"
+              className="group flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 font-mono text-xs text-[#8A8F98] transition-all hover:border-[#FF5722]/40 hover:bg-[#FF5722]/10 hover:text-white"
             >
-              <Command className="h-3.5 w-3.5 text-[#CCFF00]" />
+              <Command className="h-3.5 w-3.5 text-[#FF5722]" />
               <span className="hidden sm:inline text-[11px]">COMMAND</span>
-              <kbd className="hidden sm:inline rounded border border-white/10 bg-black/50 px-1 py-0.2 font-mono text-[9px] text-[#CCFF00]">
+              <kbd className="hidden sm:inline rounded border border-white/10 bg-black/50 px-1 py-0.2 font-mono text-[9px] text-[#FF8A00]">
                 ⌘K
               </kbd>
             </button>
@@ -145,7 +138,7 @@ export default function Navbar() {
           <Magnetic pullFactor={0.2}>
             <Link
               href="/admin"
-              className="flex h-8 w-8 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] text-[#8A8F98] transition-colors hover:border-white/20 hover:text-white"
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] text-[#8A8F98] transition-colors hover:border-[#FF5722]/40 hover:text-white"
               title="Admin Terminal"
             >
               <Shield className="h-3.5 w-3.5" />
@@ -173,7 +166,7 @@ export default function Navbar() {
             className="mt-2 overflow-hidden rounded-2xl border border-white/10 bg-[#0E1016]/95 p-4 backdrop-blur-2xl md:hidden shadow-2xl"
           >
             <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-3 font-mono text-[10px] text-[#8A8F98]">
-              <span className="text-[#CCFF00]">• SYS.ONLINE</span>
+              <span className="text-[#FF5722]">• SYS.ONLINE</span>
               <span>{timestamp}</span>
             </div>
 
@@ -197,7 +190,7 @@ export default function Navbar() {
                   setMobileMenuOpen(false);
                   triggerCommandPalette();
                 }}
-                className="flex-1 flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 py-2 font-mono text-xs text-[#CCFF00]"
+                className="flex-1 flex items-center justify-center gap-2 rounded-xl border border-[#FF5722]/30 bg-[#FF5722]/10 py-2 font-mono text-xs text-[#FF5722]"
               >
                 <Command className="h-3.5 w-3.5" />
                 <span>EXECUTE ⌘K</span>

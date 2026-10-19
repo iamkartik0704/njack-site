@@ -13,7 +13,7 @@ interface SpotlightBentoCardProps {
 export default function SpotlightBentoCard({
   children,
   className = '',
-  glowColor = 'rgba(204, 255, 0, 0.18)',
+  glowColor = 'rgba(255, 87, 34, 0.24)',
   enableTilt = true,
 }: SpotlightBentoCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);

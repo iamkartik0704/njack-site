@@ -201,9 +201,9 @@ export default function CommandPalette() {
             {/* Header bar */}
             <div className="flex items-center justify-between border-b border-white/[0.08] px-4 py-3 bg-[#07080A]/60">
               <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-[#8A8F98]">
-                <Command className="h-3.5 w-3.5 text-[#CCFF00]" />
+                <Command className="h-3.5 w-3.5 text-[#FF5722]" />
                 <span>NJACK // COMMAND_BUS</span>
-                <span className="text-[#CCFF00]">• ONLINE</span>
+                <span className="text-[#FF8A00]">• ONLINE</span>
               </div>
               <div className="flex items-center gap-2">
                 <kbd className="rounded border border-white/10 bg-white/5 px-1.5 py-0.5 font-mono text-[10px] text-[#8A8F98]">
@@ -233,7 +233,7 @@ export default function CommandPalette() {
                 placeholder="Type a command, division, or jump to route..."
                 className="w-full bg-transparent font-mono text-sm text-[#F3F4F6] placeholder-[#8A8F98]/60 focus:outline-none"
               />
-              <span className="font-mono text-xs text-[#CCFF00] shrink-0 animate-pulse">
+              <span className="font-mono text-xs text-[#FF5722] shrink-0 animate-pulse">
                 _
               </span>
             </div>
@@ -263,7 +263,7 @@ export default function CommandPalette() {
                         <div
                           className={`flex h-8 w-8 items-center justify-center rounded-lg border transition-colors ${
                             isSelected
-                              ? 'border-[#CCFF00]/40 bg-[#CCFF00]/10 text-[#CCFF00]'
+                              ? 'border-[#FF5722]/40 bg-[#FF5722]/10 text-[#FF5722]'
                               : 'border-white/10 bg-white/5 text-[#8A8F98]'
                           }`}
                         >
@@ -286,14 +286,14 @@ export default function CommandPalette() {
                           </span>
                         )}
                         {cmd.shortcut && (
-                          <kbd className="rounded border border-white/10 bg-black/40 px-1.5 py-0.5 font-mono text-[10px] text-[#CCFF00]">
+                          <kbd className="rounded border border-white/10 bg-black/40 px-1.5 py-0.5 font-mono text-[10px] text-[#FF8A00]">
                             ⌘{cmd.shortcut}
                           </kbd>
                         )}
                         <ArrowRight
                           className={`h-3.5 w-3.5 transition-transform ${
                             isSelected
-                              ? 'translate-x-0.5 text-[#CCFF00]'
+                              ? 'translate-x-0.5 text-[#FF5722]'
                               : 'opacity-0'
                           }`}
                         />
@@ -310,7 +310,7 @@ export default function CommandPalette() {
                 <span>↑↓ TO NAVIGATE</span>
                 <span>↵ TO EXECUTE</span>
               </div>
-              <span className="text-[#CCFF00]">NJACK V2 // PROTOCOL ACTIVE</span>
+              <span className="text-[#FF8A00]">NJACK V2 // PROTOCOL ACTIVE</span>
             </div>
           </motion.div>
         </div>

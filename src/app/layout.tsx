@@ -18,7 +18,7 @@ const Scene3D = dynamic(() => import('@/components/Scene3D'), {
 const syne = Syne({
   subsets: ['latin'],
   variable: '--font-syne',
-  weight: ['600', '700', '800'],
+  weight: ['700', '800'],
   display: 'swap',
 });
 
@@ -75,8 +75,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark scroll-smooth">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@700;800&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body
-        className={`${syne.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased min-h-screen flex flex-col bg-[#07080A] text-[#F3F4F6] relative selection:bg-[#CCFF00] selection:text-[#07080A]`}
+        className={`${syne.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased min-h-screen flex flex-col bg-[#07080A] text-[#F3F4F6] relative selection:bg-[#FF5722] selection:text-white`}
       >
         {/* Global Atmospheric Noise Overlay */}
         <NoiseOverlay />

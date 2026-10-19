@@ -108,7 +108,7 @@ export default function EventsTimeline({ events }: EventsTimelineProps) {
         
         {/* Section Header with Technical Coordinates */}
         <div className="mb-16">
-          <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-[#CCFF00]">
+          <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-[#FF5722]">
             <span>{'[ 03 // RADAR_EVENTS_TIMELINE ]'}</span>
             <span className="text-white/20">{'///'}</span>
             <span className="text-[#8A8F98]">CHRONOLOGICAL APPARATUS</span>
@@ -122,10 +122,10 @@ export default function EventsTimeline({ events }: EventsTimelineProps) {
             />
             <Link
               href="/events"
-              className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 font-mono text-xs text-[#8A8F98] transition-all hover:border-[#CCFF00]/40 hover:text-white"
+              className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 font-mono text-xs text-[#8A8F98] transition-all hover:border-[#FF5722]/40 hover:text-white"
             >
               <span>VIEW FULL RADAR</span>
-              <ArrowRight className="h-3.5 w-3.5 text-[#CCFF00] transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="h-3.5 w-3.5 text-[#FF5722] transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
         </div>
@@ -140,7 +140,7 @@ export default function EventsTimeline({ events }: EventsTimelineProps) {
             {/* Glowing tracer path that draws down with scroll */}
             <motion.div
               style={{ scaleY: pathLength, originY: 0 }}
-              className="absolute inset-0 w-full bg-gradient-to-b from-[#CCFF00] via-[#CCFF00] to-transparent shadow-[0_0_12px_#CCFF00]"
+              className="absolute inset-0 w-full bg-gradient-to-b from-[#FF8A00] via-[#FF5722] to-transparent shadow-[0_0_12px_#FF5722]"
             />
           </div>
 
@@ -174,7 +174,7 @@ export default function EventsTimeline({ events }: EventsTimelineProps) {
                       <div className="space-y-4">
                         {/* Header Status Row */}
                         <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 font-mono text-[10px] text-[#8A8F98]">
-                          <span className="flex items-center gap-1.5 text-[#CCFF00]">
+                          <span className="flex items-center gap-1.5 text-[#FF5722]">
                             <Radio className="h-3.5 w-3.5 animate-pulse" />
                             {event.category?.toUpperCase() || 'EVENT'}
                           </span>
@@ -196,7 +196,7 @@ export default function EventsTimeline({ events }: EventsTimelineProps) {
                         {/* Metadata Pills */}
                         <div className="flex flex-wrap items-center gap-3 font-mono text-xs text-[#8A8F98] pt-2 border-t border-white/[0.06]">
                           <span className="flex items-center gap-1.5">
-                            <Calendar className="h-3.5 w-3.5 text-[#CCFF00]" />
+                            <Calendar className="h-3.5 w-3.5 text-[#FF8A00]" />
                             {dateStr}
                           </span>
                           {event.venue && (
@@ -206,7 +206,7 @@ export default function EventsTimeline({ events }: EventsTimelineProps) {
                             </span>
                           )}
                           {event.prizePool && (
-                            <span className="flex items-center gap-1.5 text-[#CCFF00] font-semibold">
+                            <span className="flex items-center gap-1.5 text-[#FF5722] font-semibold">
                               <Trophy className="h-3.5 w-3.5" />
                               {event.prizePool}
                             </span>
@@ -223,7 +223,7 @@ export default function EventsTimeline({ events }: EventsTimelineProps) {
                                 ? '/nwoc'
                                 : `/events/${event.slug}`
                             }
-                            className="inline-flex items-center gap-1.5 font-mono text-xs text-[#CCFF00] hover:underline"
+                            className="inline-flex items-center gap-1.5 font-mono text-xs text-[#FF5722] hover:underline"
                           >
                             <span>REGISTER PROTOCOL</span>
                             <ArrowRight className="h-3 w-3" />
@@ -235,7 +235,7 @@ export default function EventsTimeline({ events }: EventsTimelineProps) {
 
                   {/* Center Node Indicator */}
                   <div className="my-4 md:my-0 flex h-8 w-8 items-center justify-center rounded-full border border-white/20 bg-[#07080A] shadow-md z-10 md:absolute md:left-1/2 md:-translate-x-1/2">
-                    <div className="h-2.5 w-2.5 rounded-full bg-[#CCFF00] shadow-[0_0_8px_#CCFF00]" />
+                    <div className="h-2.5 w-2.5 rounded-full bg-[#FF5722] shadow-[0_0_8px_#FF5722]" />
                   </div>
 
                   {/* Spacer for other side */}
