@@ -11,6 +11,7 @@ import SpotlightBentoCard from '@/components/SpotlightBentoCard';
 import InteractiveBentoDivisions from '@/components/InteractiveBentoDivisions';
 import ProjectsShowcase from '@/components/ProjectsShowcase';
 import EventsTimeline from '@/components/EventsTimeline';
+import HeroLogoLockup from '@/components/HeroLogoLockup';
 
 export default async function HomePage() {
   // Fetch real seeded data from Prisma
@@ -50,13 +51,10 @@ export default async function HomePage() {
 
             {/* Main Hero Title (3 Stacked Lines with Masked Spring Reveal) */}
             <div className="mt-8 space-y-1 sm:space-y-2">
-              {/* Line 1: NJACK */}
-              <SplitTextReveal
-                text="NJACK"
-                as="h1"
-                wordClassName="text-[#F3F4F6]"
-                className="font-display text-6xl sm:text-8xl lg:text-9xl font-black tracking-[-0.05em] text-[#F3F4F6] leading-[0.9]"
-              />
+              {/* Line 1: Official NJACK Logo Brand Lockup with Interactive 3D Spring Hover */}
+              <div className="pt-1 pb-1">
+                <HeroLogoLockup />
+              </div>
 
               {/* Line 2: CODE. COMPILE. */}
               <SplitTextReveal
