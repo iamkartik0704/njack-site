@@ -1,0 +1,194 @@
+// Prisma schema for NJACK 2.0
+// Supports SQLite for self-contained local dev and easy migration to PostgreSQL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Department {
+  id          String       @id @default(cuid())
+  name        String
+  slug        String       @unique
+  tagline     String?
+  description String
+  icon        String
+  order       Int          @default(0)
+  teamMembers TeamMember[]
+  resources   Resource[]
+  tracks      Track[]
+  quizzes     Quiz[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model TeamMember {
+  id           String      @id @default(cuid())
+  name         String
+  role         String
+  departmentId String?
+  department   Department? @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  year         String      @default("2026-2027")
+  photo        String
+  linkedin     String?
+  github       String?
+  email        String?
+  order        Int         @default(0)
+  createdAt    DateTime    @default(now())
+}
+
+model Resource {
+  id           String      @id @default(cuid())
+  title        String
+  description  String
+  type         String      // "note", "link", "youtube", "slides", "repo", "article"
+  url          String
+  departmentId String
+  department   Department  @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  topic        String
+  tags         String      // comma separated: e.g. "React, Next.js, Frontend"
+  difficulty   String      @default("beginner") // "beginner", "intermediate", "advanced"
+  featured     Boolean     @default(false)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  trackItems   TrackItem[]
+}
+
+model Track {
+  id           String      @id @default(cuid())
+  title        String
+  slug         String      @unique
+  departmentId String
+  department   Department  @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  description  String
+  order        Int         @default(0)
+  items        TrackItem[]
+  createdAt    DateTime    @default(now())
+}
+
+model TrackItem {
+  id         String   @id @default(cuid())
+  trackId    String
+  track      Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  resourceId String
+  resource   Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  order      Int      @default(0)
+}
+
+model Quiz {
+  id           String         @id @default(cuid())
+  title        String
+  slug         String         @unique
+  departmentId String?
+  department   Department?    @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  topic        String
+  description  String
+  questions    QuizQuestion[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+}
+
+model QuizQuestion {
+  id           String   @id @default(cuid())
+  quizId       String
+  quiz         Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  question     String
+  options      String   // JSON stringified array of strings: e.g. '["O(1)", "O(n)", "O(log n)"]'
+  correctIndex Int
+  explanation  String
+  order        Int      @default(0)
+}
+
+model Event {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  description String
+  poster      String
+  startsAt    DateTime
+  endsAt      DateTime?
+  venue       String
+  registerUrl String?
+  status      String    @default("upcoming") // "upcoming", "past"
+  department  String?
+  recap       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Project {
+  id           String   @id @default(cuid())
+  title        String
+  slug         String   @unique
+  description  String
+  cover        String
+  stackTags    String   // comma separated tags: "Next.js, Python, OpenCV"
+  repoUrl      String?
+  demoUrl      String?
+  contributors String?  // comma separated names
+  featured     Boolean  @default(false)
+  createdAt    DateTime @default(now())
+}
+
+model Post {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  bodyMd      String
+  cover       String?
+  author      String
+  tags        String   // comma separated tags: "ICPC, Competitive, Announcements"
+  status      String   @default("published")
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model GalleryAlbum {
+  id        String         @id @default(cuid())
+  title     String
+  slug      String         @unique
+  cover     String
+  date      String
+  images    GalleryImage[]
+  createdAt DateTime       @default(now())
+}
+
+model GalleryImage {
+  id        String       @id @default(cuid())
+  albumId   String
+  album     GalleryAlbum @relation(fields: [albumId], references: [id], onDelete: Cascade)
+  url       String
+  caption   String?
+  createdAt DateTime     @default(now())
+}
+
+model Submission {
+  id        String   @id @default(cuid())
+  kind      String   // "contact" | "report"
+  payload   String   // JSON string of form fields
+  status    String   @default("pending") // "pending", "reviewed", "resolved"
+  createdAt DateTime @default(now())
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         String   @default("super-admin")
+  createdAt    DateTime @default(now())
+}
+
+model HomeSection {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  title     String
+  enabled   Boolean  @default(true)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}

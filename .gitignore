@@ -27,6 +27,18 @@ yarn-error.log*
 
 # local env files
 .env*.local
+.env
+
+# sqlite / database
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# agent & ide tooling
+.agents/
+.taste-skill/
+skills-lock.json
 
 # vercel
 .vercel
@@ -34,3 +46,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
