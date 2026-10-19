@@ -1,20 +1,16 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
 import {
   Binary,
   Code2,
   Brain,
   ShieldAlert,
-  Crown,
-  ExternalLink,
-  Users,
 } from 'lucide-react';
 import coordinatorsData from '@/data/coordinators.json';
 import subCoordinatorsData from '@/data/sub-coordinators.json';
 
-// LinkedIn Icon
+// Clean Uniform LinkedIn Icon
 function LinkedInIcon({ className = 'w-3.5 h-3.5' }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -23,37 +19,12 @@ function LinkedInIcon({ className = 'w-3.5 h-3.5' }: { className?: string }) {
   );
 }
 
-// GitHub Icon
-function GithubIcon({ className = 'w-3.5 h-3.5' }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
-      />
-    </svg>
-  );
-}
-
-// Codeforces Icon
-function CodeforcesIcon({ className = 'w-3.5 h-3.5' }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-      <rect x="3" y="10" width="4" height="11" rx="1" />
-      <rect x="10" y="4" width="4" height="17" rx="1" />
-      <rect x="17" y="14" width="4" height="7" rx="1" />
-    </svg>
-  );
-}
-
-// Department Themes Config matching NJACK Brand
-const deptConfig: Record<
+// Division Themes Config matching NJACK Obsidian Theme
+const divisionConfig: Record<
   string,
   {
     shortName: string;
     label: string;
-    color: string;
     badgeBg: string;
     badgeBorder: string;
     badgeText: string;
@@ -64,7 +35,6 @@ const deptConfig: Record<
   'Overall Coordinator': {
     shortName: 'OVERALL',
     label: 'Overall Coordinator',
-    color: '#FF5722',
     badgeBg: 'bg-[#FF5722]/10',
     badgeBorder: 'border-[#FF5722]/30',
     badgeText: 'text-[#FF5722]',
@@ -74,7 +44,6 @@ const deptConfig: Record<
   CP: {
     shortName: 'CP',
     label: 'Competitive Programming',
-    color: '#06B6D4',
     badgeBg: 'bg-cyan-500/10',
     badgeBorder: 'border-cyan-500/30',
     badgeText: 'text-cyan-400',
@@ -84,7 +53,6 @@ const deptConfig: Record<
   'Dev&OS': {
     shortName: 'DEV & OS',
     label: 'Development & OS',
-    color: '#10B981',
     badgeBg: 'bg-emerald-500/10',
     badgeBorder: 'border-emerald-500/30',
     badgeText: 'text-emerald-400',
@@ -94,7 +62,6 @@ const deptConfig: Record<
   ML: {
     shortName: 'AI / ML',
     label: 'Machine Learning',
-    color: '#A855F7',
     badgeBg: 'bg-purple-500/10',
     badgeBorder: 'border-purple-500/30',
     badgeText: 'text-purple-400',
@@ -104,7 +71,6 @@ const deptConfig: Record<
   Cybersec: {
     shortName: 'CSEC',
     label: 'Cyber Security',
-    color: '#F43F5E',
     badgeBg: 'bg-rose-500/10',
     badgeBorder: 'border-rose-500/30',
     badgeText: 'text-rose-400',
@@ -113,17 +79,15 @@ const deptConfig: Record<
   },
 };
 
-// Cyber Monogram Avatar matching NJACK Obsidian Theme
+// Cyber Monogram Avatar
 function CyberMonogramAvatar({
   name,
   committee,
-  size = 'md',
 }: {
   name: string;
   committee: string;
-  size?: 'md' | 'lg';
 }) {
-  const theme = deptConfig[committee] || deptConfig['Dev&OS'];
+  const theme = divisionConfig[committee] || divisionConfig['Dev&OS'];
   const initials = name
     .split(' ')
     .filter(Boolean)
@@ -131,20 +95,14 @@ function CyberMonogramAvatar({
     .slice(0, 2)
     .join('');
 
-  const dims = size === 'lg' ? 'h-24 w-24 text-xl' : 'h-16 w-16 text-sm';
-  const ringPad = size === 'lg' ? 'p-1' : 'p-[3px]';
-
   return (
     <div
-      className={`relative inline-flex items-center justify-center rounded-full bg-gradient-to-tr ${theme.ringGradient} ${ringPad} shadow-[0_0_20px_var(--glow)] transition-transform duration-300 group-hover:scale-105`}
+      className={`relative inline-flex items-center justify-center rounded-full bg-gradient-to-tr ${theme.ringGradient} p-[3px] shadow-[0_0_18px_var(--glow)] transition-transform duration-300 group-hover:scale-105`}
       style={{ ['--glow' as string]: theme.glowShadow }}
     >
-      <div
-        className={`${dims} rounded-full bg-[#0B0D13] flex flex-col items-center justify-center font-display font-extrabold tracking-wider text-white border border-white/10 relative overflow-hidden`}
-      >
-        {/* Subtle radial sheen */}
+      <div className="h-16 w-16 rounded-full bg-[#0B0D13] flex flex-col items-center justify-center font-display font-extrabold tracking-wider text-white border border-white/10 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
-        <span className="relative z-10">{initials}</span>
+        <span className="relative z-10 text-sm">{initials}</span>
         <span className="text-[8px] font-mono tracking-tighter opacity-40 uppercase">
           {theme.shortName}
         </span>
@@ -153,22 +111,83 @@ function CyberMonogramAvatar({
   );
 }
 
+// Single Unified Coordinator Card (Identical for Overall & Division Coordinators)
+function CoordinatorCard({
+  coord,
+}: {
+  coord: {
+    name: string;
+    committee: string;
+    linkedin?: string;
+  };
+}) {
+  const theme = divisionConfig[coord.committee] || divisionConfig['Dev&OS'];
+
+  return (
+    <div className="group relative rounded-2xl border border-white/[0.08] bg-[#0E1016]/80 p-5 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06),0_10px_25px_-5px_rgba(0,0,0,0.5)] hover:border-[#FF5722]/30 hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center justify-between w-full">
+      <div className="space-y-3 w-full">
+        {/* Cyber Avatar with Division Ring */}
+        <div className="pt-2 flex justify-center">
+          <CyberMonogramAvatar
+            name={coord.name}
+            committee={coord.committee}
+          />
+        </div>
+
+        {/* Member Name */}
+        <div>
+          <h4 className="font-display text-sm font-bold text-white tracking-tight group-hover:text-[#FF5722] transition-colors line-clamp-1">
+            {coord.name}
+          </h4>
+          {/* Division Badge */}
+          <div className="mt-1.5 flex justify-center">
+            <span
+              className={`font-mono text-[9px] font-semibold tracking-wider uppercase px-2 py-0.5 rounded-full ${theme.badgeBg} ${theme.badgeBorder} ${theme.badgeText} border`}
+            >
+              {theme.shortName}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Social Button: Uniformly Only LinkedIn */}
+      <div className="mt-4 pt-3 border-t border-white/[0.06] w-full flex items-center justify-center">
+        {coord.linkedin && coord.linkedin !== 'NA' ? (
+          <a
+            href={coord.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-1.5 rounded-lg border border-white/5 bg-white/[0.03] text-neutral-400 hover:text-white hover:border-[#0A66C2]/50 hover:bg-[#0A66C2]/10 transition-colors"
+            title={`${coord.name} on LinkedIn`}
+          >
+            <LinkedInIcon className="w-3.5 h-3.5" />
+          </a>
+        ) : (
+          <span className="p-1.5 opacity-0">
+            <LinkedInIcon className="w-3.5 h-3.5" />
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function TeamSection() {
-  const [selectedDept, setSelectedDept] = useState<string>('ALL');
+  const [selectedDivision, setSelectedDivision] = useState<string>('ALL');
 
   const overallCoords = coordinatorsData.filter(
     (c) => c.committee === 'Overall Coordinator'
   );
-  const deptCoords = coordinatorsData.filter(
+  const divisionCoords = coordinatorsData.filter(
     (c) => c.committee !== 'Overall Coordinator'
   );
 
-  const filteredDeptCoords =
-    selectedDept === 'ALL'
-      ? deptCoords
-      : deptCoords.filter((c) => c.committee === selectedDept);
+  const filteredDivisionCoords =
+    selectedDivision === 'ALL'
+      ? divisionCoords
+      : divisionCoords.filter((c) => c.committee === selectedDivision);
 
-  // Sub-coordinators categorized
+  // Sub-coordinators categorized by division
   const cpSubcoords = subCoordinatorsData.filter((s) => s.committee === 'CP');
   const devSubcoords = subCoordinatorsData.filter(
     (s) => s.committee === 'Dev&OS'
@@ -187,6 +206,7 @@ export default function TeamSection() {
       />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        
         {/* ========================================================
             1. SECTION HEADER
         ======================================================== */}
@@ -204,86 +224,19 @@ export default function TeamSection() {
         </div>
 
         {/* ========================================================
-            2. OVERALL COORDINATORS (FEATURED 2-COLUMN SPOTLIGHT)
+            2. OVERALL COORDINATORS (SAME COMPONENT/CARD DESIGN)
         ======================================================== */}
         <div className="mb-20">
-          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-neutral-400 mb-6">
-            <Crown className="h-4 w-4 text-[#FF5722]" />
-            <span>EXECUTIVE LEADERSHIP // OVERALL COORDINATORS</span>
+          <div className="flex justify-center mb-6">
+            <span className="font-mono text-xs uppercase tracking-widest text-neutral-400">
+              OVERALL COORDINATORS
+            </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="flex flex-wrap justify-center gap-5 max-w-md mx-auto">
             {overallCoords.map((coord) => (
-              <div
-                key={coord.name}
-                className="group relative rounded-2xl border border-white/[0.08] bg-[#0E1016]/80 p-8 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1),0_20px_40px_-15px_rgba(0,0,0,0.5)] hover:border-[#FF5722]/40 transition-all duration-300"
-              >
-                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
-                  {/* Glowing Flame Monogram Avatar */}
-                  <CyberMonogramAvatar
-                    name={coord.name}
-                    committee={coord.committee}
-                    size="lg"
-                  />
-
-                  {/* Member Details */}
-                  <div className="flex-1 text-center sm:text-left space-y-2">
-                    <div className="inline-flex items-center gap-1.5 font-mono text-[10px] tracking-wider uppercase px-2.5 py-0.5 rounded-full bg-[#FF5722]/10 border border-[#FF5722]/30 text-[#FF5722]">
-                      <span className="h-1 w-1 rounded-full bg-[#FF5722]" />
-                      <span>OVERALL COORDINATOR</span>
-                    </div>
-
-                    <h3 className="font-display text-2xl font-bold text-white tracking-tight group-hover:text-[#FF5722] transition-colors">
-                      {coord.name}
-                    </h3>
-
-                    <p className="font-sans text-xs text-[#8A8F98] leading-relaxed">
-                      Overseeing club operations, institute-wide hackathons, community outreach, and technical initiatives for the academic session 2025–2026.
-                    </p>
-
-                    {/* Social Links */}
-                    <div className="pt-3 flex items-center justify-center sm:justify-start gap-2.5">
-                      {coord.linkedin && coord.linkedin !== 'NA' && (
-                        <a
-                          href={coord.linkedin}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-1.5 font-mono text-xs text-neutral-300 hover:border-[#0A66C2]/50 hover:bg-[#0A66C2]/10 hover:text-white transition-all"
-                          title="LinkedIn Profile"
-                        >
-                          <LinkedInIcon className="w-3.5 h-3.5 text-[#0A66C2]" />
-                          <span>LinkedIn</span>
-                        </a>
-                      )}
-
-                      {coord.github && coord.github !== 'NA' && (
-                        <a
-                          href={coord.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-1.5 font-mono text-xs text-neutral-300 hover:border-white/30 hover:bg-white/[0.08] hover:text-white transition-all"
-                          title="GitHub Profile"
-                        >
-                          <GithubIcon className="w-3.5 h-3.5" />
-                          <span>GitHub</span>
-                        </a>
-                      )}
-
-                      {coord.cfhandle && coord.cfhandle !== 'NA' && (
-                        <a
-                          href={coord.cfhandle}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-1.5 font-mono text-xs text-neutral-300 hover:border-[#FF5722]/50 hover:bg-[#FF5722]/10 hover:text-[#FF5722] transition-all"
-                          title="Codeforces Profile"
-                        >
-                          <CodeforcesIcon className="w-3.5 h-3.5 text-[#FF5722]" />
-                          <span>Codeforces</span>
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </div>
+              <div key={coord.name} className="w-[190px] sm:w-[200px]">
+                <CoordinatorCard coord={coord} />
               </div>
             ))}
           </div>
@@ -295,16 +248,12 @@ export default function TeamSection() {
         <div className="mb-24">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-white/[0.08] pb-5 mb-8">
             <div>
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#FF5722]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#FF5722]" />
-                <span>DOMAIN LEADS</span>
-              </div>
-              <h3 className="mt-2 font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-[#F3F4F6]">
-                Department Coordinators
+              <h3 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-[#F3F4F6]">
+                Division Coordinators
               </h3>
             </div>
 
-            {/* Department Filter Pills */}
+            {/* Division Filter Pills */}
             <div className="flex flex-wrap items-center gap-1.5 bg-[#0B0D13] p-1 rounded-full border border-white/[0.08]">
               {[
                 { id: 'ALL', label: 'All Divisions' },
@@ -313,11 +262,11 @@ export default function TeamSection() {
                 { id: 'ML', label: 'AI / ML' },
                 { id: 'Cybersec', label: 'Cyber Security' },
               ].map((tab) => {
-                const isActive = selectedDept === tab.id;
+                const isActive = selectedDivision === tab.id;
                 return (
                   <button
                     key={tab.id}
-                    onClick={() => setSelectedDept(tab.id)}
+                    onClick={() => setSelectedDivision(tab.id)}
                     className={`px-3 py-1 text-xs font-mono rounded-full transition-all ${
                       isActive
                         ? 'bg-[#FF5722] text-white font-semibold shadow-[0_0_15px_rgba(255,87,34,0.4)]'
@@ -331,100 +280,22 @@ export default function TeamSection() {
             </div>
           </div>
 
-          {/* Coordinators Grid */}
+          {/* Division Coordinators Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
-            {filteredDeptCoords.map((coord) => {
-              const theme = deptConfig[coord.committee] || deptConfig['Dev&OS'];
-              return (
-                <div
-                  key={coord.name}
-                  className="group relative rounded-2xl border border-white/[0.08] bg-[#0E1016]/80 p-5 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06),0_10px_25px_-5px_rgba(0,0,0,0.5)] hover:border-[#FF5722]/30 hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center justify-between"
-                >
-                  <div className="space-y-3 w-full">
-                    {/* Cyber Avatar with Department Glow */}
-                    <div className="pt-2 flex justify-center">
-                      <CyberMonogramAvatar
-                        name={coord.name}
-                        committee={coord.committee}
-                        size="md"
-                      />
-                    </div>
-
-                    {/* Member Name */}
-                    <div>
-                      <h4 className="font-display text-sm font-bold text-white tracking-tight group-hover:text-[#FF5722] transition-colors line-clamp-1">
-                        {coord.name}
-                      </h4>
-                      {/* Department Badge */}
-                      <div className="mt-1.5 flex justify-center">
-                        <span
-                          className={`font-mono text-[9px] font-semibold tracking-wider uppercase px-2 py-0.5 rounded-full ${theme.badgeBg} ${theme.badgeBorder} ${theme.badgeText} border`}
-                        >
-                          {theme.shortName}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Social Buttons */}
-                  <div className="mt-4 pt-3 border-t border-white/[0.06] w-full flex items-center justify-center gap-2">
-                    {coord.linkedin && coord.linkedin !== 'NA' && (
-                      <a
-                        href={coord.linkedin}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-1.5 rounded-lg border border-white/5 bg-white/[0.03] text-neutral-400 hover:text-white hover:border-[#0A66C2]/50 hover:bg-[#0A66C2]/10 transition-colors"
-                        title={`${coord.name} on LinkedIn`}
-                      >
-                        <LinkedInIcon className="w-3.5 h-3.5" />
-                      </a>
-                    )}
-
-                    {coord.github && coord.github !== 'NA' && (
-                      <a
-                        href={coord.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-1.5 rounded-lg border border-white/5 bg-white/[0.03] text-neutral-400 hover:text-white hover:border-white/20 hover:bg-white/[0.06] transition-colors"
-                        title={`${coord.name} on GitHub`}
-                      >
-                        <GithubIcon className="w-3.5 h-3.5" />
-                      </a>
-                    )}
-
-                    {coord.cfhandle && coord.cfhandle !== 'NA' && (
-                      <a
-                        href={coord.cfhandle}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-1.5 rounded-lg border border-white/5 bg-white/[0.03] text-neutral-400 hover:text-[#FF5722] hover:border-[#FF5722]/40 hover:bg-[#FF5722]/10 transition-colors"
-                        title={`${coord.name} on Codeforces`}
-                      >
-                        <CodeforcesIcon className="w-3.5 h-3.5" />
-                      </a>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
+            {filteredDivisionCoords.map((coord) => (
+              <CoordinatorCard key={coord.name} coord={coord} />
+            ))}
           </div>
         </div>
 
         {/* ========================================================
-            4. SUB-COORDINATORS (4-COLUMN OBSIDIAN BENTO CARDS)
+            4. SUB-COORDINATORS (CLEAN & DIRECT)
         ======================================================== */}
         <div>
-          <div className="max-w-2xl mb-10">
-            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#FF5722]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#FF5722]" />
-              <span>SUB-COORDINATOR CORPS</span>
-            </div>
-            <h3 className="mt-2 font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-[#F3F4F6]">
-              Domain Mentors &amp; Sub-Coordinators
+          <div className="mb-8 border-b border-white/[0.08] pb-5">
+            <h3 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-[#F3F4F6]">
+              Sub-Coordinators
             </h3>
-            <p className="mt-2 text-sm text-[#8A8F98]">
-              Rising sophomore and junior leaders driving regular problem-solving rounds, managing repositories, and coordinating tech events.
-            </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
