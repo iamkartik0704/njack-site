@@ -1,55 +1,70 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
-import "lenis/dist/lenis.css";
-import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import SmoothScroll from "@/components/SmoothScroll";
-import ScrollProgress from "@/components/ScrollProgress";
-import CursorSpotlight from "@/components/CursorSpotlight";
-import GsapScrollEffects from "@/components/GsapScrollEffects";
+import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
+import { Space_Grotesk, JetBrains_Mono, Syne } from 'next/font/google';
+import 'lenis/dist/lenis.css';
+import './globals.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import SmoothScroll from '@/components/SmoothScroll';
+import ScrollProgress from '@/components/ScrollProgress';
+import NoiseOverlay from '@/components/NoiseOverlay';
+import CommandPalette from '@/components/CommandPalette';
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+// WebGL 3D Canvas dynamically loaded on client only (disabling SSR prevents window/canvas mismatch)
+const Scene3D = dynamic(() => import('@/components/Scene3D'), {
+  ssr: false,
 });
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+
+const syne = Syne({
+  subsets: ['latin'],
+  variable: '--font-syne',
+  weight: ['600', '700', '800'],
+  display: 'swap',
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-space-grotesk',
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains-mono',
+  weight: ['400', '500', '700'],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "NJACK — Not Just Another Coding Club | IIT Patna",
-    template: "%s | NJACK IIT Patna",
+    default: 'NJACK — Official Computer Science Club | IIT Patna',
+    template: '%s | NJACK IIT Patna',
   },
   description:
-    "The official Computer Science & Coding Club of Indian Institute of Technology Patna. Competitive Programming, Development & Open Source, Machine Learning, and Cyber Security.",
+    'The premier student-led computer science club of Indian Institute of Technology Patna. Algorithmic problem solving, production systems, cybersecurity, and artificial intelligence.',
   keywords: [
-    "NJACK",
-    "IIT Patna",
-    "Not Just Another Coding Club",
-    "Computer Science Club",
-    "Competitive Programming",
-    "Open Source",
-    "Machine Learning",
-    "Cyber Security",
-    "ICPC",
-    "GSoC",
-    "NWoC",
-    "Apeireon",
+    'NJACK',
+    'IIT Patna',
+    'Computer Science Club',
+    'Competitive Programming',
+    'Open Source',
+    'Machine Learning',
+    'Cyber Security',
+    'ICPC',
+    'GSoC',
+    'NWoC',
+    'Apeireon',
   ],
-  authors: [{ name: "NJACK IIT Patna", url: "https://njack.iitp.ac.in" }],
+  authors: [{ name: 'NJACK IIT Patna', url: 'https://njack.iitp.ac.in' }],
   openGraph: {
-    title: "NJACK — Not Just Another Coding Club | IIT Patna",
+    title: 'NJACK — Official Computer Science Club | IIT Patna',
     description:
-      "The official Computer Science & Coding Club of IIT Patna — fostering engineering excellence, open source, algorithmic dominance, and AI research.",
-    url: "https://njack.iitp.ac.in",
-    siteName: "NJACK IIT Patna",
-    type: "website",
-    locale: "en_IN",
+      'The official Computer Science & Coding Club of IIT Patna — fostering engineering excellence, open source, algorithmic dominance, and AI research.',
+    url: 'https://njack.iitp.ac.in',
+    siteName: 'NJACK IIT Patna',
+    type: 'website',
+    locale: 'en_IN',
   },
 };
 
@@ -59,16 +74,32 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark scroll-smooth">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
+        className={`${syne.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased min-h-screen flex flex-col bg-[#07080A] text-[#F3F4F6] relative selection:bg-[#CCFF00] selection:text-[#07080A]`}
       >
+        {/* Global Atmospheric Noise Overlay */}
+        <NoiseOverlay />
+
+        {/* Global Architectural Radial Masked Grid */}
+        <div
+          aria-hidden="true"
+          className="fixed inset-0 z-0 pointer-events-none architectural-grid"
+        />
+
+        {/* Persistent Scroll-Linked 3D Canvas */}
+        <Scene3D />
+
+        {/* Global Command Palette (⌘K) */}
+        <CommandPalette />
+
+        {/* Scroll Progress Bar */}
         <ScrollProgress />
-        <CursorSpotlight />
-        <GsapScrollEffects />
+
+        {/* Inertia Smooth Scroll Container */}
         <SmoothScroll>
           <Navbar />
-          <main className="flex-1">{children}</main>
+          <main className="relative z-10 flex-1">{children}</main>
           <Footer />
         </SmoothScroll>
       </body>

@@ -1,156 +1,252 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Mail, MapPin, ShieldAlert, Heart } from 'lucide-react';
+import {
+  ExternalLink,
+  ArrowUp,
+} from 'lucide-react';
+import Magnetic from '@/components/Magnetic';
+
+// Canvas interactive ASCII / Matrix wireframe canvas
+function FooterCanvasVisualizer() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animId: number;
+    const width = (canvas.width = canvas.offsetWidth);
+    const height = (canvas.height = canvas.offsetHeight);
+
+    const chars = '01{}[]$//<>~#_.*+';
+    const cols = Math.floor(width / 18);
+    const drops = new Array(cols).fill(1);
+
+    const render = () => {
+      ctx.fillStyle = 'rgba(7, 8, 10, 0.2)';
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.fillStyle = 'rgba(204, 255, 0, 0.18)';
+      ctx.font = '10px monospace';
+
+      for (let i = 0; i < drops.length; i++) {
+        const char = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(char, i * 18, drops[i] * 16);
+
+        if (drops[i] * 16 > height && Math.random() > 0.985) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+
+      animId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => cancelAnimationFrame(animId);
+  }, []);
+
+  return (
+    <div className="absolute inset-0 pointer-events-none opacity-40 overflow-hidden">
+      <canvas ref={canvasRef} className="h-full w-full" />
+    </div>
+  );
+}
 
 export default function Footer() {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
-    <footer className="border-t border-orange-500/10 bg-[#060709] text-slate-400">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5">
+    <footer className="relative z-10 overflow-hidden border-t border-white/[0.08] bg-[#07080A] pt-20 pb-12">
+      {/* Background Matrix/ASCII Stream Canvas */}
+      <FooterCanvasVisualizer />
+
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        
+        {/* Top Status & Coordinates Bar */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-white/[0.08] pb-8 mb-14 gap-4">
+          <div className="flex items-center gap-3 font-mono text-xs text-[#8A8F98]">
+            <span className="h-2 w-2 rounded-full bg-[#CCFF00]" />
+            <span className="text-[#CCFF00] font-semibold">SYS.COORDINATES</span>
+            <span>25.5357° N, 84.8510° E</span>
+            <span className="hidden sm:inline text-white/20">|</span>
+            <span className="hidden sm:inline">BIHTA, PATNA, BIHAR, INDIA</span>
+          </div>
+
+          <Magnetic pullFactor={0.25}>
+            <button
+              onClick={scrollToTop}
+              className="group flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 font-mono text-xs text-[#8A8F98] transition-colors hover:border-[#CCFF00]/40 hover:text-white"
+            >
+              <span>RETURN TO APEX</span>
+              <ArrowUp className="h-3.5 w-3.5 text-[#CCFF00] transition-transform group-hover:-translate-y-0.5" />
+            </button>
+          </Magnetic>
+        </div>
+
+        {/* 4-Column Navigation Layout */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
           
-          {/* Brand Info */}
-          <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center gap-3">
-              <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-black border border-orange-500/30 p-1 shadow-glow-orange overflow-hidden">
+          {/* Col 1: Brand & Synopsis */}
+          <div className="col-span-2 md:col-span-1 space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-black/60 p-1">
                 <Image
                   src="/njack-logo.png"
                   alt="NJACK Logo"
-                  width={34}
-                  height={34}
+                  width={28}
+                  height={28}
                   className="object-contain"
                 />
               </div>
-              <span className="text-xl font-bold font-mono tracking-tight text-white">
-                NJACK <span className="text-orange-500">2.0</span>
+              <span className="font-display text-lg font-bold text-[#F3F4F6]">
+                NJACK 2.0
               </span>
-            </Link>
-            <p className="mt-3 max-w-sm text-sm text-slate-400 leading-relaxed">
-              <strong className="text-slate-200">Not Just Another Coding Club</strong> — The official Computer Science & Coding Club of the Indian Institute of Technology Patna. Fostering engineering excellence, open source, algorithmic dominance, and AI research.
-            </p>
-            <div className="mt-4 flex items-center gap-2 text-xs text-slate-400">
-              <MapPin className="h-4 w-4 text-orange-500 shrink-0" />
-              <span>Gymkhana, IIT Patna Campus, Bihta, Bihar — 801106</span>
             </div>
-            <div className="mt-2 flex items-center gap-2 text-xs text-slate-400">
-              <Mail className="h-4 w-4 text-orange-500 shrink-0" />
-              <a href="mailto:njack@iitp.ac.in" className="hover:text-orange-400">njack@iitp.ac.in</a>
+            <p className="font-sans text-xs leading-relaxed text-[#8A8F98]">
+              The official Computer Science Club of IIT Patna. Fostering algorithmic supremacy, production systems, and artificial intelligence research.
+            </p>
+            <div className="pt-2 font-mono text-[10px] text-[#8A8F98]">
+              [ PROTOCOL VERSION 2.4.0 ]
             </div>
           </div>
 
-          {/* Departments */}
-          <div>
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-200">
-              Departments
+          {/* Col 2: Divisions */}
+          <div className="space-y-3 font-sans text-xs">
+            <h4 className="font-mono text-xs font-semibold uppercase tracking-wider text-[#F3F4F6]">
+              [ DIVISIONS ]
             </h4>
-            <ul className="mt-3 space-y-2 text-sm">
+            <ul className="space-y-2 text-[#8A8F98]">
               <li>
-                <Link href="/departments/cp" className="hover:text-orange-400 transition-colors">
+                <Link href="/departments/cp" className="hover:text-[#CCFF00] transition-colors">
                   Competitive Programming
                 </Link>
               </li>
               <li>
-                <Link href="/departments/dev-os" className="hover:text-orange-400 transition-colors">
+                <Link href="/departments/dev-os" className="hover:text-[#CCFF00] transition-colors">
                   Development & OS
                 </Link>
               </li>
               <li>
-                <Link href="/departments/ml" className="hover:text-orange-400 transition-colors">
-                  Machine Learning
+                <Link href="/departments/ml" className="hover:text-[#CCFF00] transition-colors">
+                  AI & Machine Learning
                 </Link>
               </li>
               <li>
-                <Link href="/departments/cyber-security" className="hover:text-orange-400 transition-colors">
-                  Cyber Security
+                <Link href="/departments/cyber-security" className="hover:text-[#CCFF00] transition-colors">
+                  Cybersecurity & InfoSec
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Learning & Hub */}
-          <div>
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-200">
-              Learning & Portals
+          {/* Col 3: Apparatus */}
+          <div className="space-y-3 font-sans text-xs">
+            <h4 className="font-mono text-xs font-semibold uppercase tracking-wider text-[#F3F4F6]">
+              [ APPARATUS ]
             </h4>
-            <ul className="mt-3 space-y-2 text-sm">
+            <ul className="space-y-2 text-[#8A8F98]">
               <li>
-                <Link href="/resources" className="hover:text-orange-400 transition-colors">
-                  Resource Hub (Library)
+                <Link href="/resources" className="hover:text-[#CCFF00] transition-colors">
+                  Resource Catalog
                 </Link>
               </li>
               <li>
-                <Link href="/resources/tracks" className="hover:text-orange-400 transition-colors">
-                  Curated Learning Tracks
+                <Link href="/resources/tracks" className="hover:text-[#CCFF00] transition-colors">
+                  Learning Tracks
                 </Link>
               </li>
               <li>
-                <Link href="/quizzes" className="hover:text-orange-400 transition-colors">
-                  Self-Check Quizzes
+                <Link href="/quizzes" className="hover:text-[#CCFF00] transition-colors">
+                  Technical Quizzes
                 </Link>
               </li>
               <li>
-                <Link href="/events" className="hover:text-orange-400 transition-colors">
-                  Events & Workshops
+                <Link href="/apeireon" className="hover:text-[#CCFF00] transition-colors">
+                  Apeireon Hackathon
                 </Link>
               </li>
               <li>
-                <Link href="/projects" className="hover:text-orange-400 transition-colors">
-                  Club Projects
-                </Link>
-              </li>
-              <li>
-                <Link href="/achievements" className="hover:text-orange-400 transition-colors">
-                  Achievements Wall
+                <Link href="/nwoc" className="hover:text-[#CCFF00] transition-colors">
+                  NWoC Open Source
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Flagships & Governance */}
-          <div>
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-200">
-              Flagships & Trust
+          {/* Col 4: Council & Integrity */}
+          <div className="space-y-3 font-sans text-xs">
+            <h4 className="font-mono text-xs font-semibold uppercase tracking-wider text-[#F3F4F6]">
+              [ GOVERNANCE ]
             </h4>
-            <ul className="mt-3 space-y-2 text-sm">
+            <ul className="space-y-2 text-[#8A8F98]">
               <li>
-                <Link href="/apeireon" className="hover:text-orange-400 transition-colors">
-                  Apeireon CS Fest
+                <Link href="/team" className="hover:text-[#CCFF00] transition-colors">
+                  Executive Committee
                 </Link>
               </li>
               <li>
-                <Link href="/nwoc" className="hover:text-orange-400 transition-colors">
-                  NJACK Winter of Code (NWoC)
+                <Link href="/report-cheating" className="hover:text-[#CCFF00] transition-colors text-red-400/80">
+                  Academic Integrity Portal
                 </Link>
               </li>
               <li>
-                <Link href="/gallery" className="hover:text-orange-400 transition-colors">
-                  Moments & Gallery
+                <Link href="/admin" className="hover:text-[#CCFF00] transition-colors">
+                  Council Terminal Login
                 </Link>
               </li>
               <li>
-                <Link href="/report-cheating" className="flex items-center gap-1.5 text-amber-400 hover:text-amber-300">
-                  <ShieldAlert className="h-3.5 w-3.5" />
-                  <span>Report CF Cheating</span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/admin" className="text-slate-400 hover:text-orange-400 text-xs">
-                  Super-Admin CMS Login
+                <Link
+                  href="https://github.com/iamkartik0704/njack-site"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#CCFF00] transition-colors flex items-center gap-1"
+                >
+                  <span>GitHub Repository</span>
+                  <ExternalLink className="h-3 w-3" />
                 </Link>
               </li>
             </ul>
           </div>
-
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/5 pt-6 sm:flex-row text-xs text-slate-400">
-          <p>© {new Date().getFullYear()} NJACK IIT Patna. Open-source, zero recurring cost.</p>
-          <div className="flex items-center gap-1">
-            <span>Built with</span>
-            <Heart className="h-3.5 w-3.5 text-red-500 fill-red-500" />
-            <span>by NJACK Dev & OS Department</span>
-          </div>
+        {/* Bottom Bar with Author Attribution & Legal */}
+        <div className="flex flex-col md:flex-row items-center justify-between border-t border-white/[0.08] pt-8 font-mono text-[11px] text-[#8A8F98] gap-4">
+          <p>
+            © {new Date().getFullYear()} NJACK IIT PATNA. ALL RIGHTS RESERVED.
+          </p>
+
+          <p className="flex items-center gap-1.5 text-center">
+            <span>DEVELOPED WITH RIGOR BY</span>
+            <Link
+              href="https://github.com/iamkartik0704"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#CCFF00] font-semibold hover:underline"
+            >
+              iamkartik0704
+            </Link>
+            <span>(KARTIK CHAWLA)</span>
+          </p>
         </div>
+      </div>
+
+      {/* Massive Clipped Background Display Typography */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none select-none mt-10 w-full overflow-hidden text-center"
+      >
+        <span className="block font-display font-black text-[18vw] leading-none tracking-tighter text-white/[0.025] translate-y-6">
+          NJACK
+        </span>
       </div>
     </footer>
   );

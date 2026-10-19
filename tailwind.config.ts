@@ -10,53 +10,57 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-        njack: {
-          50: '#fff7ed',
-          100: '#ffedd5',
-          200: '#fed7aa',
-          300: '#fdba74',
-          400: '#fb923c',
-          500: '#f97316',
-          600: '#ea580c',
-          700: '#c2410c',
-          800: '#9a3412',
-          900: '#7c2d12',
-          flame: '#ff5500',
-          amber: '#ff8c00',
-          glow: '#ff6b00',
+        background: "#07080A",
+        foreground: "#F3F4F6",
+        obsidian: {
+          DEFAULT: '#07080A',
+          surface: '#0E1016',
+          card: 'rgba(14, 16, 22, 0.65)',
+          border: 'rgba(255, 255, 255, 0.07)',
+          specular: 'rgba(255, 255, 255, 0.12)',
         },
-        surface: {
-          dark: '#060709',
-          card: '#0e0f14',
-          muted: '#15161c',
-          border: 'rgba(255, 107, 0, 0.14)',
-          hover: 'rgba(255, 107, 0, 0.08)',
+        accent: {
+          DEFAULT: '#CCFF00',
+          lime: '#CCFF00',
+          dim: 'rgba(204, 255, 0, 0.12)',
+          glow: 'rgba(204, 255, 0, 0.35)',
+        },
+        muted: {
+          DEFAULT: '#8A8F98',
+          text: '#8A8F98',
+          hairline: 'rgba(255, 255, 255, 0.07)',
+        },
+        njack: {
+          50: '#f6fee7',
+          100: '#ecfccb',
+          200: '#d9f99d',
+          300: '#bef264',
+          400: '#a3e635',
+          500: '#CCFF00',
+          600: '#84cc16',
+          700: '#65a30d',
+          800: '#4d7c0f',
+          900: '#365314',
+          accent: '#CCFF00',
         },
       },
       fontFamily: {
-        sans: ['var(--font-outfit)', 'system-ui', 'sans-serif'],
-        mono: ['var(--font-code)', 'monospace'],
+        display: ['var(--font-syne)', 'var(--font-space-grotesk)', 'sans-serif'],
+        heading: ['var(--font-space-grotesk)', 'sans-serif'],
+        mono: ['var(--font-jetbrains-mono)', 'monospace'],
+        sans: ['var(--font-space-grotesk)', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        'glow-orange': '0 0 25px -4px rgba(255, 107, 0, 0.45)',
-        'glow-flame': '0 0 35px -5px rgba(255, 69, 0, 0.55)',
-        'glow-amber': '0 0 25px -4px rgba(245, 158, 11, 0.45)',
-        'glow-cyan': '0 0 25px -5px rgba(255, 107, 0, 0.35)',
-        'card-glass': '0 8px 32px 0 rgba(0, 0, 0, 0.5)',
-      },
-      backgroundImage: {
-        'grid-pattern': "radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px)",
-        'glow-gradient': "radial-gradient(circle at 50% 0%, rgba(255, 85, 0, 0.16) 0%, transparent 60%)",
+        'specular-top': 'inset 0 1px 0 0 rgba(255, 255, 255, 0.12)',
+        'accent-glow': '0 0 25px -4px rgba(204, 255, 0, 0.45)',
+        'obsidian-card': 'inset 0 1px 0 0 rgba(255, 255, 255, 0.12), 0 20px 40px -15px rgba(0, 0, 0, 0.6)',
       },
       animation: {
         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'fade-in': 'fadeIn 0.4s ease-out forwards',
         'slide-up': 'slideUp 0.4s ease-out forwards',
-        'marquee': 'marquee 30s linear infinite',
         'border-beam': 'border-beam calc(var(--duration)*1s) infinite linear',
-        'shimmer-slide': 'shimmer-slide var(--speed) ease-in-out infinite alternate',
+        'radar-sweep': 'radarSweep 8s linear infinite',
       },
       keyframes: {
         fadeIn: {
@@ -67,23 +71,19 @@ const config: Config = {
           '0%': { opacity: '0', transform: 'translateY(12px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
-        marquee: {
-          '0%': { transform: 'translateX(0%)' },
-          '100%': { transform: 'translateX(-33.333%)' },
-        },
         'border-beam': {
           '100%': {
             'offset-distance': '100%',
           },
         },
-        'shimmer-slide': {
-          to: {
-            transform: 'translate(calc(100cqw - 100%), 0)',
-          },
+        radarSweep: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
         },
       },
     },
   },
   plugins: [],
 };
+
 export default config;

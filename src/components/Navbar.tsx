@@ -1,236 +1,218 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { 
-  Terminal, 
-  BookOpen, 
-  Sparkles, 
-  Calendar, 
-  FolderGit2, 
-  FileText, 
-  Users, 
-  ShieldAlert, 
-  Menu, 
-  X, 
-  Lock,
-  Compass,
-  Trophy
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  Menu,
+  X,
+  Command,
+  Shield,
 } from 'lucide-react';
+import Magnetic from '@/components/Magnetic';
 
 export default function Navbar() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [timestamp, setTimestamp] = useState<string>('00:00:00 UTC');
+
+  // Real-time technical UTC timestamp
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const hours = String(now.getUTCHours()).padStart(2, '0');
+      const minutes = String(now.getUTCMinutes()).padStart(2, '0');
+      const seconds = String(now.getUTCSeconds()).padStart(2, '0');
+      setTimestamp(`${hours}:${minutes}:${seconds} UTC`);
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const navLinks = [
-    { name: 'Departments', href: '/departments/dev-os', icon: Compass },
-    { name: 'Resource Hub', href: '/resources', icon: BookOpen, badge: 'Hub' },
-    { name: 'Tracks', href: '/resources/tracks', icon: Sparkles },
-    { name: 'Quizzes', href: '/quizzes', icon: Trophy, badge: 'New' },
-    { name: 'Events', href: '/events', icon: Calendar },
-    { name: 'Projects', href: '/projects', icon: FolderGit2 },
-    { name: 'Blog', href: '/blog', icon: FileText },
-    { name: 'About', href: '/about', icon: Users },
+    { name: 'Divisions', href: '/#divisions' },
+    { name: 'Resources', href: '/resources' },
+    { name: 'Tracks', href: '/resources/tracks' },
+    { name: 'Quizzes', href: '/quizzes' },
+    { name: 'Projects', href: '/projects' },
+    { name: 'Events', href: '/events' },
+    { name: 'Team', href: '/team' },
   ];
 
   const isActive = (href: string) => {
+    if (href.startsWith('/#')) return false;
     if (href === '/') return pathname === '/';
     return pathname.startsWith(href);
   };
 
-  return (
-    <header className="sticky top-0 z-50 w-full border-b border-orange-500/10 bg-[#060709]/90 backdrop-blur-md transition-all">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 sm:px-6 lg:px-8">
-        
-        {/* Brand Logo with Official NJACK Logo */}
-        <Link 
-          href="/" 
-          className="group flex items-center gap-3 transition-transform hover:scale-[1.02]"
-          id="nav-brand-logo"
-        >
-          <div className="relative flex h-11 w-11 items-center justify-center rounded-xl bg-black border border-orange-500/30 p-1.5 shadow-glow-orange overflow-hidden">
-            <Image
-              src="/njack-logo.png"
-              alt="NJACK Logo"
-              width={36}
-              height={36}
-              className="object-contain"
-              priority
-            />
-          </div>
-          <div className="flex flex-col">
-            <div className="flex items-center gap-1.5 font-bold tracking-wider text-white">
-              <span className="text-lg font-mono">NJACK</span>
-              <span className="flex h-2 w-2 rounded-full bg-orange-500 shadow-[0_0_8px_#ff5500] animate-pulse" />
-            </div>
-            <span className="text-[10px] uppercase font-mono text-orange-400/90 tracking-widest">
-              Not Just Another Coding Club
-            </span>
-          </div>
-        </Link>
+  const triggerCommandPalette = () => {
+    window.dispatchEvent(new CustomEvent('open-command-palette'));
+  };
 
-        {/* Desktop Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-1">
-          {navLinks.map((link) => {
-            const Icon = link.icon;
-            const active = isActive(link.href);
+  return (
+    <header className="sticky top-4 z-40 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+      {/* HUD Floating Pill Dock */}
+      <div className="relative flex items-center justify-between rounded-full border border-white/[0.08] bg-[#0E1016]/75 px-4 py-2.5 backdrop-blur-2xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.15),0_15px_35px_-10px_rgba(0,0,0,0.6)]">
+        
+        {/* Left: Brand Identity + System Status Indicator */}
+        <div className="flex items-center gap-4">
+          <Link
+            href="/"
+            className="group flex items-center gap-3 transition-transform hover:scale-[1.02]"
+            id="nav-brand-logo"
+          >
+            <div className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-black/60 p-1 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] transition-colors group-hover:border-[#CCFF00]/40">
+              <Image
+                src="/njack-logo.png"
+                alt="NJACK Logo"
+                width={28}
+                height={28}
+                className="object-contain"
+                priority
+              />
+            </div>
+            <div className="flex flex-col">
+              <span className="font-display text-sm font-bold tracking-tight text-[#F3F4F6] transition-colors group-hover:text-white">
+                NJACK
+              </span>
+              <span className="font-mono text-[9px] uppercase tracking-wider text-[#8A8F98]">
+                {'IIT PATNA // CS_CLUB'}
+              </span>
+            </div>
+          </Link>
+
+          {/* Telemetry Status Dot + Timestamp (Desktop) */}
+          <div className="hidden xl:flex items-center gap-2.5 rounded-full border border-white/[0.06] bg-black/40 px-3 py-1 font-mono text-[10px] text-[#8A8F98]">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#CCFF00] opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#CCFF00]" />
+            </span>
+            <span className="text-[#CCFF00] font-semibold">SYS.ONLINE</span>
+            <span className="text-white/20">|</span>
+            <span className="text-white/70">{timestamp}</span>
+          </div>
+        </div>
+
+        {/* Center: Magnetic Nav Links */}
+        <nav className="hidden md:flex items-center gap-1 lg:gap-1.5">
+          {navLinks.map((item) => {
+            const active = isActive(item.href);
             return (
-              <Link
-                key={link.name}
-                href={link.href}
-                className={`relative flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
-                  active
-                    ? 'text-orange-400 bg-orange-500/10 border border-orange-500/30'
-                    : 'text-slate-300 hover:text-white hover:bg-white/5'
-                }`}
-              >
-                <Icon className="h-4 w-4 opacity-75" />
-                <span>{link.name}</span>
-                {link.badge && (
-                  <span className="ml-1 rounded-full bg-orange-500/20 px-1.5 py-0.2 text-[10px] font-semibold text-orange-300 border border-orange-500/30">
-                    {link.badge}
-                  </span>
-                )}
-              </Link>
+              <Magnetic key={item.name} pullFactor={0.25}>
+                <Link
+                  href={item.href}
+                  className={`relative rounded-full px-3.5 py-1.5 font-sans text-xs font-medium transition-colors ${
+                    active
+                      ? 'text-[#07080A]'
+                      : 'text-[#8A8F98] hover:text-[#F3F4F6]'
+                  }`}
+                >
+                  {active && (
+                    <motion.div
+                      layoutId="activeNavIndicator"
+                      className="absolute inset-0 rounded-full bg-[#CCFF00] shadow-[0_0_15px_rgba(204,255,0,0.35)]"
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                  <span className="relative z-10">{item.name}</span>
+                </Link>
+              </Magnetic>
             );
           })}
         </nav>
 
-        {/* Right Action Buttons */}
-        <div className="hidden lg:flex items-center gap-2.5">
-          <Link
-            href="/report-cheating"
-            id="nav-report-cheating-btn"
-            className="flex items-center gap-1.5 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-1.5 text-xs font-semibold text-red-300 transition-colors hover:bg-red-500/20"
-            title="Anonymous Codeforces Plagiarism Report"
-          >
-            <ShieldAlert className="h-3.5 w-3.5 text-red-400" />
-            <span>Report Cheating</span>
-          </Link>
+        {/* Right: Command Trigger + Admin Terminal */}
+        <div className="flex items-center gap-2">
+          {/* Command Palette Button (⌘K) */}
+          <Magnetic pullFactor={0.2}>
+            <button
+              onClick={triggerCommandPalette}
+              className="group flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 font-mono text-xs text-[#8A8F98] transition-all hover:border-[#CCFF00]/40 hover:bg-[#CCFF00]/10 hover:text-white"
+            >
+              <Command className="h-3.5 w-3.5 text-[#CCFF00]" />
+              <span className="hidden sm:inline text-[11px]">COMMAND</span>
+              <kbd className="hidden sm:inline rounded border border-white/10 bg-black/50 px-1 py-0.2 font-mono text-[9px] text-[#CCFF00]">
+                ⌘K
+              </kbd>
+            </button>
+          </Magnetic>
 
-          <Link
-            href="/admin"
-            id="nav-admin-btn"
-            className="flex items-center gap-1.5 rounded-lg border border-orange-500/20 bg-black/50 px-3 py-1.5 text-xs font-medium text-slate-300 transition-colors hover:border-orange-500/50 hover:text-orange-300 hover:bg-orange-950/20"
-          >
-            <Lock className="h-3.5 w-3.5 text-orange-400/80" />
-            <span>Admin</span>
-          </Link>
-        </div>
+          {/* Admin Terminal Link */}
+          <Magnetic pullFactor={0.2}>
+            <Link
+              href="/admin"
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.04] text-[#8A8F98] transition-colors hover:border-white/20 hover:text-white"
+              title="Admin Terminal"
+            >
+              <Shield className="h-3.5 w-3.5" />
+            </Link>
+          </Magnetic>
 
-        {/* Mobile Menu Button */}
-        <div className="flex lg:hidden items-center gap-2">
-          <Link
-            href="/report-cheating"
-            className="rounded-lg border border-amber-500/30 bg-amber-500/10 p-2 text-amber-300"
-            aria-label="Report Cheating"
-          >
-            <ShieldAlert className="h-4 w-4" />
-          </Link>
+          {/* Mobile Menu Trigger */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="rounded-lg border border-white/10 p-2 text-slate-300 hover:bg-white/5"
-            aria-label="Toggle menu"
-            id="mobile-menu-toggle"
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#8A8F98] md:hidden hover:text-white"
           >
-            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Drawer */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-white/10 bg-[#070a12]/95 px-4 pt-3 pb-6 backdrop-blur-xl animate-fade-in">
-          <div className="flex flex-col gap-1.5">
-            <Link
-              href="/"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-slate-200 hover:bg-white/5"
-            >
-              <Terminal className="h-4 w-4 text-cyan-400" />
-              <span>Home</span>
-            </Link>
-            {navLinks.map((link) => {
-              const Icon = link.icon;
-              return (
+      {/* Mobile Drawer Menu */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ type: 'spring', stiffness: 260, damping: 25 }}
+            className="mt-2 overflow-hidden rounded-2xl border border-white/10 bg-[#0E1016]/95 p-4 backdrop-blur-2xl md:hidden shadow-2xl"
+          >
+            <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-3 font-mono text-[10px] text-[#8A8F98]">
+              <span className="text-[#CCFF00]">• SYS.ONLINE</span>
+              <span>{timestamp}</span>
+            </div>
+
+            <nav className="flex flex-col gap-1.5">
+              {navLinks.map((item) => (
                 <Link
-                  key={link.name}
-                  href={link.href}
+                  key={item.name}
+                  href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`flex items-center justify-between rounded-lg px-3 py-2 text-sm font-medium ${
-                    isActive(link.href)
-                      ? 'bg-cyan-500/15 text-cyan-300 border border-cyan-500/20'
-                      : 'text-slate-300 hover:bg-white/5'
-                  }`}
+                  className="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-[#8A8F98] hover:bg-white/5 hover:text-white transition-colors"
                 >
-                  <div className="flex items-center gap-2.5">
-                    <Icon className="h-4 w-4 text-cyan-400" />
-                    <span>{link.name}</span>
-                  </div>
-                  {link.badge && (
-                    <span className="rounded-full bg-cyan-500/20 px-2 py-0.5 text-[10px] text-cyan-300">
-                      {link.badge}
-                    </span>
-                  )}
+                  <span>{item.name}</span>
+                  <span className="font-mono text-[10px] text-[#8A8F98]/50">→</span>
                 </Link>
-              );
-            })}
-            <div className="my-2 border-t border-white/10" />
-            <Link
-              href="/gallery"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5"
-            >
-              <Trophy className="h-4 w-4 text-purple-400" />
-              <span>Gallery & Moments</span>
-            </Link>
-            <Link
-              href="/achievements"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5"
-            >
-              <Trophy className="h-4 w-4 text-yellow-400" />
-              <span>Achievements Wall</span>
-            </Link>
-            <Link
-              href="/nwoc"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5"
-            >
-              <Sparkles className="h-4 w-4 text-cyan-400" />
-              <span>NJACK Winter of Code (NWoC)</span>
-            </Link>
-            <Link
-              href="/apeireon"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5"
-            >
-              <Sparkles className="h-4 w-4 text-pink-400" />
-              <span>Apeireon CS Fest</span>
-            </Link>
-            <Link
-              href="/contact"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/5"
-            >
-              <Users className="h-4 w-4 text-emerald-400" />
-              <span>Contact Us</span>
-            </Link>
-            <div className="pt-2">
+              ))}
+            </nav>
+
+            <div className="mt-3 pt-3 border-t border-white/10 flex gap-2">
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  triggerCommandPalette();
+                }}
+                className="flex-1 flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 py-2 font-mono text-xs text-[#CCFF00]"
+              >
+                <Command className="h-3.5 w-3.5" />
+                <span>EXECUTE ⌘K</span>
+              </button>
               <Link
                 href="/admin"
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center justify-center gap-2 w-full rounded-lg border border-cyan-500/30 bg-cyan-500/10 py-2.5 text-sm font-semibold text-cyan-300"
+                className="flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-3 py-2 font-mono text-xs text-[#8A8F98]"
               >
-                <Lock className="h-4 w-4" />
-                <span>Super-Admin CMS</span>
+                <Shield className="h-4 w-4" />
               </Link>
             </div>
-          </div>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
