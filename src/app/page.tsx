@@ -95,41 +95,41 @@ export default async function HomePage() {
               </Magnetic>
             </div>
 
-            {/* Live Telemetry Metric Strip */}
-            <div className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-4 border-t border-white/[0.08] pt-8">
+            {/* Key Pillars & Club Overview */}
+            <div className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-6 border-t border-white/[0.08] pt-8">
               <div className="space-y-1">
-                <span className="font-mono text-2xl sm:text-3xl font-extrabold text-[#F3F4F6]">
-                  1,250+
+                <span className="font-display text-3xl sm:text-4xl font-black text-[#F3F4F6]">
+                  4
                 </span>
-                <p className="font-mono text-[10px] uppercase tracking-wider text-[#8A8F98]">
-                  ACTIVE MEMBERS
+                <p className="font-sans text-xs text-[#8A8F98]">
+                  Specialized Wings
                 </p>
               </div>
 
               <div className="space-y-1">
-                <span className="font-mono text-2xl sm:text-3xl font-extrabold text-[#FF5722]">
-                  3,400+
+                <span className="font-display text-3xl sm:text-4xl font-black text-[#FF5722]">
+                  2
                 </span>
-                <p className="font-mono text-[10px] uppercase tracking-wider text-[#8A8F98]">
-                  OPEN SOURCE PRS
+                <p className="font-sans text-xs text-[#8A8F98]">
+                  Flagship Annual Events
                 </p>
               </div>
 
               <div className="space-y-1">
-                <span className="font-mono text-2xl sm:text-3xl font-extrabold text-[#F3F4F6]">
-                  2,450
+                <span className="font-display text-3xl sm:text-4xl font-black text-[#F3F4F6]">
+                  15+
                 </span>
-                <p className="font-mono text-[10px] uppercase tracking-wider text-[#8A8F98]">
-                  PEAK ICPC RATING
+                <p className="font-sans text-xs text-[#8A8F98]">
+                  Years of Active Legacy
                 </p>
               </div>
 
               <div className="space-y-1">
-                <span className="font-mono text-2xl sm:text-3xl font-extrabold text-[#FF8A00]">
-                  38+
+                <span className="font-display text-3xl sm:text-4xl font-black text-[#FF8A00]">
+                  100%
                 </span>
-                <p className="font-mono text-[10px] uppercase tracking-wider text-[#8A8F98]">
-                  PODIUM VICTORIES
+                <p className="font-sans text-xs text-[#8A8F98]">
+                  Student-Led Community
                 </p>
               </div>
             </div>
