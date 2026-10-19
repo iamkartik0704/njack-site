@@ -118,179 +118,244 @@ function CpTopologyGraphic() {
 }
 
 // ============================================================================
-// 2. STATIC GRAPHIC 2: DEV & OS (Distributed Systems Architecture)
+// 2. STATIC GRAPHIC 2: DEV & OS (Git Tree & Open Source PR Workflow)
 // ============================================================================
-function DevSystemsGraphic() {
+function DevGitWorkflowGraphic() {
   return (
     <div className="rounded-xl border border-white/[0.08] bg-[#07080A]/70 p-4 space-y-3">
       {/* Top Status Bar */}
       <div className="flex items-center justify-between text-[11px] font-mono border-b border-white/[0.06] pb-2 text-[#8A8F98]">
         <span className="flex items-center gap-1.5 text-cyan-400">
           <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
-          SYSTEM_ARCHITECTURE // MESH
+          GIT_TREE // WORKFLOW
         </span>
-        <span className="text-white/70">DISTRIBUTED SLA 99.98%</span>
+        <span className="text-white/70">njack/nwoc • ★ 1,420</span>
       </div>
 
       {/* Static Vector Canvas */}
       <div className="relative h-36 w-full">
         <svg className="w-full h-full" viewBox="0 0 380 140" fill="none">
           <defs>
-            <filter id="glowCyan" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#06B6D4" floodOpacity="0.4" />
+            <filter id="glowCyanGit" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#06B6D4" floodOpacity="0.5" />
             </filter>
+            <linearGradient id="gitMergeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#A855F7" />
+              <stop offset="100%" stopColor="#06B6D4" />
+            </linearGradient>
           </defs>
 
-          {/* Connection Lines between layers */}
-          {/* Layer 1 -> Layer 2 */}
-          <path d="M 190 28 L 75 60" stroke="#06B6D4" strokeWidth="1.5" strokeOpacity="0.5" />
-          <path d="M 190 28 L 190 60" stroke="#06B6D4" strokeWidth="1.8" filter="url(#glowCyan)" />
-          <path d="M 190 28 L 305 60" stroke="#06B6D4" strokeWidth="1.5" strokeOpacity="0.5" />
+          {/* Background Branch Tracks */}
+          <line x1="30" y1="46" x2="350" y2="46" stroke="rgba(255,255,255,0.06)" strokeWidth="1" strokeDasharray="3 3" />
+          <line x1="100" y1="92" x2="270" y2="92" stroke="rgba(255,255,255,0.06)" strokeWidth="1" strokeDasharray="3 3" />
 
-          {/* Layer 2 -> Layer 3 */}
-          <path d="M 75 88 L 120 115" stroke="rgba(255,255,255,0.18)" strokeWidth="1.2" />
-          <path d="M 190 88 L 120 115" stroke="#3B82F6" strokeWidth="1.5" strokeOpacity="0.7" />
-          <path d="M 190 88 L 260 115" stroke="#3B82F6" strokeWidth="1.5" strokeOpacity="0.7" />
-          <path d="M 305 88 L 260 115" stroke="rgba(255,255,255,0.18)" strokeWidth="1.2" />
+          {/* Main branch (Cyan line) */}
+          <path d="M 35 46 L 345 46" stroke="#06B6D4" strokeWidth="2.2" filter="url(#glowCyanGit)" />
 
-          {/* Layer 1: Edge Ingress / Gateway */}
-          <rect x="110" y="6" width="160" height="24" rx="6" fill="#0C1019" stroke="#06B6D4" strokeWidth="1.5" filter="url(#glowCyan)" />
-          <circle cx="125" cy="18" r="3" fill="#06B6D4" />
-          <text x="195" y="22" fill="#E2E8F0" fontSize="9.5" fontFamily="monospace" textAnchor="middle" fontWeight="bold">EDGE_INGRESS // GATEWAY</text>
+          {/* Feature branch (Purple-to-Cyan curve branching out and merging back) */}
+          <path
+            d="M 95 46 C 115 46, 120 92, 145 92 L 230 92 C 255 92, 260 46, 280 46"
+            stroke="url(#gitMergeGrad)"
+            strokeWidth="2"
+            fill="none"
+          />
 
-          {/* Layer 2: Microservices Cluster */}
-          {/* Node A: Auth & Identity */}
-          <rect x="15" y="60" width="120" height="28" rx="6" fill="#0C1019" stroke="rgba(255,255,255,0.15)" strokeWidth="1.2" />
-          <text x="75" y="77" fill="#94A3B8" fontSize="8.5" fontFamily="monospace" textAnchor="middle">AUTH_SERVICE</text>
+          {/* Hotfix/Patch branch (Amber curve on top) */}
+          <path
+            d="M 165 46 C 180 46, 185 18, 205 18 C 220 18, 225 46, 235 46"
+            stroke="#FF8A00"
+            strokeWidth="1.6"
+            strokeDasharray="4 2"
+            fill="none"
+          />
 
-          {/* Node B: Core Engine */}
-          <rect x="145" y="60" width="90" height="28" rx="6" fill="#0E1726" stroke="#06B6D4" strokeWidth="1.5" filter="url(#glowCyan)" />
-          <text x="190" y="77" fill="#38BDF8" fontSize="8.5" fontFamily="monospace" textAnchor="middle" fontWeight="bold">RAFT_CORE</text>
+          {/* Commit Nodes on Main */}
+          <circle cx="55" cy="46" r="6" fill="#0C1017" stroke="#06B6D4" strokeWidth="2" />
+          <text x="55" y="32" fill="#64748B" fontSize="8" fontFamily="monospace" textAnchor="middle">#a81e</text>
 
-          {/* Node C: Task Scheduler */}
-          <rect x="245" y="60" width="120" height="28" rx="6" fill="#0C1019" stroke="rgba(255,255,255,0.15)" strokeWidth="1.2" />
-          <text x="305" y="77" fill="#94A3B8" fontSize="8.5" fontFamily="monospace" textAnchor="middle">TASK_WORKERS</text>
+          <circle cx="95" cy="46" r="6.5" fill="#06B6D4" stroke="#FFFFFF" strokeWidth="1.5" />
 
-          {/* Layer 3: Persistence & State Mesh */}
-          <rect x="50" y="112" width="140" height="22" rx="5" fill="#0C1019" stroke="#3B82F6" strokeWidth="1.2" />
-          <text x="120" y="126" fill="#93C5FD" fontSize="8.5" fontFamily="monospace" textAnchor="middle">DISTRIBUTED_KV_CACHE</text>
+          <circle cx="165" cy="46" r="5.5" fill="#0C1017" stroke="#06B6D4" strokeWidth="2" />
+          <text x="165" y="60" fill="#64748B" fontSize="8" fontFamily="monospace" textAnchor="middle">#b42d</text>
 
-          <rect x="200" y="112" width="130" height="22" rx="5" fill="#0C1019" stroke="rgba(255,255,255,0.15)" strokeWidth="1.2" />
-          <text x="265" y="126" fill="#94A3B8" fontSize="8.5" fontFamily="monospace" textAnchor="middle">PRIMARY_STORAGE</text>
+          {/* Commit on Hotfix */}
+          <circle cx="205" cy="18" r="5" fill="#1C1307" stroke="#FF8A00" strokeWidth="1.8" />
+          <text x="205" y="10" fill="#FF8A00" fontSize="7.5" fontFamily="monospace" textAnchor="middle">fix:cache</text>
+
+          {/* Commit on Feature branch 1 & 2 */}
+          <circle cx="150" cy="92" r="5.5" fill="#180C26" stroke="#A855F7" strokeWidth="1.8" />
+          <text x="150" y="107" fill="#C084FC" fontSize="8" fontFamily="monospace" textAnchor="middle">#f102</text>
+
+          <circle cx="215" cy="92" r="5.5" fill="#180C26" stroke="#A855F7" strokeWidth="1.8" />
+          <text x="215" y="107" fill="#C084FC" fontSize="8" fontFamily="monospace" textAnchor="middle">#c89b</text>
+
+          {/* Merge Commit on Main */}
+          <circle cx="280" cy="46" r="8" fill="#0C1017" stroke="#06B6D4" strokeWidth="2.5" filter="url(#glowCyanGit)" />
+          <circle cx="280" cy="46" r="3" fill="#06B6D4" />
+
+          {/* Head Commit on Main */}
+          <circle cx="330" cy="46" r="6" fill="#06B6D4" stroke="#FFFFFF" strokeWidth="2" />
+          <text x="330" y="32" fill="#38BDF8" fontSize="8" fontFamily="monospace" textAnchor="middle" fontWeight="bold">HEAD</text>
+
+          {/* Tags & Badges */}
+          <rect x="18" y="58" width="34" height="15" rx="3.5" fill="#0B1320" stroke="#06B6D4" strokeWidth="0.8" />
+          <text x="35" y="69" fill="#38BDF8" fontSize="7.5" fontFamily="monospace" textAnchor="middle" fontWeight="bold">main</text>
+
+          <rect x="152" y="118" width="60" height="15" rx="3.5" fill="#180C26" stroke="#A855F7" strokeWidth="0.8" />
+          <text x="182" y="129" fill="#E9D5FF" fontSize="7.5" fontFamily="monospace" textAnchor="middle">feat/nwoc</text>
+
+          <rect x="250" y="60" width="60" height="16" rx="3.5" fill="#091B13" stroke="#10B981" strokeWidth="0.8" />
+          <text x="280" y="71.5" fill="#34D399" fontSize="8" fontFamily="monospace" textAnchor="middle" fontWeight="bold">PR #142 ✓</text>
+
+          <rect x="312" y="58" width="36" height="15" rx="3.5" fill="#0B1320" stroke="rgba(255,255,255,0.2)" strokeWidth="0.8" />
+          <text x="330" y="69" fill="#E2E8F0" fontSize="7.5" fontFamily="monospace" textAnchor="middle">v2.4.0</text>
         </svg>
       </div>
 
       {/* Diagram Metadata Footer */}
       <div className="flex items-center justify-between text-[10px] font-mono text-[#8A8F98] border-t border-white/[0.06] pt-2">
-        <span>TOPOLOGY: <span className="text-cyan-400 font-semibold">RAFT CONSENSUS</span></span>
-        <span>CLUSTERS: <span className="text-white font-semibold">3 TIERS</span></span>
-        <span>LATENCY: <span className="text-emerald-400 font-semibold">0.4ms</span></span>
+        <span>WORKFLOW: <span className="text-cyan-400 font-semibold">PR #142 MERGED</span></span>
+        <span>CI/CD: <span className="text-emerald-400 font-semibold">ALL CHECKS PASS</span></span>
+        <span>REPOS: <span className="text-white font-semibold">85 ACTIVE</span></span>
       </div>
     </div>
   );
 }
 
 // ============================================================================
-// 3. STATIC GRAPHIC 3: AI & ML (Neural Graph & Latent Transformer Architecture)
+// 3. STATIC GRAPHIC 3: AI & ML (Multi-Head Self-Attention Matrix & Token Embeddings)
 // ============================================================================
-function AiNeuralGraphic() {
+function AiAttentionHeatmapGraphic() {
   return (
     <div className="rounded-xl border border-white/[0.08] bg-[#07080A]/70 p-4 space-y-3">
       {/* Top Status Bar */}
       <div className="flex items-center justify-between text-[11px] font-mono border-b border-white/[0.06] pb-2 text-[#8A8F98]">
         <span className="flex items-center gap-1.5 text-purple-400">
           <span className="h-1.5 w-1.5 rounded-full bg-purple-400" />
-          NEURAL_TRANSFORMER // ATTENTION
+          SELF_ATTENTION // QK^T MATRIX
         </span>
-        <span className="text-white/70">LATENT_DIM: 4096</span>
+        <span className="text-white/70">HEADS: 8 • DIM: 768</span>
       </div>
 
       {/* Static Vector Canvas */}
       <div className="relative h-36 w-full">
         <svg className="w-full h-full" viewBox="0 0 380 140" fill="none">
           <defs>
-            <filter id="glowPurple" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#A855F7" floodOpacity="0.4" />
+            <filter id="glowPurpleAttn" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#A855F7" floodOpacity="0.5" />
             </filter>
-            <linearGradient id="neuralGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#A855F7" stopOpacity="0.8" />
+            <linearGradient id="tokenFlowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#A855F7" stopOpacity="0.4" />
               <stop offset="100%" stopColor="#FF5722" stopOpacity="0.8" />
             </linearGradient>
           </defs>
 
-          {/* Inter-layer synaptic tensor curves */}
-          {[20, 50, 80, 110].map((y1, i) =>
-            [25, 55, 85, 115].map((y2, j) => (
-              <path
-                key={`l1-l2-${i}-${j}`}
-                d={`M 55 ${y1} C 95 ${y1}, 105 ${y2}, 145 ${y2}`}
-                stroke={(i === 1 && j === 1) || (i === 2 && j === 2) ? '#A855F7' : 'rgba(255,255,255,0.06)'}
-                strokeWidth={(i === 1 && j === 1) || (i === 2 && j === 2) ? 1.8 : 0.8}
-              />
-            ))
-          )}
+          {/* Left Column: Token Embedding Representation */}
+          <text x="50" y="14" fill="#94A3B8" fontSize="8" fontFamily="monospace" textAnchor="middle" fontWeight="bold">TOKENS [T_n]</text>
 
-          {/* Layer 2 to Layer 3 */}
-          {[25, 55, 85, 115].map((y1, i) =>
-            [35, 70, 105].map((y2, j) => (
-              <path
-                key={`l2-l3-${i}-${j}`}
-                d={`M 175 ${y1} C 215 ${y1}, 225 ${y2}, 265 ${y2}`}
-                stroke={(i === 1 && j === 1) ? 'url(#neuralGrad)' : 'rgba(255,255,255,0.06)'}
-                strokeWidth={(i === 1 && j === 1) ? 2 : 0.8}
-              />
-            ))
-          )}
+          {/* Token 1 */}
+          <g transform="translate(10, 22)">
+            <rect x="0" y="0" width="44" height="18" rx="3.5" fill="#140D22" stroke="#A855F7" strokeWidth="1" />
+            <text x="22" y="12" fill="#E9D5FF" fontSize="8" fontFamily="monospace" textAnchor="middle">&quot;IIT&quot;</text>
+            <rect x="48" y="3" width="7" height="12" rx="1.5" fill="#A855F7" fillOpacity="0.9" />
+            <rect x="57" y="3" width="7" height="12" rx="1.5" fill="#A855F7" fillOpacity="0.4" />
+            <rect x="66" y="3" width="7" height="12" rx="1.5" fill="#FF5722" fillOpacity="0.8" />
+            <rect x="75" y="3" width="7" height="12" rx="1.5" fill="#A855F7" fillOpacity="0.3" />
+          </g>
 
-          {/* Layer 3 to Layer 4 */}
-          {[35, 70, 105].map((y1, i) => (
-            <path
-              key={`l3-l4-${i}`}
-              d={`M 295 ${y1} C 320 ${y1}, 330 70, 345 70`}
-              stroke={i === 1 ? '#FF5722' : 'rgba(255,255,255,0.1)'}
-              strokeWidth={i === 1 ? 2 : 1}
-            />
-          ))}
+          {/* Token 2 */}
+          <g transform="translate(10, 48)">
+            <rect x="0" y="0" width="44" height="18" rx="3.5" fill="#140D22" stroke="#A855F7" strokeWidth="1" />
+            <text x="22" y="12" fill="#E9D5FF" fontSize="8" fontFamily="monospace" textAnchor="middle">&quot;NJACK&quot;</text>
+            <rect x="48" y="3" width="7" height="12" rx="1.5" fill="#FF5722" fillOpacity="0.9" />
+            <rect x="57" y="3" width="7" height="12" rx="1.5" fill="#A855F7" fillOpacity="0.8" />
+            <rect x="66" y="3" width="7" height="12" rx="1.5" fill="#A855F7" fillOpacity="0.5" />
+            <rect x="75" y="3" width="7" height="12" rx="1.5" fill="#FF5722" fillOpacity="0.6" />
+          </g>
 
-          {/* Layer 1 Nodes: Input Tokens */}
-          <text x="55" y="10" fill="#64748B" fontSize="8" fontFamily="monospace" textAnchor="middle">INPUT EMBED</text>
-          {[20, 50, 80, 110].map((y, idx) => (
-            <g key={`in-${idx}`}>
-              <circle cx="55" cy={y} r="6" fill="#0F172A" stroke="rgba(255,255,255,0.3)" strokeWidth="1.2" />
-              <circle cx="55" cy={y} r="2" fill="#94A3B8" />
-            </g>
-          ))}
+          {/* Token 3 */}
+          <g transform="translate(10, 74)">
+            <rect x="0" y="0" width="44" height="18" rx="3.5" fill="#140D22" stroke="#A855F7" strokeWidth="1" />
+            <text x="22" y="12" fill="#E9D5FF" fontSize="8" fontFamily="monospace" textAnchor="middle">&quot;Model&quot;</text>
+            <rect x="48" y="3" width="7" height="12" rx="1.5" fill="#A855F7" fillOpacity="0.5" />
+            <rect x="57" y="3" width="7" height="12" rx="1.5" fill="#FF5722" fillOpacity="0.7" />
+            <rect x="66" y="3" width="7" height="12" rx="1.5" fill="#A855F7" fillOpacity="0.9" />
+            <rect x="75" y="3" width="7" height="12" rx="1.5" fill="#A855F7" fillOpacity="0.2" />
+          </g>
 
-          {/* Layer 2 Nodes: Multi-Head Attention Matrices */}
-          <text x="160" y="10" fill="#C084FC" fontSize="8" fontFamily="monospace" textAnchor="middle">MULTI-HEAD ATTN</text>
-          {[25, 55, 85, 115].map((y, idx) => (
-            <g key={`attn-${idx}`}>
-              <rect x="145" y={y - 8} width="30" height="16" rx="4" fill="#180D2A" stroke="#A855F7" strokeWidth="1.2" filter={idx === 1 ? 'url(#glowPurple)' : undefined} />
-              <text x="160" y={y + 3.5} fill="#E9D5FF" fontSize="7.5" fontFamily="monospace" textAnchor="middle" fontWeight="bold">H_{idx+1}</text>
-            </g>
-          ))}
+          {/* Token 4 */}
+          <g transform="translate(10, 100)">
+            <rect x="0" y="0" width="44" height="18" rx="3.5" fill="#140D22" stroke="#A855F7" strokeWidth="1" />
+            <text x="22" y="12" fill="#E9D5FF" fontSize="8" fontFamily="monospace" textAnchor="middle">&quot;Learn&quot;</text>
+            <rect x="48" y="3" width="7" height="12" rx="1.5" fill="#A855F7" fillOpacity="0.8" />
+            <rect x="57" y="3" width="7" height="12" rx="1.5" fill="#FF5722" fillOpacity="0.4" />
+            <rect x="66" y="3" width="7" height="12" rx="1.5" fill="#A855F7" fillOpacity="0.7" />
+            <rect x="75" y="3" width="7" height="12" rx="1.5" fill="#FF5722" fillOpacity="0.85" />
+          </g>
 
-          {/* Layer 3 Nodes: Feed Forward Latent Layer */}
-          <text x="280" y="10" fill="#F472B6" fontSize="8" fontFamily="monospace" textAnchor="middle">LATENT MLP</text>
-          {[35, 70, 105].map((y, idx) => (
-            <g key={`mlp-${idx}`}>
-              <circle cx="280" cy={y} r="8" fill="#180D2A" stroke={idx === 1 ? '#FF5722' : 'rgba(255,255,255,0.2)'} strokeWidth="1.4" />
-              <circle cx="280" cy={y} r="3" fill={idx === 1 ? '#FF5722' : '#64748B'} />
-            </g>
-          ))}
+          {/* Projection Arrows to Matrix */}
+          <path d="M 96 31 L 150 48" stroke="url(#tokenFlowGrad)" strokeWidth="1.2" strokeDasharray="3 2" />
+          <path d="M 96 57 L 150 64" stroke="url(#tokenFlowGrad)" strokeWidth="1.5" />
+          <path d="M 96 83 L 150 80" stroke="url(#tokenFlowGrad)" strokeWidth="1.5" />
+          <path d="M 96 109 L 150 96" stroke="url(#tokenFlowGrad)" strokeWidth="1.2" strokeDasharray="3 2" />
 
-          {/* Layer 4 Node: Softmax Probability Distribution */}
-          <text x="348" y="52" fill="#FF8A00" fontSize="8" fontFamily="monospace" textAnchor="middle">SOFTMAX</text>
-          <circle cx="348" cy="70" r="12" fill="#1A1209" stroke="#FF5722" strokeWidth="2" filter="url(#glowPurple)" />
-          <text x="348" y="73.5" fill="#FFFFFF" fontSize="8" fontFamily="monospace" textAnchor="middle" fontWeight="bold">p(x)</text>
+          {/* Right Column: 4x4 Attention Heatmap Matrix */}
+          <g transform="translate(160, 16)">
+            {/* Header Column Labels */}
+            <text x="96" y="-3" fill="#C084FC" fontSize="8" fontFamily="monospace" textAnchor="middle" fontWeight="bold">KEY [Kᵀ] ATTENTION SCORES</text>
+            <text x="24" y="9" fill="#64748B" fontSize="7" fontFamily="monospace" textAnchor="middle">k_1</text>
+            <text x="68" y="9" fill="#64748B" fontSize="7" fontFamily="monospace" textAnchor="middle">k_2</text>
+            <text x="112" y="9" fill="#64748B" fontSize="7" fontFamily="monospace" textAnchor="middle">k_3</text>
+            <text x="156" y="9" fill="#64748B" fontSize="7" fontFamily="monospace" textAnchor="middle">k_4</text>
+
+            {/* Matrix Row 1 */}
+            <rect x="4" y="14" width="40" height="22" rx="3" fill="#A855F7" fillOpacity="0.88" stroke="#E9D5FF" strokeWidth="0.8" filter="url(#glowPurpleAttn)" />
+            <text x="24" y="28" fill="#FFFFFF" fontSize="8.5" fontFamily="monospace" textAnchor="middle" fontWeight="bold">0.88</text>
+            <rect x="48" y="14" width="40" height="22" rx="3" fill="#A855F7" fillOpacity="0.45" />
+            <text x="68" y="28" fill="#E9D5FF" fontSize="8.5" fontFamily="monospace" textAnchor="middle">0.45</text>
+            <rect x="92" y="14" width="40" height="22" rx="3" fill="#A855F7" fillOpacity="0.15" />
+            <text x="112" y="28" fill="#94A3B8" fontSize="8.5" fontFamily="monospace" textAnchor="middle">0.15</text>
+            <rect x="136" y="14" width="40" height="22" rx="3" fill="#A855F7" fillOpacity="0.32" />
+            <text x="156" y="28" fill="#E9D5FF" fontSize="8.5" fontFamily="monospace" textAnchor="middle">0.32</text>
+
+            {/* Matrix Row 2 */}
+            <rect x="4" y="40" width="40" height="22" rx="3" fill="#A855F7" fillOpacity="0.38" />
+            <text x="24" y="54" fill="#E9D5FF" fontSize="8.5" fontFamily="monospace" textAnchor="middle">0.38</text>
+            <rect x="48" y="40" width="40" height="22" rx="3" fill="#FF5722" fillOpacity="0.95" stroke="#FFA07A" strokeWidth="1" filter="url(#glowPurpleAttn)" />
+            <text x="68" y="54" fill="#FFFFFF" fontSize="8.5" fontFamily="monospace" textAnchor="middle" fontWeight="bold">0.96</text>
+            <rect x="92" y="40" width="40" height="22" rx="3" fill="#A855F7" fillOpacity="0.52" />
+            <text x="112" y="54" fill="#E9D5FF" fontSize="8.5" fontFamily="monospace" textAnchor="middle">0.52</text>
+            <rect x="136" y="40" width="40" height="22" rx="3" fill="#A855F7" fillOpacity="0.22" />
+            <text x="156" y="54" fill="#94A3B8" fontSize="8.5" fontFamily="monospace" textAnchor="middle">0.22</text>
+
+            {/* Matrix Row 3 */}
+            <rect x="4" y="66" width="40" height="22" rx="3" fill="#A855F7" fillOpacity="0.20" />
+            <text x="24" y="80" fill="#94A3B8" fontSize="8.5" fontFamily="monospace" textAnchor="middle">0.20</text>
+            <rect x="48" y="66" width="40" height="22" rx="3" fill="#A855F7" fillOpacity="0.65" />
+            <text x="68" y="80" fill="#E9D5FF" fontSize="8.5" fontFamily="monospace" textAnchor="middle">0.65</text>
+            <rect x="92" y="66" width="40" height="22" rx="3" fill="#A855F7" fillOpacity="0.91" stroke="#E9D5FF" strokeWidth="0.8" filter="url(#glowPurpleAttn)" />
+            <text x="112" y="80" fill="#FFFFFF" fontSize="8.5" fontFamily="monospace" textAnchor="middle" fontWeight="bold">0.91</text>
+            <rect x="136" y="66" width="40" height="22" rx="3" fill="#A855F7" fillOpacity="0.41" />
+            <text x="156" y="80" fill="#E9D5FF" fontSize="8.5" fontFamily="monospace" textAnchor="middle">0.41</text>
+
+            {/* Matrix Row 4 */}
+            <rect x="4" y="92" width="40" height="22" rx="3" fill="#A855F7" fillOpacity="0.28" />
+            <text x="24" y="106" fill="#94A3B8" fontSize="8.5" fontFamily="monospace" textAnchor="middle">0.28</text>
+            <rect x="48" y="92" width="40" height="22" rx="3" fill="#A855F7" fillOpacity="0.48" />
+            <text x="68" y="106" fill="#E9D5FF" fontSize="8.5" fontFamily="monospace" textAnchor="middle">0.48</text>
+            <rect x="92" y="92" width="40" height="22" rx="3" fill="#A855F7" fillOpacity="0.58" />
+            <text x="112" y="106" fill="#E9D5FF" fontSize="8.5" fontFamily="monospace" textAnchor="middle">0.58</text>
+            <rect x="136" y="92" width="40" height="22" rx="3" fill="#FF5722" fillOpacity="0.86" stroke="#FFA07A" strokeWidth="0.8" />
+            <text x="156" y="106" fill="#FFFFFF" fontSize="8.5" fontFamily="monospace" textAnchor="middle" fontWeight="bold">0.86</text>
+          </g>
         </svg>
       </div>
 
       {/* Diagram Metadata Footer */}
       <div className="flex items-center justify-between text-[10px] font-mono text-[#8A8F98] border-t border-white/[0.06] pt-2">
-        <span>ENCODER: <span className="text-purple-400 font-semibold">12 BLOCKS</span></span>
-        <span>HEADS: <span className="text-white font-semibold">32 PARALLEL</span></span>
-        <span>LOSS: <span className="text-emerald-400 font-semibold">0.0142</span></span>
+        <span>SOFTMAX: <span className="text-purple-400 font-semibold">QKᵀ / √d_k</span></span>
+        <span>HEADS: <span className="text-white font-semibold">8 PARALLEL</span></span>
+        <span>PEAK_ATTN: <span className="text-[#FF5722] font-semibold">0.96 [NJACK]</span></span>
       </div>
     </div>
   );
@@ -466,8 +531,8 @@ export default function InteractiveBentoDivisions() {
                 </p>
               </div>
 
-              {/* Static Systems Architecture Graphic */}
-              <DevSystemsGraphic />
+              {/* Static Git Workflow Graphic */}
+              <DevGitWorkflowGraphic />
             </div>
           </SpotlightBentoCard>
 
@@ -498,8 +563,8 @@ export default function InteractiveBentoDivisions() {
                 </p>
               </div>
 
-              {/* Static Neural Architecture Graphic */}
-              <AiNeuralGraphic />
+              {/* Static Multi-Head Attention Heatmap Graphic */}
+              <AiAttentionHeatmapGraphic />
             </div>
           </SpotlightBentoCard>
 
