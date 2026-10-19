@@ -431,14 +431,9 @@ export default function InteractiveBentoDivisions() {
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-[#FF5722]">
                       <Binary className="h-5 w-5" />
                     </div>
-                    <div>
-                      <h3 className="font-display text-xl font-bold text-[#F3F4F6]">
-                        Competitive Programming
-                      </h3>
-                      <p className="font-mono text-[10px] tracking-wider text-[#8A8F98]">
-                        ICPC • CODEFORCES • ADVANCED ALGORITHMS
-                      </p>
-                    </div>
+                    <h3 className="font-display text-xl font-bold text-[#F3F4F6]">
+                      Competitive Programming
+                    </h3>
                   </div>
 
                   <Link
@@ -468,14 +463,9 @@ export default function InteractiveBentoDivisions() {
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-[#FF5722]">
                       <Code2 className="h-5 w-5" />
                     </div>
-                    <div>
-                      <h3 className="font-display text-xl font-bold text-[#F3F4F6]">
-                        Development &amp; OS
-                      </h3>
-                      <p className="font-mono text-[10px] tracking-wider text-[#8A8F98]">
-                        SYSTEMS • LINUX • NWOC OPEN SOURCE
-                      </p>
-                    </div>
+                    <h3 className="font-display text-xl font-bold text-[#F3F4F6]">
+                      Development &amp; OS
+                    </h3>
                   </div>
 
                   <Link
@@ -505,14 +495,9 @@ export default function InteractiveBentoDivisions() {
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-[#FF5722]">
                       <Brain className="h-5 w-5" />
                     </div>
-                    <div>
-                      <h3 className="font-display text-xl font-bold text-[#F3F4F6]">
-                        Artificial Intelligence &amp; ML
-                      </h3>
-                      <p className="font-mono text-[10px] tracking-wider text-[#8A8F98]">
-                        TRANSFORMERS • VISION • DEEP LEARNING
-                      </p>
-                    </div>
+                    <h3 className="font-display text-xl font-bold text-[#F3F4F6]">
+                      Artificial Intelligence &amp; ML
+                    </h3>
                   </div>
 
                   <Link
@@ -542,14 +527,9 @@ export default function InteractiveBentoDivisions() {
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-[#FF5722]">
                       <ShieldAlert className="h-5 w-5" />
                     </div>
-                    <div>
-                      <h3 className="font-display text-xl font-bold text-[#F3F4F6]">
-                        Cyber Security (CSEC)
-                      </h3>
-                      <p className="font-mono text-[10px] tracking-wider text-[#8A8F98]">
-                        CTF • BINARY EXPLOITATION • CRYPTOGRAPHY
-                      </p>
-                    </div>
+                    <h3 className="font-display text-xl font-bold text-[#F3F4F6]">
+                      Cyber Security (CSEC)
+                    </h3>
                   </div>
 
                   <Link
