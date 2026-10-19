@@ -400,17 +400,16 @@ export default function InteractiveBentoDivisions() {
     <section id="divisions" className="relative z-10 py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header with Technical Coordinates */}
+        {/* Section Header */}
         <div className="mb-14">
-          <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-[#FF5722]">
-            <span>{'[ 01 // CLUB_DIVISIONS ]'}</span>
-            <span className="text-white/20">{'///'}</span>
-            <span className="text-[#8A8F98]">4 SPECIALIZED WINGS</span>
+          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#FF5722]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#FF5722]" />
+            <span>Four Specialized Divisions</span>
           </div>
 
           <div className="mt-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
             <SplitTextReveal
-              text="ARCHITECTED BY DOMAIN EXPERTS."
+              text="Engineered Across Four Core Disciplines."
               as="h2"
               className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#F3F4F6]"
             />

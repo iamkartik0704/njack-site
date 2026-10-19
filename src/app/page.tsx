@@ -2,7 +2,6 @@ import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
 import {
   ArrowRight,
-  Sparkles,
   HelpCircle,
   Trophy,
 } from 'lucide-react';
@@ -12,8 +11,6 @@ import SpotlightBentoCard from '@/components/SpotlightBentoCard';
 import InteractiveBentoDivisions from '@/components/InteractiveBentoDivisions';
 import ProjectsShowcase from '@/components/ProjectsShowcase';
 import EventsTimeline from '@/components/EventsTimeline';
-import HeroTerminalTyping from '@/components/HeroTerminalTyping';
-import { BorderBeam } from '@/components/ui/border-beam';
 
 export default async function HomePage() {
   // Fetch real seeded data from Prisma
@@ -43,19 +40,12 @@ export default async function HomePage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           
           <div className="max-w-3xl">
-            {/* Top Status Pill: NJACK EST. IIT_PATNA • NOT JUST ANOTHER CS KLUB */}
-            <div className="inline-flex items-center gap-2.5 rounded-full border border-[#FF5722]/30 bg-[#FF5722]/10 px-4 py-1.5 backdrop-blur-md shadow-[0_0_15px_rgba(255,87,34,0.15)]">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#FF5722] opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#FF5722]" />
-              </span>
-              <span className="font-mono text-xs uppercase tracking-widest text-[#FF8A00] font-semibold">
-                {'[ NJACK // EST. IIT_PATNA ]'}
-              </span>
+            {/* Elegant Institutional Badge */}
+            <div className="inline-flex items-center gap-2.5 rounded-full border border-white/[0.08] bg-white/[0.03] px-3.5 py-1 text-xs text-neutral-300 backdrop-blur-sm shadow-sm">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#FF5722]" />
+              <span className="font-medium text-white">IIT Patna</span>
               <span className="text-white/20">•</span>
-              <span className="font-mono text-xs text-[#F3F4F6] font-semibold tracking-wide">
-                NOT JUST ANOTHER CS KLUB
-              </span>
+              <span className="text-neutral-400">Computer Science Society</span>
             </div>
 
             {/* Main Hero Title (3 Stacked Lines with Masked Spring Reveal) */}
@@ -87,36 +77,30 @@ export default async function HomePage() {
               />
             </div>
 
-            {/* Interactive Monospace Terminal Subtitle */}
-            <div className="mt-7">
-              <HeroTerminalTyping />
-            </div>
-
             {/* Editorial Subtitle */}
-            <p className="mt-6 max-w-2xl font-sans text-base sm:text-lg leading-relaxed text-[#8A8F98]">
+            <p className="mt-7 max-w-2xl font-sans text-base sm:text-lg leading-relaxed text-[#8A8F98]">
               The official Computer Science Club of Indian Institute of Technology Patna. We build distributed production systems, train ICPC algorithmic contenders, conduct AI research, and defend digital infrastructure.
             </p>
 
             {/* Action Buttons & Magnetic Trigger */}
             <div className="mt-10 flex flex-wrap items-center gap-4">
-              <Magnetic pullFactor={0.25}>
+              <Magnetic pullFactor={0.15}>
                 <Link
                   href="/#divisions"
-                  className="relative group inline-flex items-center gap-3 overflow-hidden rounded-full border border-[#FF5722]/50 bg-[#FF5722] px-6 py-3 font-mono text-xs font-bold uppercase tracking-wider text-white transition-all hover:bg-[#FF8A00] shadow-[0_0_30px_rgba(255,87,34,0.45)]"
+                  className="group inline-flex items-center gap-2.5 rounded-full bg-[#FF5722] px-6 py-2.5 font-sans text-sm font-semibold text-white shadow-[0_1px_2px_rgba(0,0,0,0.4),0_0_24px_rgba(255,87,34,0.3)] transition-all hover:bg-[#FF6A3D] hover:shadow-[0_0_36px_rgba(255,87,34,0.45)] active:scale-[0.98]"
                 >
-                  <span>EXPLORE APPARATUS</span>
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  <BorderBeam size={80} duration={4} colorFrom="#ffffff" colorTo="#FF8A00" />
+                  <span>Explore Divisions</span>
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
                 </Link>
               </Magnetic>
 
-              <Magnetic pullFactor={0.2}>
+              <Magnetic pullFactor={0.15}>
                 <Link
                   href="/resources/tracks"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-6 py-3 font-mono text-xs font-medium uppercase tracking-wider text-[#F3F4F6] backdrop-blur-md transition-all hover:border-[#FF5722]/40 hover:bg-[#FF5722]/10"
+                  className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-5 py-2.5 font-sans text-sm font-medium text-neutral-300 transition-all hover:border-white/20 hover:bg-white/[0.07] hover:text-white active:scale-[0.98]"
                 >
-                  <Sparkles className="h-4 w-4 text-[#FF8A00]" />
-                  <span>CURATED TRACKS</span>
+                  <span>Learning Tracks</span>
+                  <ArrowRight className="h-4 w-4 text-neutral-500 transition-transform group-hover:translate-x-0.5 group-hover:text-white" />
                 </Link>
               </Magnetic>
             </div>
@@ -187,22 +171,21 @@ export default async function HomePage() {
           
           <div className="mb-14 flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
-              <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-[#FF5722]">
-                <span>{'[ 04 // LEARNING_TRACKS ]'}</span>
-                <span className="text-white/20">{'///'}</span>
-                <span className="text-[#8A8F98]">STEP-BY-STEP ROADMAPS</span>
+              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#FF5722]">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#FF5722]" />
+                <span>Curriculum & Learning Tracks</span>
               </div>
               <h2 className="mt-3 font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-[#F3F4F6]">
-                STRUCTURED MASTERY PROTOCOLS.
+                From First Principles to Production.
               </h2>
             </div>
 
             <Link
               href="/resources/tracks"
-              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 font-mono text-xs text-[#8A8F98] hover:text-white hover:border-[#FF5722]/40 transition-colors"
+              className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 font-sans text-xs font-medium text-neutral-300 hover:border-white/20 hover:bg-white/[0.08] hover:text-white transition-colors"
             >
-              <span>BROWSE ALL TRACKS</span>
-              <ArrowRight className="h-3.5 w-3.5 text-[#FF5722]" />
+              <span>Browse All Tracks</span>
+              <ArrowRight className="h-3.5 w-3.5 text-neutral-500 transition-transform group-hover:translate-x-0.5 group-hover:text-white" />
             </Link>
           </div>
 

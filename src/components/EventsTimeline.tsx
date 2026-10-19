@@ -106,26 +106,25 @@ export default function EventsTimeline({ events }: EventsTimelineProps) {
     <section id="events" ref={containerRef} className="relative z-10 py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header with Technical Coordinates */}
+        {/* Section Header */}
         <div className="mb-16">
-          <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-[#FF5722]">
-            <span>{'[ 03 // RADAR_EVENTS_TIMELINE ]'}</span>
-            <span className="text-white/20">{'///'}</span>
-            <span className="text-[#8A8F98]">CHRONOLOGICAL APPARATUS</span>
+          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#FF5722]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#FF5722]" />
+            <span>Events & Competitions</span>
           </div>
 
           <div className="mt-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
             <SplitTextReveal
-              text="UPCOMING HACKATHONS & RADAR PROTOCOLS."
+              text="Hackathons, Contests & Technical Keynotes."
               as="h2"
               className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#F3F4F6]"
             />
             <Link
               href="/events"
-              className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 font-mono text-xs text-[#8A8F98] transition-all hover:border-[#FF5722]/40 hover:text-white"
+              className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 font-sans text-xs font-medium text-neutral-300 transition-all hover:border-white/20 hover:bg-white/[0.08] hover:text-white"
             >
-              <span>VIEW FULL RADAR</span>
-              <ArrowRight className="h-3.5 w-3.5 text-[#FF5722] transition-transform group-hover:translate-x-1" />
+              <span>View All Events</span>
+              <ArrowRight className="h-3.5 w-3.5 text-neutral-500 transition-transform group-hover:translate-x-0.5 group-hover:text-white" />
             </Link>
           </div>
         </div>

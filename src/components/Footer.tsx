@@ -72,22 +72,21 @@ export default function Footer() {
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
-        {/* Top Status & Coordinates Bar */}
+        {/* Top Location & Return Bar */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-white/[0.08] pb-8 mb-14 gap-4">
-          <div className="flex items-center gap-3 font-mono text-xs text-[#8A8F98]">
-            <span className="h-2 w-2 rounded-full bg-[#FF5722]" />
-            <span className="text-[#FF8A00] font-semibold">SYS.COORDINATES</span>
-            <span>25.5357° N, 84.8510° E</span>
-            <span className="hidden sm:inline text-white/20">|</span>
-            <span className="hidden sm:inline">BIHTA, PATNA, BIHAR, INDIA</span>
+          <div className="flex items-center gap-2.5 font-sans text-xs text-[#8A8F98]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#FF5722]" />
+            <span className="text-white font-medium">IIT Patna Campus</span>
+            <span className="text-white/20">•</span>
+            <span>Bihta, Patna, Bihar 801106, India</span>
           </div>
 
-          <Magnetic pullFactor={0.25}>
+          <Magnetic pullFactor={0.15}>
             <button
               onClick={scrollToTop}
-              className="group flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 font-mono text-xs text-[#8A8F98] transition-colors hover:border-[#FF5722]/40 hover:text-white"
+              className="group flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 font-sans text-xs text-[#8A8F98] transition-colors hover:border-white/20 hover:bg-white/[0.06] hover:text-white"
             >
-              <span>RETURN TO APEX</span>
+              <span>Back to top</span>
               <ArrowUp className="h-3.5 w-3.5 text-[#FF5722] transition-transform group-hover:-translate-y-0.5" />
             </button>
           </Magnetic>
@@ -101,14 +100,14 @@ export default function Footer() {
             <div className="flex items-center gap-3">
               <NjackLogo size={36} />
               <span className="font-display text-lg font-bold text-[#F3F4F6]">
-                NJACK 2.0
+                NJACK
               </span>
             </div>
             <p className="font-sans text-xs leading-relaxed text-[#8A8F98]">
               The official Computer Science Club of IIT Patna. Fostering algorithmic supremacy, production systems, and artificial intelligence research.
             </p>
-            <div className="pt-2 font-mono text-[10px] text-[#8A8F98]">
-              [ PROTOCOL VERSION 2.5.0 ]
+            <div className="pt-2 font-sans text-[11px] text-[#8A8F98]">
+              Est. 2008 • Department of Computer Science & Engineering
             </div>
           </div>
 
