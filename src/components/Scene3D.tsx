@@ -293,21 +293,15 @@ function CenterpieceScene({ scrollProgress }: { scrollProgress: number }) {
 
 export default function Scene3D() {
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [heroOpacity, setHeroOpacity] = useState(1);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
 
     const handleScroll = () => {
-      const scrollY = window.scrollY;
-      // Smoothly fade out the 3D hero canvas as user scrolls past hero (scrollY 120px to 500px)
-      const fadeProgress = Math.min(Math.max((scrollY - 120) / 380, 0), 1);
-      setHeroOpacity(1 - fadeProgress);
-
       const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
       if (scrollHeight > 0) {
-        const progress = Math.min(Math.max(scrollY / scrollHeight, 0), 1);
+        const progress = Math.min(Math.max(window.scrollY / scrollHeight, 0), 1);
         setScrollProgress(progress);
       }
     };
@@ -330,12 +324,8 @@ export default function Scene3D() {
   return (
     <div
       aria-hidden="true"
-      className="fixed inset-0 z-0 pointer-events-none overflow-hidden transition-opacity duration-300"
-      style={{
-        perspective: 1200,
-        opacity: heroOpacity,
-        display: heroOpacity <= 0.01 ? 'none' : 'block',
-      }}
+      className="fixed inset-0 z-0 pointer-events-none overflow-hidden"
+      style={{ perspective: 1200 }}
     >
       <Canvas
         camera={{ position: [0, 0, 5.2], fov: 45 }}
