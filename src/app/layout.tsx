@@ -20,12 +20,13 @@ const syne = Syne({
   variable: '--font-syne',
   weight: ['700', '800'],
   display: 'swap',
+  preload: false,
 });
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
   variable: '--font-space-grotesk',
-  weight: ['400', '500', '600', '700'],
+  weight: ['500', '600', '700'],
   display: 'swap',
 });
 
@@ -76,12 +77,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark scroll-smooth">
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@700;800&display=swap"
-          rel="stylesheet"
-        />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
       <body
         className={`${syne.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased min-h-screen flex flex-col bg-[#07080A] text-[#F3F4F6] relative selection:bg-[#FF5722] selection:text-white`}
