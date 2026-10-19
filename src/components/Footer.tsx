@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import Magnetic from '@/components/Magnetic';
 import NjackLogo from '@/components/NjackLogo';
+import FooterSparkText from '@/components/FooterSparkText';
 
 // Canvas interactive ASCII / Matrix wireframe stream in NJACK Orange
 function FooterCanvasVisualizer() {
@@ -231,14 +232,9 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Massive Clipped Background Display Typography */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none select-none mt-10 w-full overflow-hidden text-center"
-      >
-        <span className="block font-display font-black text-[18vw] leading-none tracking-tighter text-white/[0.025] translate-y-6">
-          NJACK
-        </span>
+      {/* Interactive Display Typography with Particle Sparks and Orange Glow */}
+      <div className="mt-10 w-full overflow-hidden">
+        <FooterSparkText />
       </div>
     </footer>
   );
