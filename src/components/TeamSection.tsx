@@ -19,76 +19,19 @@ function LinkedInIcon({ className = 'w-3.5 h-3.5' }: { className?: string }) {
   );
 }
 
-// Division Themes Config matching NJACK Obsidian Theme
-const divisionConfig: Record<
-  string,
-  {
-    shortName: string;
-    label: string;
-    badgeBg: string;
-    badgeBorder: string;
-    badgeText: string;
-    ringGradient: string;
-    glowShadow: string;
-  }
-> = {
-  'Overall Coordinator': {
-    shortName: 'OVERALL',
-    label: 'Overall Coordinator',
-    badgeBg: 'bg-[#FF5722]/10',
-    badgeBorder: 'border-[#FF5722]/30',
-    badgeText: 'text-[#FF5722]',
-    ringGradient: 'from-[#FF5722] via-[#FF8A00] to-[#FF5722]',
-    glowShadow: 'rgba(255, 87, 34, 0.35)',
-  },
-  CP: {
-    shortName: 'CP',
-    label: 'Competitive Programming',
-    badgeBg: 'bg-cyan-500/10',
-    badgeBorder: 'border-cyan-500/30',
-    badgeText: 'text-cyan-400',
-    ringGradient: 'from-cyan-400 via-blue-500 to-cyan-400',
-    glowShadow: 'rgba(6, 182, 212, 0.3)',
-  },
-  'Dev&OS': {
-    shortName: 'DEV & OS',
-    label: 'Development & OS',
-    badgeBg: 'bg-emerald-500/10',
-    badgeBorder: 'border-emerald-500/30',
-    badgeText: 'text-emerald-400',
-    ringGradient: 'from-emerald-400 via-teal-500 to-emerald-400',
-    glowShadow: 'rgba(16, 185, 129, 0.3)',
-  },
-  ML: {
-    shortName: 'AI / ML',
-    label: 'Machine Learning',
-    badgeBg: 'bg-purple-500/10',
-    badgeBorder: 'border-purple-500/30',
-    badgeText: 'text-purple-400',
-    ringGradient: 'from-purple-400 via-indigo-500 to-purple-400',
-    glowShadow: 'rgba(168, 85, 247, 0.3)',
-  },
-  Cybersec: {
-    shortName: 'CSEC',
-    label: 'Cyber Security',
-    badgeBg: 'bg-rose-500/10',
-    badgeBorder: 'border-rose-500/30',
-    badgeText: 'text-rose-400',
-    ringGradient: 'from-rose-400 via-pink-500 to-rose-400',
-    glowShadow: 'rgba(244, 63, 94, 0.3)',
-  },
-};
-
-// Cyber Monogram Avatar
-function CyberMonogramAvatar({
-  name,
-  committee,
+// Single Unified Coordinator Card (Real Photographs, Zero Colored Borders)
+function CoordinatorCard({
+  coord,
 }: {
-  name: string;
-  committee: string;
+  coord: {
+    name: string;
+    committee: string;
+    image?: string;
+    linkedin?: string;
+  };
 }) {
-  const theme = divisionConfig[committee] || divisionConfig['Dev&OS'];
-  const initials = name
+  const [imageError, setImageError] = useState(false);
+  const initials = coord.name
     .split(' ')
     .filter(Boolean)
     .map((w) => w[0])
@@ -96,42 +39,25 @@ function CyberMonogramAvatar({
     .join('');
 
   return (
-    <div
-      className={`relative inline-flex items-center justify-center rounded-full bg-gradient-to-tr ${theme.ringGradient} p-[3px] shadow-[0_0_18px_var(--glow)] transition-transform duration-300 group-hover:scale-105`}
-      style={{ ['--glow' as string]: theme.glowShadow }}
-    >
-      <div className="h-16 w-16 rounded-full bg-[#0B0D13] flex flex-col items-center justify-center font-display font-extrabold tracking-wider text-white border border-white/10 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
-        <span className="relative z-10 text-sm">{initials}</span>
-        <span className="text-[8px] font-mono tracking-tighter opacity-40 uppercase">
-          {theme.shortName}
-        </span>
-      </div>
-    </div>
-  );
-}
-
-// Single Unified Coordinator Card (Identical for Overall & Division Coordinators)
-function CoordinatorCard({
-  coord,
-}: {
-  coord: {
-    name: string;
-    committee: string;
-    linkedin?: string;
-  };
-}) {
-  const theme = divisionConfig[coord.committee] || divisionConfig['Dev&OS'];
-
-  return (
-    <div className="group relative rounded-2xl border border-white/[0.08] bg-[#0E1016]/80 p-5 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06),0_10px_25px_-5px_rgba(0,0,0,0.5)] hover:border-[#FF5722]/30 hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center justify-between w-full">
+    <div className="group relative rounded-2xl border border-white/[0.08] bg-[#0E1016]/80 p-5 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06),0_10px_25px_-5px_rgba(0,0,0,0.5)] hover:border-white/20 hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center justify-between w-full">
       <div className="space-y-3 w-full">
-        {/* Cyber Avatar with Division Ring */}
+        {/* Authentic Circular Photograph without Colored Borders */}
         <div className="pt-2 flex justify-center">
-          <CyberMonogramAvatar
-            name={coord.name}
-            committee={coord.committee}
-          />
+          <div className="h-20 w-20 rounded-full overflow-hidden bg-neutral-800 border border-white/10 shadow-md flex items-center justify-center">
+            {coord.image && !imageError ? (
+              <img
+                src={coord.image}
+                alt={coord.name}
+                onError={() => setImageError(true)}
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+            ) : (
+              <span className="font-display font-bold text-base text-neutral-300">
+                {initials}
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Member Name */}
@@ -139,12 +65,10 @@ function CoordinatorCard({
           <h4 className="font-display text-sm font-bold text-white tracking-tight group-hover:text-[#FF5722] transition-colors line-clamp-1">
             {coord.name}
           </h4>
-          {/* Division Badge */}
+          {/* Subtle Clean Badge */}
           <div className="mt-1.5 flex justify-center">
-            <span
-              className={`font-mono text-[9px] font-semibold tracking-wider uppercase px-2 py-0.5 rounded-full ${theme.badgeBg} ${theme.badgeBorder} ${theme.badgeText} border`}
-            >
-              {theme.shortName}
+            <span className="font-mono text-[9px] font-medium tracking-wider uppercase px-2 py-0.5 rounded-full bg-white/[0.05] border border-white/10 text-neutral-300">
+              {coord.committee === 'Overall Coordinator' ? 'OVERALL' : coord.committee}
             </span>
           </div>
         </div>
@@ -199,16 +123,10 @@ export default function TeamSection() {
 
   return (
     <section className="relative z-10 py-24 border-t border-white/[0.08] text-[#F3F4F6] overflow-hidden">
-      {/* Ambient Top Glow */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-[#FF5722]/5 via-transparent to-transparent opacity-80"
-      />
-
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
         {/* ========================================================
-            1. SECTION HEADER
+            1. SECTION HEADER (TITLE ONLY, NO FLUFF DESCRIPTION)
         ======================================================== */}
         <div className="max-w-3xl mb-16">
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#FF5722]">
@@ -218,22 +136,19 @@ export default function TeamSection() {
           <h2 className="mt-3 font-display text-3xl sm:text-5xl font-extrabold tracking-tight text-[#F3F4F6]">
             The Architects of NJACK.
           </h2>
-          <p className="mt-3 text-sm sm:text-base text-[#8A8F98] leading-relaxed">
-            Coordinators and sub-coordinators driving competitive programming contests, mentoring open-source initiatives, managing club server infrastructure, and directing research divisions at IIT Patna.
-          </p>
         </div>
 
         {/* ========================================================
-            2. OVERALL COORDINATORS (SAME COMPONENT/CARD DESIGN)
+            2. OVERALL COORDINATORS (PROMINENT TITLE & CLEAN CARDS)
         ======================================================== */}
         <div className="mb-20">
-          <div className="flex justify-center mb-6">
-            <span className="font-mono text-xs uppercase tracking-widest text-neutral-400">
-              OVERALL COORDINATORS
-            </span>
+          <div className="text-center mb-8">
+            <h3 className="font-display text-2xl sm:text-3xl font-extrabold tracking-tight text-[#F3F4F6]">
+              Overall Coordinators
+            </h3>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-5 max-w-md mx-auto">
+          <div className="flex flex-wrap justify-center gap-6 max-w-md mx-auto">
             {overallCoords.map((coord) => (
               <div key={coord.name} className="w-[190px] sm:w-[200px]">
                 <CoordinatorCard coord={coord} />
@@ -289,7 +204,7 @@ export default function TeamSection() {
         </div>
 
         {/* ========================================================
-            4. SUB-COORDINATORS (CLEAN & DIRECT)
+            4. SUB-COORDINATORS (SIMPLIFIED & CLEAN)
         ======================================================== */}
         <div>
           <div className="mb-8 border-b border-white/[0.08] pb-5">
@@ -304,12 +219,12 @@ export default function TeamSection() {
             <div className="rounded-2xl border border-white/[0.08] bg-[#0E1016]/80 p-6 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 mb-4">
-                  <div className="flex items-center gap-2 text-cyan-400 font-display font-bold text-sm">
-                    <Binary className="h-4 w-4" />
+                  <div className="flex items-center gap-2 text-white font-display font-semibold text-sm">
+                    <Binary className="h-4 w-4 text-[#FF5722]" />
                     <span>Competitive Prog.</span>
                   </div>
-                  <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400">
-                    {cpSubcoords.length} Mentors
+                  <span className="font-mono text-[10px] text-neutral-400">
+                    {cpSubcoords.length}
                   </span>
                 </div>
 
@@ -325,7 +240,7 @@ export default function TeamSection() {
                       <span className="font-sans text-xs text-neutral-300 group-hover:text-white transition-colors">
                         {member.name}
                       </span>
-                      <span className="p-1 rounded bg-[#0A66C2]/10 border border-[#0A66C2]/30 text-[#0A66C2] group-hover:bg-[#0A66C2] group-hover:text-white transition-colors">
+                      <span className="p-1 rounded bg-white/[0.05] text-neutral-400 group-hover:bg-[#0A66C2] group-hover:text-white transition-colors">
                         <LinkedInIcon className="w-3 h-3" />
                       </span>
                     </a>
@@ -338,12 +253,12 @@ export default function TeamSection() {
             <div className="rounded-2xl border border-white/[0.08] bg-[#0E1016]/80 p-6 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 mb-4">
-                  <div className="flex items-center gap-2 text-emerald-400 font-display font-bold text-sm">
-                    <Code2 className="h-4 w-4" />
+                  <div className="flex items-center gap-2 text-white font-display font-semibold text-sm">
+                    <Code2 className="h-4 w-4 text-[#FF5722]" />
                     <span>Dev &amp; Open Source</span>
                   </div>
-                  <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
-                    {devSubcoords.length} Mentors
+                  <span className="font-mono text-[10px] text-neutral-400">
+                    {devSubcoords.length}
                   </span>
                 </div>
 
@@ -359,7 +274,7 @@ export default function TeamSection() {
                       <span className="font-sans text-xs text-neutral-300 group-hover:text-white transition-colors">
                         {member.name}
                       </span>
-                      <span className="p-1 rounded bg-[#0A66C2]/10 border border-[#0A66C2]/30 text-[#0A66C2] group-hover:bg-[#0A66C2] group-hover:text-white transition-colors">
+                      <span className="p-1 rounded bg-white/[0.05] text-neutral-400 group-hover:bg-[#0A66C2] group-hover:text-white transition-colors">
                         <LinkedInIcon className="w-3 h-3" />
                       </span>
                     </a>
@@ -372,12 +287,12 @@ export default function TeamSection() {
             <div className="rounded-2xl border border-white/[0.08] bg-[#0E1016]/80 p-6 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 mb-4">
-                  <div className="flex items-center gap-2 text-purple-400 font-display font-bold text-sm">
-                    <Brain className="h-4 w-4" />
+                  <div className="flex items-center gap-2 text-white font-display font-semibold text-sm">
+                    <Brain className="h-4 w-4 text-[#FF5722]" />
                     <span>Machine Learning</span>
                   </div>
-                  <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-400">
-                    {mlSubcoords.length} Mentors
+                  <span className="font-mono text-[10px] text-neutral-400">
+                    {mlSubcoords.length}
                   </span>
                 </div>
 
@@ -393,7 +308,7 @@ export default function TeamSection() {
                       <span className="font-sans text-xs text-neutral-300 group-hover:text-white transition-colors">
                         {member.name}
                       </span>
-                      <span className="p-1 rounded bg-[#0A66C2]/10 border border-[#0A66C2]/30 text-[#0A66C2] group-hover:bg-[#0A66C2] group-hover:text-white transition-colors">
+                      <span className="p-1 rounded bg-white/[0.05] text-neutral-400 group-hover:bg-[#0A66C2] group-hover:text-white transition-colors">
                         <LinkedInIcon className="w-3 h-3" />
                       </span>
                     </a>
@@ -406,12 +321,12 @@ export default function TeamSection() {
             <div className="rounded-2xl border border-white/[0.08] bg-[#0E1016]/80 p-6 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 mb-4">
-                  <div className="flex items-center gap-2 text-rose-400 font-display font-bold text-sm">
-                    <ShieldAlert className="h-4 w-4" />
+                  <div className="flex items-center gap-2 text-white font-display font-semibold text-sm">
+                    <ShieldAlert className="h-4 w-4 text-[#FF5722]" />
                     <span>Cyber Security</span>
                   </div>
-                  <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-400">
-                    {cyberSubcoords.length} Mentors
+                  <span className="font-mono text-[10px] text-neutral-400">
+                    {cyberSubcoords.length}
                   </span>
                 </div>
 
@@ -427,7 +342,7 @@ export default function TeamSection() {
                       <span className="font-sans text-xs text-neutral-300 group-hover:text-white transition-colors">
                         {member.name}
                       </span>
-                      <span className="p-1 rounded bg-[#0A66C2]/10 border border-[#0A66C2]/30 text-[#0A66C2] group-hover:bg-[#0A66C2] group-hover:text-white transition-colors">
+                      <span className="p-1 rounded bg-white/[0.05] text-neutral-400 group-hover:bg-[#0A66C2] group-hover:text-white transition-colors">
                         <LinkedInIcon className="w-3 h-3" />
                       </span>
                     </a>
