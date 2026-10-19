@@ -533,7 +533,7 @@ export default function InteractiveBentoDivisions() {
             </div>
           </SpotlightBentoCard>
 
-          {/* Card 4: Cybersecurity & InfoSec (col-span-6) */}
+          {/* Card 4: Cyber Security (CSEC) (col-span-6) */}
           <SpotlightBentoCard className="md:col-span-12 lg:col-span-6">
             <div className="flex flex-col justify-between h-full space-y-5">
               <div>
@@ -544,7 +544,7 @@ export default function InteractiveBentoDivisions() {
                     </div>
                     <div>
                       <h3 className="font-display text-xl font-bold text-[#F3F4F6]">
-                        Cybersecurity & InfoSec
+                        Cyber Security (CSEC)
                       </h3>
                       <p className="font-mono text-[10px] tracking-wider text-[#8A8F98]">
                         CTF • BINARY EXPLOITATION • CRYPTOGRAPHY

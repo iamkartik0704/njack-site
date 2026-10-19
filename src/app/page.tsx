@@ -96,7 +96,7 @@ export default async function HomePage() {
             </div>
 
             {/* Key Pillars & Club Overview */}
-            <div className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-6 border-t border-white/[0.08] pt-8">
+            <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 border-t border-white/[0.08] pt-8">
               <Link
                 href="/#divisions"
                 className="group block space-y-1.5 transition-opacity hover:opacity-90"
@@ -109,7 +109,7 @@ export default async function HomePage() {
                     Core Divisions
                   </p>
                   <p className="font-sans text-[11px] text-[#8A8F98]">
-                    CP · Dev &amp; OS · AI/ML · Cyber
+                    CP · Dev &amp; OS · AI/ML · CSEC
                   </p>
                 </div>
               </Link>
@@ -144,23 +144,6 @@ export default async function HomePage() {
                   </p>
                   <p className="font-sans text-[11px] text-[#8A8F98]">
                     Open-Source Mentorship
-                  </p>
-                </div>
-              </Link>
-
-              <Link
-                href="/about"
-                className="group block space-y-1.5 transition-opacity hover:opacity-90"
-              >
-                <div className="font-display text-2xl sm:text-3xl lg:text-4xl font-black text-[#FF8A00] tracking-tight group-hover:text-[#FFA033] transition-colors">
-                  IIT Patna
-                </div>
-                <div>
-                  <p className="font-sans text-xs font-semibold text-neutral-300 group-hover:text-[#FF5722] transition-colors">
-                    Students&apos; Gymkhana
-                  </p>
-                  <p className="font-sans text-[11px] text-[#8A8F98]">
-                    Technical Affairs Council
                   </p>
                 </div>
               </Link>

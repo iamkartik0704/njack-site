@@ -58,8 +58,8 @@ export default function InteractiveTerminal() {
               <p className="text-slate-400">Deep learning, LLMs, computer vision, PyTorch & Kaggle competitions.</p>
             </div>
             <div className="border-l-2 border-amber-600 pl-2.5 py-0.5">
-              <span className="text-white font-bold">4. Cyber Security (CyberSec)</span>
-              <p className="text-slate-400">Binary exploitation, web security, cryptography & CTF championships.</p>
+              <span className="text-white font-bold">4. Cyber Security (CSEC)</span>
+              <p className="text-slate-400">Binary exploitation, web security, cryptography &amp; CTF championships.</p>
             </div>
           </div>
         );

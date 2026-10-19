@@ -79,7 +79,7 @@ export default function AboutPage() {
               Founded over a decade ago by passionate students of the Department of Computer Science & Engineering at IIT Patna, NJACK was born out of a desire to create a collaborative haven for programmers, algorithmic competitors, security researchers, and hackers.
             </p>
             <p className="text-sm text-slate-300 leading-relaxed">
-              Today, NJACK operates across four specialized divisions: <strong>Competitive Programming (CP)</strong>, <strong>Development & Open Source (Dev & OS)</strong>, <strong>Machine Learning (ML)</strong>, and <strong>Cyber Security</strong>. We organize campus-wide bootcamps, premier hackathons, flagship coding fests, and the prestigious <strong>NJACK Winter of Code (NWoC)</strong>.
+              Today, NJACK operates across four specialized divisions: <strong>Competitive Programming (CP)</strong>, <strong>Development & Open Source (Dev & OS)</strong>, <strong>Machine Learning (ML)</strong>, and <strong>Cyber Security (CSEC)</strong>. We organize campus-wide bootcamps, premier hackathons, flagship coding fests, and the prestigious <strong>NJACK Winter of Code (NWoC)</strong>.
             </p>
 
             <div className="pt-2">
