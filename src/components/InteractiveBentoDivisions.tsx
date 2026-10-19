@@ -1,333 +1,330 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Binary,
-  Code2,
-  Brain,
-  ShieldAlert,
-  ArrowUpRight,
+  ArrowRight,
   Play,
   RotateCcw,
-  Sparkles,
-  Server,
-  Zap,
   CheckCircle2,
-  Lock,
-  Unlock,
+  Code2,
   GitBranch,
+  Terminal,
+  Shield,
+  Layers,
+  Cpu,
 } from 'lucide-react';
 import SplitTextReveal from '@/components/SplitTextReveal';
 
 // ============================================================================
-// 1. HARDWARE CHASSIS CARD (NO GENERIC GLASSMORPHISM)
-// Engineered matte carbon-obsidian chassis with precision technical frame,
-// corner crosshairs, laser perimeter tracking, and 3D perspective physics.
+// 1. DIVISION 1: COMPETITIVE PROGRAMMING (CP)
+// Authentic Interactive Dijkstra's Algorithm Pathfinding Visualizer
+// Real single-source shortest path with weighted graph, min-heap priority queue,
+// and step-by-step edge relaxation.
 // ============================================================================
-interface HardwareCardProps {
-  children: React.ReactNode;
-  className?: string;
-  tag: string;
-  accentColor?: string;
+interface GraphNode {
+  id: string;
+  name: string;
+  x: number; // percentage
+  y: number; // percentage
 }
 
-function HardwareCard({
-  children,
-  className = '',
-  tag,
-  accentColor = '#FF5722',
-}: HardwareCardProps) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [mousePos, setMousePos] = useState({ x: -1000, y: -1000 });
-  const [isHovered, setIsHovered] = useState(false);
-
-  // 3D perspective tilt springs
-  const rotX = useSpring(useMotionValue(0), { stiffness: 140, damping: 20 });
-  const rotY = useSpring(useMotionValue(0), { stiffness: 140, damping: 20 });
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    setMousePos({ x, y });
-
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    rotX.set(-((y - centerY) / centerY) * 4);
-    rotY.set(((x - centerX) / centerX) * 4);
-  };
-
-  const handleMouseEnter = () => setIsHovered(true);
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    setMousePos({ x: -1000, y: -1000 });
-    rotX.set(0);
-    rotY.set(0);
-  };
-
-  return (
-    <motion.div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        rotateX: rotX,
-        rotateY: rotY,
-        transformStyle: 'preserve-3d',
-        perspective: 1000,
-      }}
-      className={`group relative rounded-2xl transition-all duration-300 ${className}`}
-    >
-      {/* Dynamic Laser Perimeter Glow */}
-      <div
-        className="pointer-events-none absolute -inset-[1px] rounded-2xl transition-opacity duration-300"
-        style={{
-          background: isHovered
-            ? `radial-gradient(400px circle at ${mousePos.x}px ${mousePos.y}px, ${accentColor} 0%, rgba(255,255,255,0.08) 35%, transparent 65%)`
-            : 'rgba(255, 255, 255, 0.06)',
-          opacity: isHovered ? 1 : 0.6,
-        }}
-      />
-
-      {/* Solid Obsidian Matte Chassis (No generic blurry glass) */}
-      <div className="relative h-full w-full overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0A0C10] p-6 sm:p-7 shadow-[0_24px_50px_-12px_rgba(0,0,0,0.85)]">
-        {/* Subtle Technical Dot Grid Texture */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 opacity-[0.14] bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:18px_18px]"
-        />
-
-        {/* Ambient Corner Accent Wash */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -top-24 -right-24 h-48 w-48 rounded-full blur-3xl opacity-20 transition-opacity duration-500 group-hover:opacity-40"
-          style={{ background: accentColor }}
-        />
-
-        {/* Corner Precision Crosshairs */}
-        <span className="pointer-events-none absolute top-2.5 left-2.5 font-mono text-[9px] text-white/20 select-none">
-          +
-        </span>
-        <span className="pointer-events-none absolute top-2.5 right-2.5 font-mono text-[9px] text-white/20 select-none">
-          +
-        </span>
-        <span className="pointer-events-none absolute bottom-2.5 left-2.5 font-mono text-[9px] text-white/20 select-none">
-          +
-        </span>
-        <span className="pointer-events-none absolute bottom-2.5 right-2.5 font-mono text-[9px] text-white/20 select-none">
-          +
-        </span>
-
-        {/* Technical Coordinate Tag */}
-        <div className="pointer-events-none absolute top-3.5 right-6 font-mono text-[9px] tracking-wider text-[#8A8F98]/50 uppercase">
-          {tag}
-        </div>
-
-        <div className="relative z-10 h-full">{children}</div>
-      </div>
-    </motion.div>
-  );
+interface GraphEdge {
+  from: string;
+  to: string;
+  weight: number;
 }
 
-// ============================================================================
-// 2. DIVISION 1: COMPETITIVE PROGRAMMING (CP)
-// Interactive Binary Segment Tree with real O(log N) query pulses and benchmark
-// ============================================================================
-function CpInteractiveArena() {
-  const [activeNode, setActiveNode] = useState<number | null>(null);
-  const [isQuerying, setIsQuerying] = useState(false);
-  const [queryCount, setQueryCount] = useState(1);
-  const [latency, setLatency] = useState('0.0014 ms');
-
-  const nodes = [
-    { id: 1, label: '[1..4]', val: 42, x: 50, y: 15, level: 0 },
-    { id: 2, label: '[1..2]', val: 18, x: 26, y: 52, level: 1 },
-    { id: 3, label: '[3..4]', val: 24, x: 74, y: 52, level: 1 },
-    { id: 4, label: '[1]', val: 8, x: 14, y: 88, level: 2 },
-    { id: 5, label: '[2]', val: 10, x: 38, y: 88, level: 2 },
-    { id: 6, label: '[3]', val: 11, x: 62, y: 88, level: 2 },
-    { id: 7, label: '[4]', val: 13, x: 86, y: 88, level: 2 },
+function DijkstraVisualizer() {
+  const nodes: GraphNode[] = [
+    { id: 'S', name: 'S (Start)', x: 10, y: 50 },
+    { id: 'A', name: 'A', x: 35, y: 22 },
+    { id: 'B', name: 'B', x: 35, y: 78 },
+    { id: 'C', name: 'C', x: 65, y: 22 },
+    { id: 'D', name: 'D', x: 65, y: 78 },
+    { id: 'T', name: 'T (Target)', x: 90, y: 50 },
   ];
 
-  const handleQuery = () => {
-    setIsQuerying(true);
-    // Cascade pulse down the segment tree
-    setActiveNode(1);
-    setTimeout(() => setActiveNode(3), 160);
-    setTimeout(() => setActiveNode(7), 320);
+  const edges: GraphEdge[] = [
+    { from: 'S', to: 'A', weight: 5 },
+    { from: 'S', to: 'B', weight: 2 },
+    { from: 'B', to: 'A', weight: 1 }, // Key relaxation! S->B->A = 3 < 5
+    { from: 'A', to: 'C', weight: 2 },
+    { from: 'B', to: 'D', weight: 7 },
+    { from: 'C', to: 'D', weight: 1 }, // Key relaxation! S->B->A->C->D = 6 < 7
+    { from: 'C', to: 'T', weight: 4 },
+    { from: 'D', to: 'T', weight: 2 }, // Shortest path to T via D = 8!
+  ];
+
+  const [isRunning, setIsRunning] = useState(false);
+  const [visitedNodes, setVisitedNodes] = useState<string[]>([]);
+  const [pathEdges, setPathEdges] = useState<string[]>([]);
+  const [currentStepText, setCurrentStepText] = useState('Click "Run Dijkstra" to compute shortest path S → T');
+  const [distTable, setDistTable] = useState<Record<string, number | string>>({
+    S: 0,
+    A: '∞',
+    B: '∞',
+    C: '∞',
+    D: '∞',
+    T: '∞',
+  });
+  const [isCompleted, setIsCompleted] = useState(false);
+
+  const runDijkstra = () => {
+    setIsRunning(true);
+    setIsCompleted(false);
+    setVisitedNodes(['S']);
+    setPathEdges([]);
+    setDistTable({ S: 0, A: '∞', B: '∞', C: '∞', D: '∞', T: '∞' });
+    setCurrentStepText('Extract min: S (dist=0). Exploring neighbors A (w=5) and B (w=2)...');
+
+    // Step 1: Discover S -> B and S -> A
     setTimeout(() => {
-      setActiveNode(null);
-      setIsQuerying(false);
-      setQueryCount((c) => c + 1);
-      setLatency((Math.random() * 0.0008 + 0.001).toFixed(4) + ' ms');
-    }, 550);
+      setDistTable({ S: 0, A: 5, B: 2, C: '∞', D: '∞', T: '∞' });
+      setVisitedNodes(['S', 'B']);
+      setPathEdges(['S-B']);
+      setCurrentStepText('Extract min: B (dist=2). Relax edge B → A: 2 + 1 = 3 < 5! Updating dist[A] = 3.');
+    }, 600);
+
+    // Step 2: Relax A via B
+    setTimeout(() => {
+      setDistTable({ S: 0, A: 3, B: 2, C: '∞', D: 9, T: '∞' });
+      setVisitedNodes(['S', 'B', 'A']);
+      setPathEdges(['S-B', 'B-A']);
+      setCurrentStepText('Extract min: A (dist=3). Exploring edge A → C (w=2): updating dist[C] = 5.');
+    }, 1300);
+
+    // Step 3: Explore C
+    setTimeout(() => {
+      setDistTable({ S: 0, A: 3, B: 2, C: 5, D: 9, T: '∞' });
+      setVisitedNodes(['S', 'B', 'A', 'C']);
+      setPathEdges(['S-B', 'B-A', 'A-C']);
+      setCurrentStepText('Extract min: C (dist=5). Relax edge C → D: 5 + 1 = 6 < 9! Updating dist[D] = 6.');
+    }, 2000);
+
+    // Step 4: Relax D via C
+    setTimeout(() => {
+      setDistTable({ S: 0, A: 3, B: 2, C: 5, D: 6, T: 9 });
+      setVisitedNodes(['S', 'B', 'A', 'C', 'D']);
+      setPathEdges(['S-B', 'B-A', 'A-C', 'C-D']);
+      setCurrentStepText('Extract min: D (dist=6). Exploring edge D → T (w=2): 6 + 2 = 8 < 9! Optimal path found.');
+    }, 2700);
+
+    // Step 5: Complete at T
+    setTimeout(() => {
+      setDistTable({ S: 0, A: 3, B: 2, C: 5, D: 6, T: 8 });
+      setVisitedNodes(['S', 'B', 'A', 'C', 'D', 'T']);
+      setPathEdges(['S-B', 'B-A', 'A-C', 'C-D', 'D-T']);
+      setCurrentStepText('Optimal Shortest Path: S → B → A → C → D → T (Total Cost: 8)');
+      setIsRunning(false);
+      setIsCompleted(true);
+    }, 3400);
+  };
+
+  const resetDijkstra = () => {
+    setIsRunning(false);
+    setIsCompleted(false);
+    setVisitedNodes([]);
+    setPathEdges([]);
+    setDistTable({ S: 0, A: '∞', B: '∞', C: '∞', D: '∞', T: '∞' });
+    setCurrentStepText('Click "Run Dijkstra" to compute shortest path S → T');
   };
 
   return (
-    <div className="flex flex-col h-full justify-between gap-4">
-      {/* Tree Visualization Canvas */}
-      <div className="relative h-48 w-full rounded-xl border border-white/[0.08] bg-[#060709] p-3 overflow-hidden">
-        {/* Subtle grid lines */}
-        <div className="absolute inset-0 opacity-[0.08] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:16px_16px]" />
+    <div className="space-y-4">
+      {/* Graph Visualizer Canvas */}
+      <div className="relative h-56 w-full rounded-xl border border-white/[0.08] bg-[#07090D] p-3 overflow-hidden select-none">
+        {/* SVG Edges with weights */}
+        <svg className="absolute inset-0 h-full w-full">
+          {edges.map((e) => {
+            const fromNode = nodes.find((n) => n.id === e.from)!;
+            const toNode = nodes.find((n) => n.id === e.to)!;
+            const edgeKey = `${e.from}-${e.to}`;
+            const isShortestPath = pathEdges.includes(edgeKey);
 
-        {/* SVG Connecting Branches */}
-        <svg className="absolute inset-0 h-full w-full pointer-events-none">
-          <line x1="50%" y1="20%" x2="26%" y2="52%" stroke="rgba(255,87,34,0.3)" strokeWidth="1.5" />
-          <line x1="50%" y1="20%" x2="74%" y2="52%" stroke="rgba(255,87,34,0.3)" strokeWidth="1.5" />
-          <line x1="26%" y1="52%" x2="14%" y2="88%" stroke="rgba(255,87,34,0.2)" strokeWidth="1.5" />
-          <line x1="26%" y1="52%" x2="38%" y2="88%" stroke="rgba(255,87,34,0.2)" strokeWidth="1.5" />
-          <line x1="74%" y1="52%" x2="62%" y2="88%" stroke="rgba(255,87,34,0.2)" strokeWidth="1.5" />
-          <line x1="74%" y1="52%" x2="86%" y2="88%" stroke="rgba(255,87,34,0.2)" strokeWidth="1.5" />
+            return (
+              <g key={edgeKey}>
+                <line
+                  x1={`${fromNode.x}%`}
+                  y1={`${fromNode.y}%`}
+                  x2={`${toNode.x}%`}
+                  y2={`${toNode.y}%`}
+                  stroke={isShortestPath ? '#FF5722' : 'rgba(255, 255, 255, 0.15)'}
+                  strokeWidth={isShortestPath ? 2.5 : 1.2}
+                  strokeDasharray={isShortestPath ? 'none' : '4 3'}
+                  className="transition-colors duration-300"
+                />
+                {/* Edge weight badge */}
+                <text
+                  x={`${(fromNode.x + toNode.x) / 2}%`}
+                  y={`${(fromNode.y + toNode.y) / 2 - 1.5}%`}
+                  fill={isShortestPath ? '#FF8A00' : '#8A8F98'}
+                  fontSize="10"
+                  fontFamily="monospace"
+                  textAnchor="middle"
+                  className="font-bold select-none"
+                >
+                  {e.weight}
+                </text>
+              </g>
+            );
+          })}
         </svg>
 
-        {/* Tree Nodes */}
+        {/* Graph Vertices */}
         {nodes.map((node) => {
-          const isHighlighted = activeNode === node.id;
+          const isVisited = visitedNodes.includes(node.id);
+          const isCurrentTarget = node.id === 'T';
+          const isSource = node.id === 'S';
+
           return (
-            <button
+            <div
               key={node.id}
-              onClick={() => setActiveNode(node.id)}
               style={{ left: `${node.x}%`, top: `${node.y}%` }}
-              className={`absolute -translate-x-1/2 -translate-y-1/2 flex items-center gap-1 rounded-md px-2 py-1 font-mono text-[10px] transition-all duration-200 ${
-                isHighlighted
-                  ? 'bg-[#FF5722] text-white ring-4 ring-[#FF5722]/30 scale-110 shadow-[0_0_16px_rgba(255,87,34,0.8)]'
-                  : 'bg-[#12151D] text-neutral-300 border border-white/10 hover:border-[#FF5722]/60 hover:text-white'
-              }`}
+              className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center pointer-events-none"
             >
-              <span className="text-[9px] text-neutral-400 font-normal">{node.label}</span>
-              <span className="font-bold text-[#FF8A00]">{node.val}</span>
-            </button>
+              <div
+                className={`h-8 w-8 rounded-full flex items-center justify-center font-mono text-xs font-bold transition-all duration-300 ${
+                  isVisited
+                    ? 'bg-[#FF5722] text-white shadow-[0_0_16px_rgba(255,87,34,0.6)] scale-110'
+                    : 'bg-[#121620] text-neutral-300 border border-white/20'
+                }`}
+              >
+                {node.id}
+              </div>
+              <span className="mt-1 font-mono text-[9px] text-[#8A8F98]">
+                d={distTable[node.id]}
+              </span>
+            </div>
           );
         })}
+      </div>
 
-        {/* Live Execution Bar Overlay */}
-        <div className="absolute top-2 left-3 right-3 flex items-center justify-between font-mono text-[9px] text-[#8A8F98]">
-          <span className="flex items-center gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#FF5722] animate-ping" />
-            SEGMENT TREE (POINT UPDATE &amp; RANGE SUM)
-          </span>
-          <span className="text-[#FF8A00] font-semibold">O(log N)</span>
+      {/* Traversal Telemetry & Step Commentary */}
+      <div className="rounded-lg border border-white/[0.08] bg-[#0E1117] p-3 text-xs font-sans">
+        <p className="text-[#F3F4F6] font-medium leading-relaxed">
+          {currentStepText}
+        </p>
+
+        {/* Live Distance Array */}
+        <div className="mt-2.5 pt-2 border-t border-white/[0.06] flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-[#8A8F98]">
+          <div className="flex items-center gap-2">
+            <span>dist[]:</span>
+            {nodes.map((n) => (
+              <span
+                key={n.id}
+                className={`px-1.5 py-0.5 rounded ${
+                  visitedNodes.includes(n.id)
+                    ? 'bg-[#FF5722]/15 text-[#FF5722] font-semibold'
+                    : 'bg-white/5 text-neutral-400'
+                }`}
+              >
+                {n.id}:{distTable[n.id]}
+              </span>
+            ))}
+          </div>
+          <span className="text-[#8A8F98]">Time: O((V + E) log V)</span>
         </div>
       </div>
 
-      {/* Control Strip & Metrics */}
-      <div className="flex flex-wrap items-center justify-between gap-2.5 rounded-xl border border-white/[0.06] bg-[#0E1117] p-2.5 font-mono text-xs">
+      {/* Control Buttons */}
+      <div className="flex items-center gap-3">
         <button
-          onClick={handleQuery}
-          disabled={isQuerying}
-          className="flex items-center gap-2 rounded-lg bg-[#FF5722] px-3 py-1.5 font-sans text-xs font-semibold text-white shadow-[0_0_18px_rgba(255,87,34,0.35)] transition-all hover:bg-[#FF6A3D] active:scale-95 disabled:opacity-60"
+          onClick={runDijkstra}
+          disabled={isRunning}
+          className="inline-flex items-center gap-2 rounded-lg bg-[#FF5722] px-4 py-2 font-sans text-xs font-semibold text-white shadow-[0_1px_2px_rgba(0,0,0,0.5)] transition-all hover:bg-[#FF6A3D] active:scale-95 disabled:opacity-50"
         >
-          <Play className={`h-3.5 w-3.5 ${isQuerying ? 'animate-spin' : ''}`} />
-          <span>{isQuerying ? 'TRAVERSING...' : 'BENCHMARK O(log N)'}</span>
+          <Play className={`h-3.5 w-3.5 ${isRunning ? 'animate-spin' : ''}`} />
+          <span>{isRunning ? 'Relaxing Edges...' : isCompleted ? 'Re-run Path' : 'Run Dijkstra'}</span>
         </button>
 
-        <div className="flex items-center gap-3 text-[11px] text-[#8A8F98]">
-          <span>LATENCY: <strong className="text-[#F3F4F6]">{latency}</strong></span>
-          <span className="text-emerald-400 font-semibold flex items-center gap-1">
-            <CheckCircle2 className="h-3 w-3" /> AC [100/100]
-          </span>
-          <span className="hidden sm:inline text-neutral-500">#{queryCount}</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ============================================================================
-// 3. DIVISION 2: DEV & OS
-// Interactive Git Commit DAG & Microservice Cluster Mesh
-// ============================================================================
-function DevOsInteractiveMesh() {
-  const [nodes, setNodes] = useState([
-    { id: 'bihta-01', location: 'Bihta-DC', latency: '2.4ms', load: '18%' },
-    { id: 'frankfurt-02', location: 'Frankfurt', latency: '44ms', load: '32%' },
-    { id: 'tokyo-03', location: 'Tokyo', latency: '68ms', load: '27%' },
-  ]);
-
-  const [activeCommit, setActiveCommit] = useState<string>('NWoC 2026: 1,420+ PRs Merged');
-
-  const commits = [
-    { hash: 'e4f89a', branch: 'main', msg: 'NWoC 2026: 1,420+ PRs Merged', author: '@njack' },
-    { hash: 'c20b81', branch: 'kernel', msg: 'eBPF TCP Packet Filter Driver', author: '@sys' },
-    { hash: '71a93e', branch: 'v2.4', msg: 'GSoC Mentorship Infrastructure', author: '@core' },
-  ];
-
-  const spawnNode = () => {
-    if (nodes.length >= 5) return;
-    const names = ['Singapore', 'US-East', 'Sydney', 'London'];
-    const pick = names[nodes.length % names.length];
-    const newNode = {
-      id: `${pick.toLowerCase()}-0${nodes.length + 1}`,
-      location: pick,
-      latency: `${Math.floor(Math.random() * 40 + 20)}ms`,
-      load: `${Math.floor(Math.random() * 30 + 10)}%`,
-    };
-    setNodes((prev) => [...prev, newNode]);
-  };
-
-  return (
-    <div className="flex flex-col h-full justify-between gap-4">
-      {/* Git Commit DAG Topology */}
-      <div className="rounded-xl border border-white/[0.08] bg-[#060709] p-3 font-mono text-xs">
-        <div className="flex items-center justify-between border-b border-white/[0.06] pb-2 mb-2.5 text-[10px] text-[#8A8F98]">
-          <span className="flex items-center gap-1.5 text-cyan-400">
-            <GitBranch className="h-3.5 w-3.5" />
-            GIT REPOSITORY DAG (NWOC &amp; OPEN SOURCE)
-          </span>
-          <span className="text-[#8A8F98]">85+ REPOSITORIES</span>
-        </div>
-
-        {/* Interactive Commit Nodes */}
-        <div className="space-y-2">
-          {commits.map((c) => (
-            <div
-              key={c.hash}
-              onClick={() => setActiveCommit(c.msg)}
-              className={`flex items-center justify-between rounded-lg p-2 transition-colors cursor-pointer ${
-                activeCommit === c.msg
-                  ? 'bg-cyan-500/15 border border-cyan-500/40 text-white'
-                  : 'bg-white/[0.02] border border-white/5 text-[#8A8F98] hover:text-white hover:bg-white/[0.05]'
-              }`}
-            >
-              <div className="flex items-center gap-2">
-                <span className="rounded bg-black/60 px-1.5 py-0.5 text-[9px] text-cyan-400 font-bold">
-                  {c.hash}
-                </span>
-                <span className="text-[11px] truncate">{c.msg}</span>
-              </div>
-              <span className="text-[10px] text-neutral-500 shrink-0 ml-2">{c.author}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Cluster Node Mesh */}
-      <div className="rounded-xl border border-white/[0.06] bg-[#0E1117] p-2.5 font-mono text-xs">
-        <div className="flex items-center justify-between mb-2 text-[10px]">
-          <span className="flex items-center gap-1.5 text-[#F3F4F6]">
-            <Server className="h-3 w-3 text-cyan-400" />
-            DISTRIBUTED CLUSTER (RAFT CONSENSUS)
-          </span>
+        {isCompleted && (
           <button
-            onClick={spawnNode}
-            disabled={nodes.length >= 5}
-            className="flex items-center gap-1 rounded bg-cyan-500/20 px-2 py-0.5 text-[10px] text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500 hover:text-black transition-colors disabled:opacity-40"
+            onClick={resetDijkstra}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-2 font-sans text-xs font-medium text-neutral-300 hover:bg-white/10 hover:text-white transition-colors"
           >
-            <span>+ SPAWN NODE</span>
+            <RotateCcw className="h-3 w-3" />
+            <span>Reset</span>
           </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ============================================================================
+// 2. DIVISION 2: DEV & OS
+// Real Open Source Architecture & Repository Showcase
+// ============================================================================
+function DevOsShowcase() {
+  const [activeRepo, setActiveRepo] = useState(0);
+
+  const repos = [
+    {
+      name: 'NWoC Mentorship Portal',
+      desc: 'Annual open-source mentorship engine powering 1,400+ student pull requests across 85+ global repositories.',
+      stack: ['Next.js', 'PostgreSQL', 'Docker', 'GitHub API'],
+      impact: '1,420+ Pull Requests Merged',
+    },
+    {
+      name: 'Contest Judge Sandboxing Engine',
+      desc: 'High-throughput algorithmic test runner executing un-trusted code inside secure isolated cgroups and seccomp jail.',
+      stack: ['Rust', 'Linux eBPF', 'cgroups v2', 'gRPC'],
+      impact: 'Sub-millisecond test evaluation',
+    },
+    {
+      name: 'Campus Distributed Systems Mesh',
+      desc: 'High-concurrency event routing and student microservice infrastructure utilizing Raft consensus protocols.',
+      stack: ['Go', 'Raft', 'Redis', 'Kubernetes'],
+      impact: '99.98% High Availability Uptime',
+    },
+  ];
+
+  return (
+    <div className="space-y-4">
+      {/* Project Selector Tabs */}
+      <div className="flex border-b border-white/[0.08] gap-1">
+        {repos.map((repo, i) => (
+          <button
+            key={repo.name}
+            onClick={() => setActiveRepo(i)}
+            className={`pb-2.5 px-3 text-xs font-sans font-medium transition-colors border-b-2 -mb-[2px] ${
+              activeRepo === i
+                ? 'border-[#FF5722] text-white font-semibold'
+                : 'border-transparent text-[#8A8F98] hover:text-neutral-300'
+            }`}
+          >
+            {repo.name}
+          </button>
+        ))}
+      </div>
+
+      {/* Selected Repository Card */}
+      <div className="rounded-xl border border-white/[0.08] bg-[#07090D] p-4 space-y-3">
+        <p className="font-sans text-xs sm:text-sm text-[#F3F4F6] leading-relaxed">
+          {repos[activeRepo].desc}
+        </p>
+
+        {/* Tech Stack Pills */}
+        <div className="flex flex-wrap items-center gap-1.5 pt-1">
+          {repos[activeRepo].stack.map((tech) => (
+            <span
+              key={tech}
+              className="rounded-md bg-white/[0.04] border border-white/[0.08] px-2 py-0.5 font-mono text-[10px] text-neutral-300"
+            >
+              {tech}
+            </span>
+          ))}
         </div>
 
-        <div className="grid grid-cols-3 gap-1.5">
-          {nodes.map((n) => (
-            <div key={n.id} className="rounded-md border border-white/5 bg-black/40 p-1.5 text-center">
-              <p className="text-[10px] text-white font-semibold">{n.location}</p>
-              <p className="text-[9px] text-cyan-400">{n.latency}</p>
-            </div>
-          ))}
+        {/* Impact Milestone */}
+        <div className="pt-2 border-t border-white/[0.06] flex items-center justify-between text-xs text-[#8A8F98]">
+          <span className="flex items-center gap-1.5 text-cyan-400 font-medium">
+            <GitBranch className="h-3.5 w-3.5" />
+            Production Milestone
+          </span>
+          <span className="text-white font-semibold">{repos[activeRepo].impact}</span>
         </div>
       </div>
     </div>
@@ -335,44 +332,42 @@ function DevOsInteractiveMesh() {
 }
 
 // ============================================================================
-// 4. DIVISION 3: AI & MACHINE LEARNING
-// Multi-Head Attention Matrix & Latent Tensor Field
+// 3. DIVISION 3: ARTIFICIAL INTELLIGENCE & MACHINE LEARNING
+// Multi-Head Attention Matrix & Transformer Layer Visualizer
 // ============================================================================
-function AiAttentionInteractive() {
-  const [selectedToken, setSelectedToken] = useState<number>(1);
-  const [activeHead, setActiveHead] = useState<'HEAD_1' | 'HEAD_2' | 'HEAD_3'>('HEAD_1');
-
+function AiAttentionExplorer() {
+  const [selectedToken, setSelectedToken] = useState(1);
   const tokens = ['IIT Patna', 'NJACK', 'Transformer', 'Attention', 'Latent'];
-  const attentionWeights = [
-    [0.92, 0.45, 0.28, 0.74, 0.38],
-    [0.48, 0.88, 0.65, 0.81, 0.54],
-    [0.31, 0.72, 0.95, 0.61, 0.42],
-    [0.66, 0.83, 0.58, 0.91, 0.77],
-    [0.41, 0.52, 0.39, 0.71, 0.89],
+
+  const attentionScores = [
+    [0.91, 0.42, 0.25, 0.68, 0.35],
+    [0.48, 0.88, 0.62, 0.79, 0.51],
+    [0.32, 0.74, 0.94, 0.58, 0.41],
+    [0.64, 0.81, 0.55, 0.92, 0.73],
+    [0.39, 0.49, 0.38, 0.69, 0.87],
   ];
 
   return (
-    <div className="flex flex-col h-full justify-between gap-4">
-      {/* Interactive Token Strip */}
-      <div className="rounded-xl border border-white/[0.08] bg-[#060709] p-3 font-mono text-xs">
-        <div className="flex items-center justify-between border-b border-white/[0.06] pb-2 mb-3 text-[10px] text-[#8A8F98]">
-          <span className="flex items-center gap-1.5 text-[#FF8A00]">
-            <Brain className="h-3.5 w-3.5" />
-            MULTI-HEAD SELF-ATTENTION: Softmax(QKᵀ / √d)
+    <div className="space-y-4">
+      {/* Interactive Token Row */}
+      <div className="rounded-xl border border-white/[0.08] bg-[#07090D] p-3.5 space-y-3">
+        <div className="flex items-center justify-between text-xs text-[#8A8F98]">
+          <span className="font-medium text-neutral-300">
+            Transformer Self-Attention: Softmax(QKᵀ / √d)
           </span>
-          <span className="text-[#FF8A00] font-semibold">FLASH-ATTN 3</span>
+          <span className="font-mono text-[11px] text-[#FF8A00]">8 Attention Heads</span>
         </div>
 
-        {/* Tokens Row */}
-        <div className="flex flex-wrap gap-2 justify-center mb-3">
+        {/* Token Buttons */}
+        <div className="flex flex-wrap gap-2">
           {tokens.map((token, i) => (
             <button
               key={token}
               onClick={() => setSelectedToken(i)}
-              className={`rounded-lg px-2.5 py-1 text-xs font-mono font-medium transition-all ${
+              className={`rounded-lg px-3 py-1.5 text-xs font-sans font-medium transition-all ${
                 selectedToken === i
-                  ? 'bg-gradient-to-r from-[#FF5722] to-[#FF8A00] text-white font-bold shadow-[0_0_14px_rgba(255,87,34,0.6)] scale-105'
-                  : 'bg-white/5 text-[#8A8F98] border border-white/5 hover:text-white hover:bg-white/10'
+                  ? 'bg-[#FF5722] text-white font-semibold shadow-[0_0_14px_rgba(255,87,34,0.4)]'
+                  : 'bg-white/[0.04] text-[#8A8F98] border border-white/5 hover:text-white hover:bg-white/10'
               }`}
             >
               {token}
@@ -380,344 +375,295 @@ function AiAttentionInteractive() {
           ))}
         </div>
 
-        {/* Dynamic Attention Arc Visualization */}
-        <div className="rounded-lg border border-white/[0.06] bg-black/50 p-2.5">
-          <p className="text-[10px] text-[#8A8F98] mb-1.5">
-            ATTENTION WEIGHTS FROM <strong className="text-white">&quot;{tokens[selectedToken]}&quot;</strong>:
+        {/* Calculated Attention Distribution */}
+        <div className="pt-2 border-t border-white/[0.06] space-y-1.5">
+          <p className="text-[11px] text-[#8A8F98]">
+            Attention weights distributed from <strong className="text-white">&quot;{tokens[selectedToken]}&quot;</strong>:
           </p>
           <div className="space-y-1.5">
             {tokens.map((target, j) => {
-              const weight = attentionWeights[selectedToken][j];
+              const weight = attentionScores[selectedToken][j];
               return (
-                <div key={target} className="flex items-center gap-2 text-[10px]">
-                  <span className="w-20 truncate text-[#8A8F98]">{target}</span>
-                  <div className="flex-1 h-2 rounded-full bg-white/5 overflow-hidden">
+                <div key={target} className="flex items-center gap-2 text-[11px]">
+                  <span className="w-24 truncate text-[#8A8F98]">{target}</span>
+                  <div className="flex-1 h-2 rounded-full bg-white/[0.05] overflow-hidden">
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${weight * 100}%` }}
-                      transition={{ duration: 0.3 }}
+                      transition={{ duration: 0.25 }}
                       className="h-full rounded-full bg-gradient-to-r from-[#FF5722] to-[#FF8A00]"
                     />
                   </div>
-                  <span className="w-8 text-right font-bold text-white">{(weight * 100).toFixed(0)}%</span>
+                  <span className="w-10 text-right font-mono font-medium text-white">
+                    {(weight * 100).toFixed(0)}%
+                  </span>
                 </div>
               );
             })}
           </div>
         </div>
       </div>
-
-      {/* Model Spec Telemetry */}
-      <div className="flex items-center justify-between rounded-xl border border-white/[0.06] bg-[#0E1117] p-2.5 font-mono text-[10px] text-[#8A8F98]">
-        <span>MoE 8x7B PARAMETERS</span>
-        <span className="text-white font-bold">PyTorch 2.5 • CUDA 12.4</span>
-        <span className="text-[#FF8A00] font-semibold">TENSORS LIVE</span>
-      </div>
     </div>
   );
 }
 
 // ============================================================================
-// 5. DIVISION 4: CYBER SECURITY (CSEC)
-// Memory Stack Buffer Overflow & CTF Flag Decrypter
+// 4. DIVISION 4: CYBER SECURITY (CSEC)
+// Memory Safety & CTF Exploit Analysis
 // ============================================================================
-function CsecExploitDeck() {
-  const [isExploited, setIsExploited] = useState(false);
-  const [flag, setFlag] = useState('FLAG{njack_csec_pwn_root_2026}');
-  const [exploitProgress, setExploitProgress] = useState(0);
+function CsecAnalyzer() {
+  const [activeTab, setActiveTab] = useState<'STACK' | 'TRACKS'>('STACK');
+  const [isSimulated, setIsSimulated] = useState(false);
 
-  const triggerExploit = () => {
-    setIsExploited(true);
-    setExploitProgress(100);
-  };
-
-  const resetExploit = () => {
-    setIsExploited(false);
-    setExploitProgress(0);
-  };
+  const tracks = [
+    { title: 'Binary Exploitation (Pwn)', desc: 'ROP chains, buffer corruptions, format-string leaks, and x86-64 reverse engineering.' },
+    { title: 'Applied Cryptography', desc: 'RSA factorization, elliptic curve discrete logarithms, and side-channel analysis.' },
+    { title: 'Capture The Flag (CTF)', desc: 'Podium placements in national and global jeopardy-style CTF competitions.' },
+  ];
 
   return (
-    <div className="flex flex-col h-full justify-between gap-4">
-      {/* Memory Register Stack */}
-      <div className="rounded-xl border border-white/[0.08] bg-[#060709] p-3 font-mono text-xs">
-        <div className="flex items-center justify-between border-b border-white/[0.06] pb-2 mb-2.5 text-[10px] text-[#8A8F98]">
-          <span className="flex items-center gap-1.5 text-rose-400">
-            <ShieldAlert className="h-3.5 w-3.5" />
-            X86-64 CALL STACK FRAME &amp; CANARY
-          </span>
-          <span className={isExploited ? 'text-rose-400 font-bold' : 'text-emerald-400 font-semibold'}>
-            {isExploited ? 'STACK SMASHED!' : 'CANARY SECURE'}
-          </span>
-        </div>
-
-        {/* Stack Memory Slots */}
-        <div className="space-y-1.5 text-[10px]">
-          <div className="flex items-center justify-between rounded bg-white/[0.02] border border-white/5 p-1.5">
-            <span className="text-neutral-500">0x7FFF5F20</span>
-            <span className={isExploited ? 'text-rose-400 font-bold' : 'text-[#8A8F98]'}>
-              {isExploited ? '0x41414141 (OVERFLOW AAAA)' : 'USER_INPUT_BUFFER [64B]'}
-            </span>
-            <span className="text-[9px] text-neutral-500">[ESP]</span>
-          </div>
-
-          <div
-            className={`flex items-center justify-between rounded p-1.5 transition-colors ${
-              isExploited
-                ? 'bg-rose-500/20 border border-rose-500/50 text-rose-300'
-                : 'bg-emerald-500/10 border border-emerald-500/30 text-emerald-300'
-            }`}
-          >
-            <span className="text-neutral-500">0x7FFF5F60</span>
-            <span className="font-bold">
-              {isExploited ? 'CANARY CORRUPTED: 0xDEADBEEF' : 'STACK CANARY: 0x90909090'}
-            </span>
-            <span>{isExploited ? <Unlock className="h-3 w-3 text-rose-400" /> : <Lock className="h-3 w-3" />}</span>
-          </div>
-
-          <div className="flex items-center justify-between rounded bg-white/[0.02] border border-white/5 p-1.5">
-            <span className="text-neutral-500">0x7FFF5F68</span>
-            <span className={isExploited ? 'text-[#FF5722] font-bold' : 'text-[#8A8F98]'}>
-              {isExploited ? 'JMP_ESP -> SHELLCODE PAYLOAD' : 'SAVED INSTRUCTION PTR (RIP)'}
-            </span>
-            <span className="text-[9px] text-neutral-500">[RET]</span>
-          </div>
-        </div>
-
-        {/* Decrypted Flag Banner */}
-        {isExploited && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="mt-2.5 rounded-lg border border-rose-500/40 bg-rose-500/15 p-2 text-center"
-          >
-            <p className="text-[9px] text-rose-300 font-bold uppercase tracking-wider">PWN VERIFIED • FLAG CAPTURED</p>
-            <p className="font-mono text-xs font-black text-white mt-0.5">{flag}</p>
-          </motion.div>
-        )}
+    <div className="space-y-4">
+      {/* Tab Switcher */}
+      <div className="flex border-b border-white/[0.08] gap-1">
+        <button
+          onClick={() => setActiveTab('STACK')}
+          className={`pb-2.5 px-3 text-xs font-sans font-medium transition-colors border-b-2 -mb-[2px] ${
+            activeTab === 'STACK'
+              ? 'border-[#FF5722] text-white font-semibold'
+              : 'border-transparent text-[#8A8F98] hover:text-neutral-300'
+          }`}
+        >
+          Memory Safety &amp; Canary
+        </button>
+        <button
+          onClick={() => setActiveTab('TRACKS')}
+          className={`pb-2.5 px-3 text-xs font-sans font-medium transition-colors border-b-2 -mb-[2px] ${
+            activeTab === 'TRACKS'
+              ? 'border-[#FF5722] text-white font-semibold'
+              : 'border-transparent text-[#8A8F98] hover:text-neutral-300'
+          }`}
+        >
+          Specialized CTF Tracks
+        </button>
       </div>
 
-      {/* Interactive Trigger Strip */}
-      <div className="flex items-center justify-between rounded-xl border border-white/[0.06] bg-[#0E1117] p-2.5 font-mono text-xs">
-        {isExploited ? (
-          <button
-            onClick={resetExploit}
-            className="flex items-center gap-2 rounded-lg bg-white/10 px-3 py-1.5 font-sans text-xs font-semibold text-white hover:bg-white/20 transition-all"
-          >
-            <RotateCcw className="h-3.5 w-3.5" />
-            <span>RESET STACK</span>
-          </button>
-        ) : (
-          <button
-            onClick={triggerExploit}
-            className="flex items-center gap-2 rounded-lg bg-rose-600 px-3 py-1.5 font-sans text-xs font-semibold text-white shadow-[0_0_18px_rgba(225,29,72,0.4)] hover:bg-rose-500 active:scale-95 transition-all"
-          >
-            <Zap className="h-3.5 w-3.5" />
-            <span>EXECUTE BUFFER OVERFLOW</span>
-          </button>
-        )}
+      {activeTab === 'STACK' ? (
+        <div className="rounded-xl border border-white/[0.08] bg-[#07090D] p-3.5 space-y-3 font-mono text-xs">
+          <div className="flex items-center justify-between text-[11px] text-[#8A8F98]">
+            <span>Stack Frame (x86-64)</span>
+            <span className={isSimulated ? 'text-rose-400 font-semibold' : 'text-emerald-400 font-semibold'}>
+              {isSimulated ? 'Buffer Overflow Verified' : 'Stack Guard Intact'}
+            </span>
+          </div>
 
-        <div className="text-right text-[10px] text-[#8A8F98]">
-          <p>TOP 10 GLOBAL CTF</p>
-          <p className="text-rose-400 font-bold">REVERSE ENG &amp; PWN</p>
+          {/* Stack Slots */}
+          <div className="space-y-1.5 text-[11px]">
+            <div className="flex items-center justify-between rounded bg-white/[0.03] p-1.5 border border-white/5">
+              <span className="text-neutral-500">0x7FFF5F20</span>
+              <span className={isSimulated ? 'text-rose-400 font-bold' : 'text-neutral-300'}>
+                {isSimulated ? '0x41414141 (BUFFER OVERWRITTEN)' : 'buffer[64]: Safe'}
+              </span>
+              <span className="text-neutral-500">[ESP]</span>
+            </div>
+
+            <div className={`flex items-center justify-between rounded p-1.5 border transition-colors ${
+              isSimulated ? 'bg-rose-500/15 border-rose-500/40 text-rose-300' : 'bg-white/[0.03] border-white/5 text-emerald-400'
+            }`}>
+              <span className="text-neutral-500">0x7FFF5F60</span>
+              <span className="font-semibold">{isSimulated ? 'CANARY CORRUPTED: 0xDEADBEEF' : 'Canary: 0x90909090 (Protected)'}</span>
+              <span>{isSimulated ? 'EXPLOIT' : 'OK'}</span>
+            </div>
+
+            <div className="flex items-center justify-between rounded bg-white/[0.03] p-1.5 border border-white/5">
+              <span className="text-neutral-500">0x7FFF5F68</span>
+              <span className={isSimulated ? 'text-[#FF5722] font-bold' : 'text-neutral-300'}>
+                {isSimulated ? 'RIP -> Shellcode Injected' : 'Saved Instruction Pointer (RIP)'}
+              </span>
+              <span className="text-neutral-500">[RET]</span>
+            </div>
+          </div>
+
+          {/* Action Trigger */}
+          <div className="pt-2 border-t border-white/[0.06] flex items-center justify-between">
+            <button
+              onClick={() => setIsSimulated(!isSimulated)}
+              className="rounded-lg bg-white/10 hover:bg-white/15 px-3 py-1.5 font-sans text-xs font-semibold text-white transition-colors"
+            >
+              {isSimulated ? 'Reset Memory' : 'Simulate Exploit Attack'}
+            </button>
+            {isSimulated && (
+              <span className="font-mono text-[11px] text-rose-400">
+                FLAG&#123;njack_csec_pwn_verified&#125;
+              </span>
+            )}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="rounded-xl border border-white/[0.08] bg-[#07090D] p-3.5 space-y-2.5">
+          {tracks.map((track) => (
+            <div key={track.title} className="space-y-0.5">
+              <p className="text-xs font-semibold text-white">{track.title}</p>
+              <p className="text-[11px] text-[#8A8F98] leading-relaxed">{track.desc}</p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
 
 // ============================================================================
-// MAIN EXPORT: INTERACTIVE BENTO DIVISIONS
+// MAIN COMPONENT: INTERACTIVE BENTO DIVISIONS
 // ============================================================================
 export default function InteractiveBentoDivisions() {
   return (
-    <section id="divisions" className="relative z-10 py-24 sm:py-32">
+    <section id="divisions" className="relative z-10 py-24 sm:py-32 border-t border-white/[0.06]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="mb-14">
+        <div className="mb-14 max-w-3xl space-y-4">
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#FF5722]">
             <span className="h-1.5 w-1.5 rounded-full bg-[#FF5722]" />
             <span>Four Specialized Divisions</span>
           </div>
 
-          <div className="mt-4 max-w-3xl space-y-4">
-            <SplitTextReveal
-              text="Engineered Across Four Core Disciplines."
-              as="h2"
-              className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#F3F4F6]"
-            />
-            <p className="max-w-2xl font-sans text-sm sm:text-base text-[#8A8F98] leading-relaxed">
-              NJACK operates as four deeply integrated divisions—from algorithmic contest supremacy to production cloud systems, AI research, and CSEC offensive security.
-            </p>
-          </div>
+          <SplitTextReveal
+            text="Engineered Across Four Core Disciplines."
+            as="h2"
+            className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#F3F4F6]"
+          />
+
+          <p className="max-w-2xl font-sans text-sm sm:text-base text-[#8A8F98] leading-relaxed">
+            NJACK operates as four deeply integrated divisions—from algorithmic contest supremacy to production cloud systems, AI research, and CSEC offensive security.
+          </p>
         </div>
 
-        {/* Asymmetrical Bento Grid */}
+        {/* Division Consoles Grid (7-col + 5-col top, 6-col + 6-col bottom) */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           
-          {/* Card 1: Competitive Programming & DSA (col-span-7) */}
-          <HardwareCard
-            tag="01 // ALGO-ACCELERATOR"
-            accentColor="#FF5722"
-            className="md:col-span-12 lg:col-span-7"
-          >
-            <div className="flex flex-col justify-between h-full space-y-6">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#FF5722]/30 bg-[#FF5722]/10 text-[#FF5722] shadow-[0_0_20px_rgba(255,87,34,0.2)]">
-                      <Binary className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <h3 className="font-display text-xl sm:text-2xl font-bold text-[#F3F4F6] tracking-tight">
-                        Competitive Programming
-                      </h3>
-                      <p className="font-mono text-[10px] tracking-wider text-[#8A8F98] uppercase">
-                        ICPC World Finals • Codeforces Div 1 • Segment Trees
-                      </p>
-                    </div>
-                  </div>
-
-                  <Link
-                    href="/departments/cp"
-                    className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#8A8F98] transition-all hover:border-[#FF5722] hover:text-[#FF5722] hover:scale-105"
-                  >
-                    <ArrowUpRight className="h-4 w-4" />
-                  </Link>
+          {/* Card 1: Competitive Programming (col-span-7) */}
+          <div className="md:col-span-12 lg:col-span-7 rounded-2xl border border-white/[0.08] bg-[#0B0D13] p-6 sm:p-7 flex flex-col justify-between space-y-6">
+            <div className="space-y-3">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h3 className="font-display text-xl sm:text-2xl font-bold text-[#F3F4F6] tracking-tight">
+                    Competitive Programming
+                  </h3>
+                  <p className="font-sans text-xs text-[#FF5722] font-medium mt-0.5">
+                    Algorithmic Problem Solving &amp; Graph Optimization
+                  </p>
                 </div>
 
-                <p className="font-sans text-sm text-[#8A8F98] mb-4 leading-relaxed">
-                  Rigorous algorithmic discipline. Training IIT Patna engineers in advanced data structures, dynamic programming, centroid decomposition, and contest velocity for ICPC World Finals.
-                </p>
+                <Link
+                  href="/departments/cp"
+                  className="group inline-flex items-center gap-1 font-sans text-xs font-semibold text-[#8A8F98] hover:text-[#FF5722] transition-colors"
+                >
+                  <span>Explore</span>
+                  <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                </Link>
               </div>
 
-              {/* Interactive CP Binary Tree Arena */}
-              <CpInteractiveArena />
+              <p className="font-sans text-xs sm:text-sm text-[#8A8F98] leading-relaxed">
+                Rigorous algorithmic discipline. Training IIT Patna engineers in graph theory, dynamic programming, centroid decomposition, and contest velocity for ICPC World Finals and Codeforces Div 1.
+              </p>
             </div>
-          </HardwareCard>
 
-          {/* Card 2: Systems, Web & DevOS (col-span-5) */}
-          <HardwareCard
-            tag="02 // DISTRIBUTED-SYSTEMS"
-            accentColor="#00D2FF"
-            className="md:col-span-12 lg:col-span-5"
-          >
-            <div className="flex flex-col justify-between h-full space-y-6">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 shadow-[0_0_20px_rgba(0,210,255,0.2)]">
-                      <Code2 className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <h3 className="font-display text-xl sm:text-2xl font-bold text-[#F3F4F6] tracking-tight">
-                        Development &amp; OS
-                      </h3>
-                      <p className="font-mono text-[10px] tracking-wider text-[#8A8F98] uppercase">
-                        Systems • Linux Kernel • NWoC Open Source
-                      </p>
-                    </div>
-                  </div>
+            {/* Dijkstra's Algorithm Pathfinding Simulator */}
+            <DijkstraVisualizer />
+          </div>
 
-                  <Link
-                    href="/departments/dev-os"
-                    className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#8A8F98] transition-all hover:border-cyan-400 hover:text-cyan-400 hover:scale-105"
-                  >
-                    <ArrowUpRight className="h-4 w-4" />
-                  </Link>
+          {/* Card 2: Development & OS (col-span-5) */}
+          <div className="md:col-span-12 lg:col-span-5 rounded-2xl border border-white/[0.08] bg-[#0B0D13] p-6 sm:p-7 flex flex-col justify-between space-y-6">
+            <div className="space-y-3">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h3 className="font-display text-xl sm:text-2xl font-bold text-[#F3F4F6] tracking-tight">
+                    Development &amp; OS
+                  </h3>
+                  <p className="font-sans text-xs text-cyan-400 font-medium mt-0.5">
+                    Systems Engineering &amp; NWoC Open Source
+                  </p>
                 </div>
 
-                <p className="font-sans text-sm text-[#8A8F98] mb-4 leading-relaxed">
-                  Building scalable distributed backends, developer tooling, and global open-source software. Home to the NJACK Winter of Code (NWoC) and GSoC leadership.
-                </p>
+                <Link
+                  href="/departments/dev-os"
+                  className="group inline-flex items-center gap-1 font-sans text-xs font-semibold text-[#8A8F98] hover:text-cyan-400 transition-colors"
+                >
+                  <span>Explore</span>
+                  <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                </Link>
               </div>
 
-              {/* Interactive Git DAG & Cluster Mesh */}
-              <DevOsInteractiveMesh />
+              <p className="font-sans text-xs sm:text-sm text-[#8A8F98] leading-relaxed">
+                Building scalable distributed backends, developer tooling, and global open-source software. Home to the NJACK Winter of Code (NWoC) and Google Summer of Code (GSoC) mentorship.
+              </p>
             </div>
-          </HardwareCard>
 
-          {/* Card 3: AI & Machine Learning Division (col-span-6) */}
-          <HardwareCard
-            tag="03 // NEURAL-ATTENTION"
-            accentColor="#FF8A00"
-            className="md:col-span-12 lg:col-span-6"
-          >
-            <div className="flex flex-col justify-between h-full space-y-5">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-amber-500/30 bg-amber-500/10 text-[#FF8A00] shadow-[0_0_20px_rgba(255,138,0,0.2)]">
-                      <Brain className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <h3 className="font-display text-xl sm:text-2xl font-bold text-[#F3F4F6] tracking-tight">
-                        Artificial Intelligence &amp; ML
-                      </h3>
-                      <p className="font-mono text-[10px] tracking-wider text-[#8A8F98] uppercase">
-                        Transformers • Vision ViT • Deep Learning
-                      </p>
-                    </div>
-                  </div>
+            {/* Open Source Projects & Architecture */}
+            <DevOsShowcase />
+          </div>
 
-                  <Link
-                    href="/departments/ml"
-                    className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#8A8F98] transition-all hover:border-[#FF8A00] hover:text-[#FF8A00] hover:scale-105"
-                  >
-                    <ArrowUpRight className="h-4 w-4" />
-                  </Link>
+          {/* Card 3: AI & Machine Learning (col-span-6) */}
+          <div className="md:col-span-12 lg:col-span-6 rounded-2xl border border-white/[0.08] bg-[#0B0D13] p-6 sm:p-7 flex flex-col justify-between space-y-6">
+            <div className="space-y-3">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h3 className="font-display text-xl sm:text-2xl font-bold text-[#F3F4F6] tracking-tight">
+                    Artificial Intelligence &amp; ML
+                  </h3>
+                  <p className="font-sans text-xs text-[#FF8A00] font-medium mt-0.5">
+                    Deep Learning &amp; Transformer Architectures
+                  </p>
                 </div>
 
-                <p className="font-sans text-sm text-[#8A8F98] mb-3 leading-relaxed">
-                  Researching modern transformer architectures, parameter-efficient fine-tuning (LoRA), computer vision pipelines, and production inference engines.
-                </p>
+                <Link
+                  href="/departments/ml"
+                  className="group inline-flex items-center gap-1 font-sans text-xs font-semibold text-[#8A8F98] hover:text-[#FF8A00] transition-colors"
+                >
+                  <span>Explore</span>
+                  <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                </Link>
               </div>
 
-              {/* Interactive Attention Matrix */}
-              <AiAttentionInteractive />
+              <p className="font-sans text-xs sm:text-sm text-[#8A8F98] leading-relaxed">
+                Researching modern transformer architectures, parameter-efficient fine-tuning (LoRA), computer vision pipelines, and production inference engines.
+              </p>
             </div>
-          </HardwareCard>
+
+            {/* Multi-Head Attention Explorer */}
+            <AiAttentionExplorer />
+          </div>
 
           {/* Card 4: Cyber Security (CSEC) (col-span-6) */}
-          <HardwareCard
-            tag="04 // EXPLOIT-OPERATIONS"
-            accentColor="#F43F5E"
-            className="md:col-span-12 lg:col-span-6"
-          >
-            <div className="flex flex-col justify-between h-full space-y-5">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-rose-500/30 bg-rose-500/10 text-rose-400 shadow-[0_0_20px_rgba(244,63,94,0.2)]">
-                      <ShieldAlert className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <h3 className="font-display text-xl sm:text-2xl font-bold text-[#F3F4F6] tracking-tight">
-                        Cyber Security (CSEC)
-                      </h3>
-                      <p className="font-mono text-[10px] tracking-wider text-[#8A8F98] uppercase">
-                        CTF Podium • Binary Exploitation • Cryptography
-                      </p>
-                    </div>
-                  </div>
-
-                  <Link
-                    href="/departments/cyber-security"
-                    className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#8A8F98] transition-all hover:border-rose-400 hover:text-rose-400 hover:scale-105"
-                  >
-                    <ArrowUpRight className="h-4 w-4" />
-                  </Link>
+          <div className="md:col-span-12 lg:col-span-6 rounded-2xl border border-white/[0.08] bg-[#0B0D13] p-6 sm:p-7 flex flex-col justify-between space-y-6">
+            <div className="space-y-3">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h3 className="font-display text-xl sm:text-2xl font-bold text-[#F3F4F6] tracking-tight">
+                    Cyber Security (CSEC)
+                  </h3>
+                  <p className="font-sans text-xs text-rose-400 font-medium mt-0.5">
+                    Binary Exploitation, Reverse Engineering &amp; CTF
+                  </p>
                 </div>
 
-                <p className="font-sans text-sm text-[#8A8F98] mb-3 leading-relaxed">
-                  Offensive and defensive security research. Cracking memory corruptions, reverse-engineering x86-64 binaries, and capturing podium spots in global CTFs.
-                </p>
+                <Link
+                  href="/departments/cyber-security"
+                  className="group inline-flex items-center gap-1 font-sans text-xs font-semibold text-[#8A8F98] hover:text-rose-400 transition-colors"
+                >
+                  <span>Explore</span>
+                  <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                </Link>
               </div>
 
-              {/* Interactive Memory Exploit Deck */}
-              <CsecExploitDeck />
+              <p className="font-sans text-xs sm:text-sm text-[#8A8F98] leading-relaxed">
+                Offensive and defensive security research. Cracking memory corruptions, reverse-engineering x86-64 binaries, and capturing podium spots in global CTFs.
+              </p>
             </div>
-          </HardwareCard>
+
+            {/* Memory Safety & CTF Analyzer */}
+            <CsecAnalyzer />
+          </div>
 
         </div>
       </div>
