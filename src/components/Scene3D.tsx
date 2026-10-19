@@ -155,6 +155,17 @@ function NjackHexMonolith() {
     };
   }, []);
 
+  const logoTexture = useMemo(() => {
+    if (typeof window === 'undefined') return null;
+    const loader = new THREE.TextureLoader();
+    const tex = loader.load('/njack-logo-mark.png');
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.generateMipmaps = true;
+    tex.minFilter = THREE.LinearMipmapLinearFilter;
+    tex.magFilter = THREE.LinearFilter;
+    return tex;
+  }, []);
+
   return (
     <group ref={groupRef}>
       {/* 1. Left Bracket Ribbon (Amber to Tangerine) */}
@@ -221,6 +232,34 @@ function NjackHexMonolith() {
         />
         <Edges scale={1.002} threshold={20} color="#FFA726" />
       </mesh>
+
+      {/* 6. Front Holographic Facet (Exact Official NJACK Logo Mark) */}
+      {logoTexture && (
+        <mesh position={[0, 0, 0.17]}>
+          <planeGeometry args={[2.72, 2.72]} />
+          <meshBasicMaterial
+            map={logoTexture}
+            transparent
+            alphaTest={0.03}
+            toneMapped={false}
+            side={THREE.DoubleSide}
+          />
+        </mesh>
+      )}
+
+      {/* 7. Back Holographic Facet (Exact Official NJACK Logo Mark) */}
+      {logoTexture && (
+        <mesh position={[0, 0, -0.17]} rotation={[0, Math.PI, 0]}>
+          <planeGeometry args={[2.72, 2.72]} />
+          <meshBasicMaterial
+            map={logoTexture}
+            transparent
+            alphaTest={0.03}
+            toneMapped={false}
+            side={THREE.DoubleSide}
+          />
+        </mesh>
+      )}
     </group>
   );
 }
