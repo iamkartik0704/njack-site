@@ -3,7 +3,6 @@
 import React, { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import {
-  ExternalLink,
   ArrowUp,
 } from 'lucide-react';
 import Magnetic from '@/components/Magnetic';
@@ -206,11 +205,6 @@ export default function Footer() {
                   Apeireon Hackathon
                 </Link>
               </li>
-              <li>
-                <Link href="/nwoc" className="hover:text-[#FF5722] transition-colors">
-                  NWoC Open Source
-                </Link>
-              </li>
             </ul>
           </div>
 
@@ -228,22 +222,6 @@ export default function Footer() {
               <li>
                 <Link href="/report-cheating" className="hover:text-[#FF5722] transition-colors text-red-400/80">
                   Academic Integrity Portal
-                </Link>
-              </li>
-              <li>
-                <Link href="/admin" className="hover:text-[#FF5722] transition-colors">
-                  Council Terminal Login
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="https://github.com/iamkartik0704/njack-site"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-[#FF5722] transition-colors flex items-center gap-1"
-                >
-                  <span>GitHub Repository</span>
-                  <ExternalLink className="h-3 w-3" />
                 </Link>
               </li>
             </ul>
