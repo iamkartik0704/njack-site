@@ -16,18 +16,17 @@ import TeamSection from '@/components/TeamSection';
 
 export default async function HomePage() {
   // Fetch real seeded data from Prisma
-  const [upcomingEvents, projects] =
-    await Promise.all([
-      prisma.event.findMany({
-        where: { status: 'upcoming' },
-        orderBy: { startsAt: 'asc' },
-        take: 4,
-      }),
-      prisma.project.findMany({
-        where: { featured: true },
-        take: 4,
-      }),
-    ]);
+  const upcomingEvents = await prisma.event.findMany({
+    where: { status: 'upcoming' },
+    orderBy: { startsAt: 'asc' },
+    take: 4,
+  });
+
+  // Projects section is commented out for now; will re-enable in future if needed
+  // const projects = await prisma.project.findMany({
+  //   where: { featured: true },
+  //   take: 4,
+  // });
 
   return (
     <div className="relative min-h-screen text-[#F3F4F6]">

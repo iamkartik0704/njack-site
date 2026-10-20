@@ -65,6 +65,7 @@ export default function CommandPalette() {
       },
       badge: '4 DIVISIONS',
     },
+    /*
     {
       id: 'projects',
       title: 'Open Source Repositories & Projects',
@@ -78,6 +79,7 @@ export default function CommandPalette() {
       },
       badge: 'CODE',
     },
+    */
     {
       id: 'events',
       title: 'Radar Timeline (Apeireon & NWoC)',

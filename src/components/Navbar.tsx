@@ -21,7 +21,7 @@ export default function Navbar() {
     { name: 'Divisions', href: '/#divisions' },
     { name: 'Resources', href: '/resources' },
     { name: 'Quizzes', href: '/quizzes' },
-    { name: 'Projects', href: '/projects' },
+    // { name: 'Projects', href: '/projects' }, // Commented out for now; will add back in future if required
     { name: 'Events', href: '/events' },
     { name: 'Team', href: '/team' },
   ];
