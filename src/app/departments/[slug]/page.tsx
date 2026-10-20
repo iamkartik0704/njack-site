@@ -124,6 +124,13 @@ export default async function DepartmentDetailPage({ params }: DeptPageProps) {
   const config = deptConfig[slug] || deptConfig['dev-os'];
   const DeptIcon = config.icon;
 
+  const coordinators = department.teamMembers.filter(
+    (member) => !member.role.toLowerCase().includes('sub')
+  );
+  const subCoordinators = department.teamMembers.filter(
+    (member) => member.role.toLowerCase().includes('sub')
+  );
+
   return (
     <div className="min-h-screen bg-[#07080A] text-[#F3F4F6] pt-16">
       {/* Hero Header */}
@@ -304,8 +311,8 @@ export default async function DepartmentDetailPage({ params }: DeptPageProps) {
           </section>
         )}
 
-        {/* Department Coordinators */}
-        {department.teamMembers.length > 0 && (
+        {/* Division Coordinators */}
+        {coordinators.length > 0 && (
           <section className="space-y-6">
             <div className="flex items-center gap-2">
               <Users className={`h-5 w-5 ${config.accent}`} />
@@ -315,7 +322,7 @@ export default async function DepartmentDetailPage({ params }: DeptPageProps) {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {department.teamMembers.map((member) => (
+              {coordinators.map((member) => (
                 <div
                   key={member.id}
                   className="rounded-2xl border border-white/[0.08] bg-[#0E1016]/80 p-5 backdrop-blur-md flex items-center gap-4 hover:border-white/20 transition-all shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]"
@@ -333,6 +340,65 @@ export default async function DepartmentDetailPage({ params }: DeptPageProps) {
                   <div className="space-y-1">
                     <h3 className="font-display font-bold text-white text-sm">{member.name}</h3>
                     <div className="text-xs font-mono text-[#FF5722]">{member.role}</div>
+
+                    <div className="flex items-center gap-2 pt-1 text-[#8A8F98]">
+                      {member.linkedin && (
+                        <a
+                          href={member.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-[#FF5722] transition-colors text-[11px]"
+                        >
+                          LinkedIn
+                        </a>
+                      )}
+                      {member.github && (
+                        <a
+                          href={member.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-white transition-colors text-[11px]"
+                        >
+                          GitHub
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Division Sub-Coordinators */}
+        {subCoordinators.length > 0 && (
+          <section className="space-y-6">
+            <div className="flex items-center gap-2">
+              <Users className="h-5 w-5 text-neutral-400" />
+              <h2 className="font-display text-xl sm:text-2xl font-bold text-white tracking-tight">
+                Division Sub-Coordinators
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {subCoordinators.map((member) => (
+                <div
+                  key={member.id}
+                  className="rounded-2xl border border-white/[0.08] bg-[#0E1016]/80 p-5 backdrop-blur-md flex items-center gap-4 hover:border-white/20 transition-all shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]"
+                >
+                  <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full border border-white/10 bg-[#07080A]">
+                    <Image
+                      src={member.photo}
+                      alt={member.name}
+                      fill
+                      className="object-cover"
+                      unoptimized
+                    />
+                  </div>
+
+                  <div className="space-y-1">
+                    <h3 className="font-display font-bold text-white text-sm">{member.name}</h3>
+                    <div className="text-xs font-mono text-neutral-300">{member.role}</div>
 
                     <div className="flex items-center gap-2 pt-1 text-[#8A8F98]">
                       {member.linkedin && (

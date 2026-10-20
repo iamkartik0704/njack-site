@@ -166,6 +166,17 @@ async function main() {
       order: 8,
       departmentId: deptML.id,
     },
+    {
+      name: 'Pratyay Garg',
+      role: 'Cyber Security Sub-Coordinator',
+      year: '2026-2027',
+      photo: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=600&q=80',
+      linkedin: 'https://www.linkedin.com/in/pratyay-garg/',
+      github: 'https://github.com',
+      email: 'pratyay.sec24@iitp.ac.in',
+      order: 9,
+      departmentId: deptCyber.id,
+    },
   ];
 
   for (const m of teamMembersData) {
