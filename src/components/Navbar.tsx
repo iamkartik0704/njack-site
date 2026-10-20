@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -10,17 +10,16 @@ import {
   Command,
   Shield,
 } from 'lucide-react';
-import Magnetic from '@/components/Magnetic';
 import NjackLogo from '@/components/NjackLogo';
 
 export default function Navbar() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Removed 'Tracks' per request for clean, streamlined navigation
   const navLinks = [
     { name: 'Divisions', href: '/#divisions' },
     { name: 'Resources', href: '/resources' },
-    { name: 'Tracks', href: '/resources/tracks' },
     { name: 'Quizzes', href: '/quizzes' },
     { name: 'Projects', href: '/projects' },
     { name: 'Events', href: '/events' },
@@ -33,6 +32,19 @@ export default function Navbar() {
     return pathname.startsWith(href);
   };
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith('/#')) {
+      const hash = href.replace('/', '');
+      if (pathname === '/') {
+        e.preventDefault();
+        const target = document.querySelector(hash);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    }
+  };
+
   const triggerCommandPalette = () => {
     window.dispatchEvent(new CustomEvent('open-command-palette'));
   };
@@ -40,13 +52,14 @@ export default function Navbar() {
   return (
     <header className="sticky top-4 z-40 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
       {/* Floating Pill Dock */}
-      <div className="relative flex items-center justify-between rounded-full border border-white/[0.08] bg-[#0B0D12]/80 px-4 py-2 backdrop-blur-2xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08),0_15px_35px_-10px_rgba(0,0,0,0.6)]">
+      <div className="relative flex items-center justify-between rounded-full border border-white/[0.08] bg-[#0B0D12]/90 px-4 py-2 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08),0_15px_35px_-10px_rgba(0,0,0,0.6)]">
         
         {/* Left: Brand Identity with Official NJACK Hexagonal Logo Mark */}
         <div className="flex items-center gap-3">
           <Link
             href="/"
-            className="group flex items-center gap-2.5 transition-transform hover:scale-[1.01]"
+            prefetch={true}
+            className="group flex items-center gap-2.5 transition-transform active:scale-95"
             id="nav-brand-logo"
           >
             <div className="relative flex items-center justify-center rounded-xl p-0.5 transition-transform group-hover:scale-105">
@@ -63,23 +76,24 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Center: Nav Links */}
+        {/* Center: Nav Links - Snappy 0ms CSS hover & prefetch for instantaneous response */}
         <nav className="hidden md:flex items-center gap-1 lg:gap-1.5">
           {navLinks.map((item) => {
             const active = isActive(item.href);
             return (
-              <Magnetic key={item.name} pullFactor={0.2}>
-                <Link
-                  href={item.href}
-                  className={`relative rounded-full px-3.5 py-1.5 font-sans text-xs font-medium transition-colors ${
-                    active
-                      ? 'text-white bg-white/[0.08] shadow-sm'
-                      : 'text-[#8A8F98] hover:text-[#F3F4F6] hover:bg-white/[0.04]'
-                  }`}
-                >
-                  <span className="relative z-10">{item.name}</span>
-                </Link>
-              </Magnetic>
+              <Link
+                key={item.name}
+                href={item.href}
+                prefetch={true}
+                onClick={(e) => handleNavClick(e, item.href)}
+                className={`relative rounded-full px-3.5 py-1.5 font-sans text-xs font-medium transition-all duration-150 active:scale-95 select-none ${
+                  active
+                    ? 'text-white bg-white/[0.1] shadow-sm font-semibold'
+                    : 'text-[#8A8F98] hover:text-[#F3F4F6] hover:bg-white/[0.06]'
+                }`}
+              >
+                <span className="relative z-10">{item.name}</span>
+              </Link>
             );
           })}
         </nav>
@@ -87,34 +101,31 @@ export default function Navbar() {
         {/* Right: Command Trigger + Admin Terminal */}
         <div className="flex items-center gap-2">
           {/* Search Trigger (⌘K) */}
-          <Magnetic pullFactor={0.15}>
-            <button
-              onClick={triggerCommandPalette}
-              className="group flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 font-sans text-xs text-[#8A8F98] transition-all hover:border-white/20 hover:bg-white/[0.06] hover:text-white"
-            >
-              <Command className="h-3.5 w-3.5 text-[#8A8F98] transition-colors group-hover:text-[#FF5722]" />
-              <span className="hidden sm:inline text-xs">Search</span>
-              <kbd className="hidden sm:inline rounded bg-white/[0.06] px-1.5 py-0.5 font-mono text-[9px] text-[#8A8F98] group-hover:text-white">
-                ⌘K
-              </kbd>
-            </button>
-          </Magnetic>
+          <button
+            onClick={triggerCommandPalette}
+            className="group flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 font-sans text-xs text-[#8A8F98] transition-all duration-150 hover:border-white/20 hover:bg-white/[0.06] hover:text-white active:scale-95"
+          >
+            <Command className="h-3.5 w-3.5 text-[#8A8F98] transition-colors group-hover:text-[#FF5722]" />
+            <span className="hidden sm:inline text-xs">Search</span>
+            <kbd className="hidden sm:inline rounded bg-white/[0.06] px-1.5 py-0.5 font-mono text-[9px] text-[#8A8F98] group-hover:text-white">
+              ⌘K
+            </kbd>
+          </button>
 
           {/* Admin Terminal Link */}
-          <Magnetic pullFactor={0.15}>
-            <Link
-              href="/admin"
-              className="flex h-8 w-8 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.03] text-[#8A8F98] transition-colors hover:border-white/20 hover:bg-white/[0.06] hover:text-white"
-              title="Council Portal"
-            >
-              <Shield className="h-3.5 w-3.5" />
-            </Link>
-          </Magnetic>
+          <Link
+            href="/admin"
+            prefetch={true}
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-white/[0.08] bg-white/[0.03] text-[#8A8F98] transition-all duration-150 hover:border-white/20 hover:bg-white/[0.06] hover:text-white active:scale-95"
+            title="Council Portal"
+          >
+            <Shield className="h-3.5 w-3.5" />
+          </Link>
 
           {/* Mobile Menu Trigger */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#8A8F98] md:hidden hover:text-white"
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#8A8F98] md:hidden hover:text-white active:scale-95 transition-all duration-150"
           >
             {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
@@ -141,8 +152,12 @@ export default function Navbar() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-[#8A8F98] hover:bg-white/5 hover:text-white transition-colors"
+                  prefetch={true}
+                  onClick={(e) => {
+                    handleNavClick(e, item.href);
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-[#8A8F98] hover:bg-white/5 hover:text-white transition-colors active:scale-[0.98]"
                 >
                   <span>{item.name}</span>
                   <span className="text-xs text-[#8A8F98]/50">→</span>
@@ -156,15 +171,16 @@ export default function Navbar() {
                   setMobileMenuOpen(false);
                   triggerCommandPalette();
                 }}
-                className="flex-1 flex items-center justify-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.04] py-2 font-sans text-xs text-white hover:bg-white/[0.08] transition-colors"
+                className="flex-1 flex items-center justify-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.04] py-2 font-sans text-xs text-white hover:bg-white/[0.08] transition-colors active:scale-95"
               >
                 <Command className="h-3.5 w-3.5 text-[#FF5722]" />
                 <span>Search ⌘K</span>
               </button>
               <Link
                 href="/admin"
+                prefetch={true}
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.04] px-3 py-2 text-xs text-[#8A8F98] hover:text-white transition-colors"
+                className="flex items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.04] px-3 py-2 text-xs text-[#8A8F98] hover:text-white transition-colors active:scale-95"
                 title="Council Portal"
               >
                 <Shield className="h-4 w-4" />
