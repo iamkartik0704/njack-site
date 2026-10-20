@@ -14,6 +14,8 @@ import EventsTimeline from '@/components/EventsTimeline';
 import HeroLogoLockup from '@/components/HeroLogoLockup';
 import TeamSection from '@/components/TeamSection';
 
+export const revalidate = 300; // Cache 5 min for instant loads
+
 export default async function HomePage() {
   // Fetch real seeded data from Prisma
   const upcomingEvents = await prisma.event.findMany({

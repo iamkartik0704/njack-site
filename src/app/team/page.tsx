@@ -2,6 +2,8 @@ import React from 'react';
 import TeamSection from '@/components/TeamSection';
 import { Users } from 'lucide-react';
 
+export const revalidate = 300; // Cache 5 min for instant loads
+
 export const metadata = {
   title: 'Team & Coordinators | NJACK IIT Patna',
   description:
