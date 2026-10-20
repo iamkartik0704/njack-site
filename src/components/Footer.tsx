@@ -10,51 +10,91 @@ import Magnetic from '@/components/Magnetic';
 import NjackLogo from '@/components/NjackLogo';
 import FooterSparkText from '@/components/FooterSparkText';
 
-// Canvas interactive ASCII / Matrix wireframe stream in NJACK Orange
+// Canvas interactive ASCII / Matrix wireframe stream in NJACK Orange (optimized with visibility observer \u0026 frame throttling)
 function FooterCanvasVisualizer() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    const container = containerRef.current;
+    if (!canvas || !container) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    let animId: number;
-    const width = (canvas.width = canvas.offsetWidth);
-    const height = (canvas.height = canvas.offsetHeight);
+    let animId: number | null = null;
+    let isVisible = false;
+    let width = (canvas.width = canvas.offsetWidth || window.innerWidth);
+    let height = (canvas.height = canvas.offsetHeight || 600);
 
     const chars = '01{}[]$//<>~#_.*+';
-    const cols = Math.floor(width / 18);
-    const drops = new Array(cols).fill(1);
+    let cols = Math.floor(width / 18);
+    let drops = new Array(cols).fill(1);
 
-    const render = () => {
-      ctx.fillStyle = 'rgba(7, 8, 10, 0.2)';
-      ctx.fillRect(0, 0, width, height);
+    const handleResize = () => {
+      if (!canvas) return;
+      width = canvas.width = canvas.offsetWidth || window.innerWidth;
+      height = canvas.height = canvas.offsetHeight || 600;
+      cols = Math.floor(width / 18);
+      drops = new Array(cols).fill(1);
+    };
 
-      ctx.fillStyle = 'rgba(255, 87, 34, 0.18)';
-      ctx.font = '10px monospace';
+    let lastTime = 0;
+    const frameInterval = 1000 / 28; // 28 FPS is ideal for matrix digital rain and saves 60% CPU/GPU
 
-      for (let i = 0; i < drops.length; i++) {
-        const char = chars[Math.floor(Math.random() * chars.length)];
-        ctx.fillText(char, i * 18, drops[i] * 16);
+    const render = (time: number) => {
+      if (!isVisible) {
+        animId = null;
+        return;
+      }
 
-        if (drops[i] * 16 > height && Math.random() > 0.985) {
-          drops[i] = 0;
+      if (time - lastTime >= frameInterval) {
+        lastTime = time;
+
+        ctx.fillStyle = 'rgba(7, 8, 10, 0.2)';
+        ctx.fillRect(0, 0, width, height);
+
+        ctx.fillStyle = 'rgba(255, 87, 34, 0.18)';
+        ctx.font = '10px monospace';
+
+        for (let i = 0; i < drops.length; i++) {
+          const char = chars[Math.floor(Math.random() * chars.length)];
+          ctx.fillText(char, i * 18, drops[i] * 16);
+
+          if (drops[i] * 16 > height && Math.random() > 0.985) {
+            drops[i] = 0;
+          }
+          drops[i]++;
         }
-        drops[i]++;
       }
 
       animId = requestAnimationFrame(render);
     };
 
-    render();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        isVisible = entry?.isIntersecting ?? false;
+        if (isVisible && !animId) {
+          lastTime = performance.now();
+          animId = requestAnimationFrame(render);
+        }
+      },
+      { rootMargin: '100px' }
+    );
 
-    return () => cancelAnimationFrame(animId);
+    observer.observe(container);
+    window.addEventListener('resize', handleResize, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', handleResize);
+      if (animId) cancelAnimationFrame(animId);
+    };
   }, []);
 
   return (
-    <div className="absolute inset-0 pointer-events-none opacity-40 overflow-hidden">
+    <div ref={containerRef} className="absolute inset-0 pointer-events-none opacity-40 overflow-hidden">
       <canvas ref={canvasRef} className="h-full w-full" />
     </div>
   );

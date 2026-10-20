@@ -218,14 +218,9 @@ export default function TeamSection() {
             {/* Column 1: Competitive Programming */}
             <div className="rounded-2xl border border-white/[0.08] bg-[#0E1016]/80 p-6 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] flex flex-col justify-between">
               <div>
-                <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 mb-4">
-                  <div className="flex items-center gap-2 text-white font-display font-semibold text-sm">
-                    <Binary className="h-4 w-4 text-[#FF5722]" />
-                    <span>Competitive Prog.</span>
-                  </div>
-                  <span className="font-mono text-[10px] text-neutral-400">
-                    {cpSubcoords.length}
-                  </span>
+                <div className="flex items-center gap-2 border-b border-white/[0.08] pb-3 mb-4 text-white font-display font-semibold text-sm">
+                  <Binary className="h-4 w-4 text-[#FF5722]" />
+                  <span>Competitive Prog.</span>
                 </div>
 
                 <div className="space-y-2">
@@ -252,14 +247,9 @@ export default function TeamSection() {
             {/* Column 2: Development & Open Source */}
             <div className="rounded-2xl border border-white/[0.08] bg-[#0E1016]/80 p-6 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] flex flex-col justify-between">
               <div>
-                <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 mb-4">
-                  <div className="flex items-center gap-2 text-white font-display font-semibold text-sm">
-                    <Code2 className="h-4 w-4 text-[#FF5722]" />
-                    <span>Dev &amp; Open Source</span>
-                  </div>
-                  <span className="font-mono text-[10px] text-neutral-400">
-                    {devSubcoords.length}
-                  </span>
+                <div className="flex items-center gap-2 border-b border-white/[0.08] pb-3 mb-4 text-white font-display font-semibold text-sm">
+                  <Code2 className="h-4 w-4 text-[#FF5722]" />
+                  <span>Dev &amp; Open Source</span>
                 </div>
 
                 <div className="space-y-2">
@@ -286,14 +276,9 @@ export default function TeamSection() {
             {/* Column 3: Machine Learning */}
             <div className="rounded-2xl border border-white/[0.08] bg-[#0E1016]/80 p-6 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] flex flex-col justify-between">
               <div>
-                <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 mb-4">
-                  <div className="flex items-center gap-2 text-white font-display font-semibold text-sm">
-                    <Brain className="h-4 w-4 text-[#FF5722]" />
-                    <span>Machine Learning</span>
-                  </div>
-                  <span className="font-mono text-[10px] text-neutral-400">
-                    {mlSubcoords.length}
-                  </span>
+                <div className="flex items-center gap-2 border-b border-white/[0.08] pb-3 mb-4 text-white font-display font-semibold text-sm">
+                  <Brain className="h-4 w-4 text-[#FF5722]" />
+                  <span>Machine Learning</span>
                 </div>
 
                 <div className="space-y-2">
@@ -320,14 +305,9 @@ export default function TeamSection() {
             {/* Column 4: Cyber Security */}
             <div className="rounded-2xl border border-white/[0.08] bg-[#0E1016]/80 p-6 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] flex flex-col justify-between">
               <div>
-                <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 mb-4">
-                  <div className="flex items-center gap-2 text-white font-display font-semibold text-sm">
-                    <ShieldAlert className="h-4 w-4 text-[#FF5722]" />
-                    <span>Cyber Security</span>
-                  </div>
-                  <span className="font-mono text-[10px] text-neutral-400">
-                    {cyberSubcoords.length}
-                  </span>
+                <div className="flex items-center gap-2 border-b border-white/[0.08] pb-3 mb-4 text-white font-display font-semibold text-sm">
+                  <ShieldAlert className="h-4 w-4 text-[#FF5722]" />
+                  <span>Cyber Security</span>
                 </div>
 
                 <div className="space-y-2">
