@@ -18,15 +18,20 @@ export default async function SingleQuizPage({ params }: QuizPageProps) {
     where: { slug: params.slug },
     include: {
       department: true,
-      questions: {
-        orderBy: { order: 'asc' },
-      },
     },
   });
 
   if (!quiz) {
     notFound();
   }
+
+  const questions = (() => {
+    try {
+      return JSON.parse(quiz.questions || '[]');
+    } catch {
+      return [];
+    }
+  })();
 
   return (
     <div className="min-h-screen bg-[#07080A] text-[#F3F4F6] pt-16 pb-20">
@@ -59,7 +64,7 @@ export default async function SingleQuizPage({ params }: QuizPageProps) {
           quizTitle={quiz.title}
           quizTopic={quiz.topic}
           departmentName={quiz.department?.name || 'General CS'}
-          questions={quiz.questions}
+          questions={questions}
         />
       </div>
     </div>

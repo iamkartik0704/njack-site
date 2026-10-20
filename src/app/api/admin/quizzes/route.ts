@@ -21,19 +21,17 @@ export async function POST(req: Request) {
         departmentId,
         topic: topic.trim(),
         description: description?.trim() || '',
-        questions: questions?.length
-          ? {
-              create: questions.map((q: any, idx: number) => ({
-                question: q.question.trim(),
-                options: typeof q.options === 'string' ? q.options : JSON.stringify(q.options),
-                correctIndex: Number(q.correctIndex) || 0,
-                explanation: q.explanation?.trim() || '',
-                order: idx,
-              })),
-            }
-          : undefined,
+        questions: JSON.stringify(
+          (questions || []).map((q: any, idx: number) => ({
+            id: `q-${Date.now()}-${idx}`,
+            question: q.question.trim(),
+            options: typeof q.options === 'string' ? q.options : JSON.stringify(q.options),
+            correctIndex: Number(q.correctIndex) || 0,
+            explanation: q.explanation?.trim() || '',
+            order: idx,
+          }))
+        ),
       },
-      include: { questions: true },
     });
 
     return NextResponse.json({ success: true, quiz });

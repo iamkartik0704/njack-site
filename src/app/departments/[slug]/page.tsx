@@ -108,9 +108,7 @@ export default async function DepartmentDetailPage({ params }: DeptPageProps) {
         take: 6,
         orderBy: [{ featured: 'desc' }, { createdAt: 'desc' }],
       },
-      quizzes: {
-        include: { questions: true },
-      },
+      quizzes: true,
     },
   });
 
@@ -290,7 +288,13 @@ export default async function DepartmentDetailPage({ params }: DeptPageProps) {
                   <div>
                     <h3 className="font-display font-bold text-white text-sm">{quiz.title}</h3>
                     <div className="text-[11px] font-mono text-[#8A8F98] mt-0.5">
-                      {quiz.questions.length} Questions • Instant Feedback
+                      {(() => {
+                        try {
+                          return JSON.parse(quiz.questions || '[]').length;
+                        } catch {
+                          return 0;
+                        }
+                      })()} Questions • Instant Feedback
                     </div>
                   </div>
                   <ArrowRight className="h-4 w-4 text-[#FF5722] shrink-0" />

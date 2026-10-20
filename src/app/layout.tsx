@@ -9,6 +9,7 @@ import SmoothScroll from '@/components/SmoothScroll';
 import ScrollProgress from '@/components/ScrollProgress';
 import NoiseOverlay from '@/components/NoiseOverlay';
 import CommandPalette from '@/components/CommandPalette';
+import RouteLoadingIndicator from '@/components/RouteLoadingIndicator';
 
 // WebGL 3D Canvas dynamically loaded on client only (disabling SSR prevents window/canvas mismatch)
 const Scene3D = dynamic(() => import('@/components/Scene3D'), {
@@ -96,6 +97,9 @@ export default function RootLayout({
 
         {/* Persistent Scroll-Linked 3D Canvas */}
         <Scene3D />
+
+        {/* Instant Route Loading Indicator & NJACK Loading Screen */}
+        <RouteLoadingIndicator />
 
         {/* Global Command Palette (⌘K) */}
         <CommandPalette />

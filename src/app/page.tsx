@@ -16,16 +16,12 @@ import TeamSection from '@/components/TeamSection';
 
 export default async function HomePage() {
   // Fetch real seeded data from Prisma
-  const [upcomingEvents, tracks, projects] =
+  const [upcomingEvents, projects] =
     await Promise.all([
       prisma.event.findMany({
         where: { status: 'upcoming' },
         orderBy: { startsAt: 'asc' },
         take: 4,
-      }),
-      prisma.track.findMany({
-        include: { department: true, items: true },
-        orderBy: { order: 'asc' },
       }),
       prisma.project.findMany({
         where: { featured: true },
@@ -87,10 +83,10 @@ export default async function HomePage() {
 
               <Magnetic pullFactor={0.15}>
                 <Link
-                  href="/resources/tracks"
+                  href="/resources"
                   className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-5 py-2.5 font-sans text-sm font-medium text-neutral-300 transition-all hover:border-white/20 hover:bg-white/[0.07] hover:text-white active:scale-[0.98]"
                 >
-                  <span>Learning Tracks</span>
+                  <span>Explore Resources</span>
                   <ArrowRight className="h-4 w-4 text-neutral-500 transition-transform group-hover:translate-x-0.5 group-hover:text-white" />
                 </Link>
               </Magnetic>
@@ -169,72 +165,6 @@ export default async function HomePage() {
       ======================================================== */}
       <EventsTimeline events={upcomingEvents} />
 
-      {/* ========================================================
-          5. CURATED LEARNING TRACKS STRIP
-      ======================================================== */}
-      <section className="relative z-10 py-24 border-t border-white/[0.08]">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          
-          <div className="mb-14 flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div>
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#FF5722]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#FF5722]" />
-                <span>Curriculum & Learning Tracks</span>
-              </div>
-              <h2 className="mt-3 font-display text-3xl sm:text-4xl font-extrabold tracking-tight text-[#F3F4F6]">
-                From First Principles to Production.
-              </h2>
-            </div>
-
-            <Link
-              href="/resources/tracks"
-              className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 font-sans text-xs font-medium text-neutral-300 hover:border-white/20 hover:bg-white/[0.08] hover:text-white transition-colors"
-            >
-              <span>Browse All Tracks</span>
-              <ArrowRight className="h-3.5 w-3.5 text-neutral-500 transition-transform group-hover:translate-x-0.5 group-hover:text-white" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {tracks && tracks.length > 0 ? (
-              tracks.map((track) => (
-                <SpotlightBentoCard key={track.id} className="h-full">
-                  <div className="flex flex-col justify-between h-full space-y-4">
-                    <div>
-                      <div className="flex items-center justify-between font-mono text-[10px] text-[#8A8F98] mb-3">
-                        <span className="text-[#FF5722] uppercase font-semibold">
-                          [{track.department?.slug || 'CORE'}]
-                        </span>
-                        <span>{track.items?.length || 5} MODULES</span>
-                      </div>
-                      <h3 className="font-display text-lg font-bold text-[#F3F4F6]">
-                        {track.title}
-                      </h3>
-                      <p className="mt-2 font-sans text-xs text-[#8A8F98] leading-relaxed line-clamp-3">
-                        {track.description}
-                      </p>
-                    </div>
-
-                    <div className="pt-3 border-t border-white/[0.06]">
-                      <Link
-                        href={`/resources/tracks/${track.slug}`}
-                        className="inline-flex items-center gap-1 font-mono text-xs text-[#FF5722] hover:underline"
-                      >
-                        <span>BEGIN TRACK</span>
-                        <span>→</span>
-                      </Link>
-                    </div>
-                  </div>
-                </SpotlightBentoCard>
-              ))
-            ) : (
-              <div className="col-span-full py-8 text-center font-mono text-xs text-[#8A8F98]">
-                ROADMAPS INITIALIZING IN PROTOCOL...
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
 
       {/* ========================================================
           6. INTERACTIVE QUIZ & KNOWLEDGE ARENA CALLOUT

@@ -1,5 +1,5 @@
 // Prisma schema for NJACK 2.0
-// Supports SQLite for self-contained local dev and easy migration to PostgreSQL
+// Optimized, minimal & high-performance schema (10 consolidated models, zero redundant join tables)
 
 generator client {
   provider = "prisma-client-js"
@@ -20,7 +20,6 @@ model Department {
   order       Int          @default(0)
   teamMembers TeamMember[]
   resources   Resource[]
-  tracks      Track[]
   quizzes     Quiz[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
@@ -42,65 +41,32 @@ model TeamMember {
 }
 
 model Resource {
-  id           String      @id @default(cuid())
+  id           String     @id @default(cuid())
   title        String
   description  String
-  type         String      // "note", "link", "youtube", "slides", "repo", "article"
+  type         String     // "note", "link", "youtube", "slides", "repo", "article", "roadmap"
   url          String
   departmentId String
-  department   Department  @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade)
   topic        String
-  tags         String      // comma separated: e.g. "React, Next.js, Frontend"
-  difficulty   String      @default("beginner") // "beginner", "intermediate", "advanced"
-  featured     Boolean     @default(false)
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
-  trackItems   TrackItem[]
-}
-
-model Track {
-  id           String      @id @default(cuid())
-  title        String
-  slug         String      @unique
-  departmentId String
-  department   Department  @relation(fields: [departmentId], references: [id], onDelete: Cascade)
-  description  String
-  order        Int         @default(0)
-  items        TrackItem[]
-  createdAt    DateTime    @default(now())
-}
-
-model TrackItem {
-  id         String   @id @default(cuid())
-  trackId    String
-  track      Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
-  resourceId String
-  resource   Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
-  order      Int      @default(0)
+  tags         String     // comma separated: e.g. "React, Next.js, Frontend"
+  difficulty   String     @default("beginner") // "beginner", "intermediate", "advanced"
+  featured     Boolean    @default(false)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 }
 
 model Quiz {
-  id           String         @id @default(cuid())
+  id           String      @id @default(cuid())
   title        String
-  slug         String         @unique
+  slug         String      @unique
   departmentId String?
-  department   Department?    @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  department   Department? @relation(fields: [departmentId], references: [id], onDelete: SetNull)
   topic        String
   description  String
-  questions    QuizQuestion[]
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-}
-
-model QuizQuestion {
-  id           String   @id @default(cuid())
-  quizId       String
-  quiz         Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
-  question     String
-  options      String   // JSON stringified array of strings: e.g. '["O(1)", "O(n)", "O(log n)"]'
-  correctIndex Int
-  explanation  String
-  order        Int      @default(0)
+  questions    String      @default("[]") // Embedded JSON array: [{ id, question, options, correctIndex, explanation, order }]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 }
 
 model Event {
@@ -149,27 +115,18 @@ model Post {
 }
 
 model GalleryAlbum {
-  id        String         @id @default(cuid())
+  id        String   @id @default(cuid())
   title     String
-  slug      String         @unique
+  slug      String   @unique
   cover     String
   date      String
-  images    GalleryImage[]
-  createdAt DateTime       @default(now())
-}
-
-model GalleryImage {
-  id        String       @id @default(cuid())
-  albumId   String
-  album     GalleryAlbum @relation(fields: [albumId], references: [id], onDelete: Cascade)
-  url       String
-  caption   String?
-  createdAt DateTime     @default(now())
+  images    String   @default("[]") // Embedded JSON array: [{ id, url, caption }]
+  createdAt DateTime @default(now())
 }
 
 model Submission {
   id        String   @id @default(cuid())
-  kind      String   // "contact" | "report"
+  kind      String   // Polymorphic form type: "contact" | "report" | "feedback" | "rsvp"
   payload   String   // JSON string of form fields
   status    String   @default("pending") // "pending", "reviewed", "resolved"
   createdAt DateTime @default(now())
@@ -182,13 +139,4 @@ model AdminUser {
   name         String
   role         String   @default("super-admin")
   createdAt    DateTime @default(now())
-}
-
-model HomeSection {
-  id        String   @id @default(cuid())
-  key       String   @unique
-  title     String
-  enabled   Boolean  @default(true)
-  order     Int      @default(0)
-  createdAt DateTime @default(now())
 }

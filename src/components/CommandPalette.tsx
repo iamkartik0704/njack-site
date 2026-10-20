@@ -35,6 +35,13 @@ export default function CommandPalette() {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const navigateTo = (url: string) => {
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('route-navigation-start'));
+    }
+    router.push(url);
+  };
+
   const commands: CommandItem[] = [
     {
       id: 'home',
@@ -42,7 +49,7 @@ export default function CommandPalette() {
       category: 'NAVIGATION',
       icon: Terminal,
       shortcut: 'H',
-      action: () => router.push('/'),
+      action: () => navigateTo('/'),
       badge: 'ROOT',
     },
     {
@@ -90,7 +97,7 @@ export default function CommandPalette() {
       category: 'NAVIGATION',
       icon: Sparkles,
       shortcut: 'R',
-      action: () => router.push('/resources'),
+      action: () => navigateTo('/resources'),
       badge: 'LEARN',
     },
     {
@@ -99,8 +106,25 @@ export default function CommandPalette() {
       category: 'NAVIGATION',
       icon: HelpCircle,
       shortcut: 'Q',
-      action: () => router.push('/quizzes'),
+      action: () => navigateTo('/quizzes'),
       badge: 'ARENA',
+    },
+    {
+      id: 'team',
+      title: 'Meet Coordinators & Leadership Team',
+      category: 'NAVIGATION',
+      icon: Layers,
+      shortcut: 'T',
+      action: () => navigateTo('/team'),
+      badge: 'TEAM',
+    },
+    {
+      id: 'about',
+      title: 'About NJACK Club & History',
+      category: 'NAVIGATION',
+      icon: Terminal,
+      action: () => navigateTo('/about'),
+      badge: 'ABOUT',
     },
     {
       id: 'admin',
@@ -108,7 +132,7 @@ export default function CommandPalette() {
       category: 'SYSTEM',
       icon: Shield,
       shortcut: 'A',
-      action: () => router.push('/admin'),
+      action: () => navigateTo('/admin'),
       badge: 'SECURE',
     },
     {

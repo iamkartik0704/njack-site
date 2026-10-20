@@ -6,13 +6,21 @@ import { Image as ImageIcon } from 'lucide-react';
 export const revalidate = 60;
 
 export default async function GalleryPage() {
-  const albums = await prisma.galleryAlbum.findMany({
-    include: {
-      images: {
-        orderBy: { createdAt: 'desc' },
-      },
-    },
+  const rawAlbums = await prisma.galleryAlbum.findMany({
     orderBy: { createdAt: 'desc' },
+  });
+
+  const albums = rawAlbums.map((album) => {
+    let images: { id: string; url: string; caption: string | null }[] = [];
+    try {
+      images = JSON.parse(album.images || '[]');
+    } catch {
+      images = [];
+    }
+    return {
+      ...album,
+      images,
+    };
   });
 
   return (

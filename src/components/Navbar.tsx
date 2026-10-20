@@ -26,6 +26,12 @@ export default function Navbar() {
     { name: 'Team', href: '/team' },
   ];
 
+  const [pendingHref, setPendingHref] = useState<string | null>(null);
+
+  React.useEffect(() => {
+    setPendingHref(null);
+  }, [pathname]);
+
   const isActive = (href: string) => {
     if (href.startsWith('/#')) return false;
     if (href === '/') return pathname === '/';
@@ -41,6 +47,14 @@ export default function Navbar() {
         if (target) {
           target.scrollIntoView({ behavior: 'smooth' });
         }
+      }
+      return;
+    }
+
+    if (href !== pathname) {
+      setPendingHref(href);
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('route-navigation-start'));
       }
     }
   };
@@ -80,6 +94,7 @@ export default function Navbar() {
         <nav className="hidden md:flex items-center gap-1 lg:gap-1.5">
           {navLinks.map((item) => {
             const active = isActive(item.href);
+            const isPending = pendingHref === item.href;
             return (
               <Link
                 key={item.name}
@@ -87,12 +102,19 @@ export default function Navbar() {
                 prefetch={true}
                 onClick={(e) => handleNavClick(e, item.href)}
                 className={`relative rounded-full px-3.5 py-1.5 font-sans text-xs font-medium transition-all duration-150 active:scale-95 select-none ${
-                  active
+                  isPending
+                    ? 'text-white bg-[#FF5722]/25 border border-[#FF5722]/40 shadow-[0_0_12px_rgba(255,87,34,0.3)] font-semibold'
+                    : active
                     ? 'text-white bg-white/[0.1] shadow-sm font-semibold'
                     : 'text-[#8A8F98] hover:text-[#F3F4F6] hover:bg-white/[0.06]'
                 }`}
               >
-                <span className="relative z-10">{item.name}</span>
+                <span className="relative z-10 flex items-center gap-1.5">
+                  {item.name}
+                  {isPending && (
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#FF5722] animate-ping" />
+                  )}
+                </span>
               </Link>
             );
           })}
@@ -148,21 +170,36 @@ export default function Navbar() {
             </div>
 
             <nav className="flex flex-col gap-1.5">
-              {navLinks.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  prefetch={true}
-                  onClick={(e) => {
-                    handleNavClick(e, item.href);
-                    setMobileMenuOpen(false);
-                  }}
-                  className="flex items-center justify-between rounded-xl px-3 py-2 text-sm text-[#8A8F98] hover:bg-white/5 hover:text-white transition-colors active:scale-[0.98]"
-                >
-                  <span>{item.name}</span>
-                  <span className="text-xs text-[#8A8F98]/50">→</span>
-                </Link>
-              ))}
+              {navLinks.map((item) => {
+                const active = isActive(item.href);
+                const isPending = pendingHref === item.href;
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    prefetch={true}
+                    onClick={(e) => {
+                      handleNavClick(e, item.href);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`flex items-center justify-between rounded-xl px-3 py-2 text-sm transition-colors active:scale-[0.98] ${
+                      isPending
+                        ? 'text-white bg-[#FF5722]/20 font-semibold'
+                        : active
+                        ? 'text-white bg-white/10 font-semibold'
+                        : 'text-[#8A8F98] hover:bg-white/5 hover:text-white'
+                    }`}
+                  >
+                    <span className="flex items-center gap-2">
+                      {item.name}
+                      {isPending && (
+                        <span className="h-1.5 w-1.5 rounded-full bg-[#FF5722] animate-ping" />
+                      )}
+                    </span>
+                    <span className="text-xs text-[#8A8F98]/50">→</span>
+                  </Link>
+                );
+              })}
             </nav>
 
             <div className="mt-3 pt-3 border-t border-white/[0.08] flex gap-2">

@@ -6,11 +6,10 @@ import { Trophy } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 export default async function AdminQuizzesPage() {
-  const [quizzes, departments] = await Promise.all([
+  const [rawQuizzes, departments] = await Promise.all([
     prisma.quiz.findMany({
       include: {
         department: { select: { name: true } },
-        questions: { select: { id: true } },
       },
       orderBy: { createdAt: 'desc' },
     }),
@@ -19,6 +18,19 @@ export default async function AdminQuizzesPage() {
       orderBy: { order: 'asc' },
     }),
   ]);
+
+  const quizzes = rawQuizzes.map((q) => {
+    let parsedQuestions: any[] = [];
+    try {
+      parsedQuestions = JSON.parse(q.questions || '[]');
+    } catch {
+      parsedQuestions = [];
+    }
+    return {
+      ...q,
+      questions: parsedQuestions.map((x) => ({ id: x.id || '' })),
+    };
+  });
 
   return (
     <div className="p-6 sm:p-10 space-y-8">

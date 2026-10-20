@@ -7,9 +7,6 @@ async function main() {
   console.log('🌱 Starting database seed for NJACK 2.0...');
 
   // 1. Clear existing records to ensure clean idempotent seed
-  await prisma.trackItem.deleteMany({});
-  await prisma.track.deleteMany({});
-  await prisma.quizQuestion.deleteMany({});
   await prisma.quiz.deleteMany({});
   await prisma.resource.deleteMany({});
   await prisma.teamMember.deleteMany({});
@@ -17,11 +14,9 @@ async function main() {
   await prisma.event.deleteMany({});
   await prisma.project.deleteMany({});
   await prisma.post.deleteMany({});
-  await prisma.galleryImage.deleteMany({});
   await prisma.galleryAlbum.deleteMany({});
   await prisma.submission.deleteMany({});
   await prisma.adminUser.deleteMany({});
-  await prisma.homeSection.deleteMany({});
 
   // 2. Admin User
   const passwordHash = await bcrypt.hash('admin123', 10);
@@ -438,103 +433,7 @@ async function main() {
   }
   console.log(`✅ Created ${createdResources.length} curated resources`);
 
-  // 6. Curated Learning Tracks
-  const trackWeb = await prisma.track.create({
-    data: {
-      title: 'Web Dev 101: Zero to Production Engineer',
-      slug: 'web-dev-101',
-      departmentId: deptDev.id,
-      description: 'A curated journey designed for freshers to master modern web architecture — starting with frontend essentials and advancing to full-stack Next.js and containerization.',
-      order: 1,
-    },
-  });
-
-  const devRes = createdResources.filter((r) => r.departmentId === deptDev.id);
-  for (let i = 0; i < devRes.length; i++) {
-    await prisma.trackItem.create({
-      data: {
-        trackId: trackWeb.id,
-        resourceId: devRes[i].id,
-        order: i + 1,
-      },
-    });
-  }
-
-  const trackCP = await prisma.track.create({
-    data: {
-      title: 'DSA Starter: From Loops to Graph Theory',
-      slug: 'dsa-starter',
-      departmentId: deptCP.id,
-      description: 'Structured algorithmic track guiding you from foundational C++ syntax and time complexity through trees, dynamic programming, and competitive problem-solving.',
-      order: 2,
-    },
-  });
-
-  const cpRes = createdResources.filter((r) => r.departmentId === deptCP.id);
-  for (let i = 0; i < cpRes.length; i++) {
-    await prisma.trackItem.create({
-      data: {
-        trackId: trackCP.id,
-        resourceId: cpRes[i].id,
-        order: i + 1,
-      },
-    });
-  }
-
-  const trackML = await prisma.track.create({
-    data: {
-      title: 'Machine Learning Foundations & Neural Systems',
-      slug: 'ml-foundations',
-      departmentId: deptML.id,
-      description: 'Step-by-step track bridging mathematical fundamentals, regression analysis, PyTorch neural networks, and modern transformer attention.',
-      order: 3,
-    },
-  });
-
-  const mlRes = createdResources.filter((r) => r.departmentId === deptML.id);
-  for (let i = 0; i < mlRes.length; i++) {
-    await prisma.trackItem.create({
-      data: {
-        trackId: trackML.id,
-        resourceId: mlRes[i].id,
-        order: i + 1,
-      },
-    });
-  }
-
-  const trackCyber = await prisma.track.create({
-    data: {
-      title: 'Cyber Security & CTF Starter Track',
-      slug: 'ctf-starter',
-      departmentId: deptCyber.id,
-      description: 'Hands-on beginner roadmap for aspiring ethical hackers: learn Linux command line navigation, web exploits, cryptography, and binary reverse engineering.',
-      order: 4,
-    },
-  });
-
-  const cyberRes = createdResources.filter((r) => r.departmentId === deptCyber.id);
-  for (let i = 0; i < cyberRes.length; i++) {
-    await prisma.trackItem.create({
-      data: {
-        trackId: trackCyber.id,
-        resourceId: cyberRes[i].id,
-        order: i + 1,
-      },
-    });
-  }
-  console.log('✅ Created 4 curated learning tracks with linked resources');
-
-  // 7. Self-Check Quizzes & Pedagogical Questions
-  const quizWeb = await prisma.quiz.create({
-    data: {
-      title: 'Web Development 101 Self-Check',
-      slug: 'web-dev-101-quiz',
-      departmentId: deptDev.id,
-      topic: 'Web Dev 101',
-      description: 'Quick 5-question test on modern HTML/CSS layout, React rendering, Next.js Server Components, and HTTP APIs.',
-    },
-  });
-
+  // 6. Curated Self-Check Quizzes with Embedded Questions
   const webQuestions = [
     {
       question: 'In Next.js App Router, which of the following is true by default for components created inside the app directory?',
@@ -598,22 +497,14 @@ async function main() {
     },
   ];
 
-  for (const q of webQuestions) {
-    await prisma.quizQuestion.create({
-      data: {
-        quizId: quizWeb.id,
-        ...q,
-      },
-    });
-  }
-
-  const quizCP = await prisma.quiz.create({
+  await prisma.quiz.create({
     data: {
-      title: 'DSA & Algorithmic Problem Solving Check',
-      slug: 'dsa-cp-quiz',
-      departmentId: deptCP.id,
-      topic: 'DSA Starter',
-      description: 'Evaluate your algorithmic intuition: asymptotic complexity, amortized analysis, graph algorithms, and DP states.',
+      title: 'Web Development 101 Self-Check',
+      slug: 'web-dev-101-quiz',
+      departmentId: deptDev.id,
+      topic: 'Web Dev 101',
+      description: 'Quick 5-question test on modern HTML/CSS layout, React rendering, Next.js Server Components, and HTTP APIs.',
+      questions: JSON.stringify(webQuestions.map((q, idx) => ({ id: `q-web-${idx + 1}`, ...q }))),
     },
   });
 
@@ -668,22 +559,14 @@ async function main() {
     },
   ];
 
-  for (const q of cpQuestions) {
-    await prisma.quizQuestion.create({
-      data: {
-        quizId: quizCP.id,
-        ...q,
-      },
-    });
-  }
-
-  const quizML = await prisma.quiz.create({
+  await prisma.quiz.create({
     data: {
-      title: 'Machine Learning & Neural Architectures Check',
-      slug: 'ml-fundamentals-quiz',
-      departmentId: deptML.id,
-      topic: 'ML Foundations',
-      description: 'Check your knowledge on gradient descent, bias-variance tradeoff, convolution kernels, and attention mechanisms.',
+      title: 'DSA & Algorithmic Problem Solving Check',
+      slug: 'dsa-cp-quiz',
+      departmentId: deptCP.id,
+      topic: 'DSA Starter',
+      description: 'Evaluate your algorithmic intuition: asymptotic complexity, amortized analysis, graph algorithms, and DP states.',
+      questions: JSON.stringify(cpQuestions.map((q, idx) => ({ id: `q-cp-${idx + 1}`, ...q }))),
     },
   });
 
@@ -714,22 +597,14 @@ async function main() {
     },
   ];
 
-  for (const q of mlQuestions) {
-    await prisma.quizQuestion.create({
-      data: {
-        quizId: quizML.id,
-        ...q,
-      },
-    });
-  }
-
-  const quizCyber = await prisma.quiz.create({
+  await prisma.quiz.create({
     data: {
-      title: 'Cyber Security & Offensive Hardening Check',
-      slug: 'cyber-security-quiz',
-      departmentId: deptCyber.id,
-      topic: 'CTF & Linux Basics',
-      description: 'Test your understanding of memory corruption, web attack vectors (SQLi, XSS), and Linux permissions.',
+      title: 'Machine Learning & Neural Architectures Check',
+      slug: 'ml-fundamentals-quiz',
+      departmentId: deptML.id,
+      topic: 'ML Foundations',
+      description: 'Check your knowledge on gradient descent, bias-variance tradeoff, convolution kernels, and attention mechanisms.',
+      questions: JSON.stringify(mlQuestions.map((q, idx) => ({ id: `q-ml-${idx + 1}`, ...q }))),
     },
   });
 
@@ -760,15 +635,17 @@ async function main() {
     },
   ];
 
-  for (const q of cyberQuestions) {
-    await prisma.quizQuestion.create({
-      data: {
-        quizId: quizCyber.id,
-        ...q,
-      },
-    });
-  }
-  console.log('✅ Created 4 interactive quizzes with detailed explanations');
+  await prisma.quiz.create({
+    data: {
+      title: 'Cyber Security & Offensive Hardening Check',
+      slug: 'cyber-security-quiz',
+      departmentId: deptCyber.id,
+      topic: 'CTF & Linux Basics',
+      description: 'Test your understanding of memory corruption, web attack vectors (SQLi, XSS), and Linux permissions.',
+      questions: JSON.stringify(cyberQuestions.map((q, idx) => ({ id: `q-cyber-${idx + 1}`, ...q }))),
+    },
+  });
+  console.log('✅ Created 4 interactive quizzes with detailed embedded explanations');
 
   // 8. Events (Rich upcoming and past club events)
   const eventsData = [
@@ -972,55 +849,39 @@ Stay tuned for our upcoming workshop on fine-tuning Llama-3 models with LoRA!`,
   }
   console.log('✅ Created blog posts');
 
-  // 11. Gallery Albums
-  const album1 = await prisma.galleryAlbum.create({
+  // 11. Gallery Albums with Embedded Images
+  const album1Images = [
+    { id: 'img-1-1', url: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80', caption: 'King of the Hills CP Finals in Session' },
+    { id: 'img-1-2', url: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=800&q=80', caption: 'Keynote lecture on Distributed Consensus' },
+    { id: 'img-1-3', url: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=800&q=80', caption: 'Project Parade exhibition booths' },
+    { id: 'img-1-4', url: 'https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=800&q=80', caption: 'Award ceremony and prize distribution' },
+  ];
+
+  await prisma.galleryAlbum.create({
     data: {
       title: 'Apeireon 2025: CS Flagship Fest',
       slug: 'apeireon-2025',
       date: 'March 2025',
       cover: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80',
+      images: JSON.stringify(album1Images),
     },
   });
 
-  const album1Images = [
-    { url: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80', caption: 'King of the Hills CP Finals in Session' },
-    { url: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=800&q=80', caption: 'Keynote lecture on Distributed Consensus' },
-    { url: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=800&q=80', caption: 'Project Parade exhibition booths' },
-    { url: 'https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=800&q=80', caption: 'Award ceremony and prize distribution' },
+  const album2Images = [
+    { id: 'img-2-1', url: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80', caption: 'Midnight sprint in the main lab' },
+    { id: 'img-2-2', url: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80', caption: 'Mentor debugging session with teams' },
   ];
 
-  for (const img of album1Images) {
-    await prisma.galleryImage.create({
-      data: {
-        albumId: album1.id,
-        ...img,
-      },
-    });
-  }
-
-  const album2 = await prisma.galleryAlbum.create({
+  await prisma.galleryAlbum.create({
     data: {
       title: 'Hack-Odisha & Intra-IIT Hackathon 2025',
       slug: 'hackathon-2025',
       date: 'October 2025',
       cover: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80',
+      images: JSON.stringify(album2Images),
     },
   });
-
-  const album2Images = [
-    { url: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80', caption: 'Midnight sprint in the main lab' },
-    { url: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80', caption: 'Mentor debugging session with teams' },
-  ];
-
-  for (const img of album2Images) {
-    await prisma.galleryImage.create({
-      data: {
-        albumId: album2.id,
-        ...img,
-      },
-    });
-  }
-  console.log('✅ Created gallery albums');
+  console.log('✅ Created gallery albums with embedded images');
 
   // 12. Pre-seed Submissions (Sample contact & anonymous report)
   await prisma.submission.create({
@@ -1051,21 +912,6 @@ Stay tuned for our upcoming workshop on fine-tuning Llama-3 models with LoRA!`,
     },
   });
   console.log('✅ Created sample submissions in inbox');
-
-  // 13. Home Sections
-  const homeSections = [
-    { key: 'hero', title: 'Hero Banner & Club Intro', order: 1, enabled: true },
-    { key: 'upcoming_events', title: 'Live Events Strip', order: 2, enabled: true },
-    { key: 'departments', title: 'Department Portals', order: 3, enabled: true },
-    { key: 'featured_resources', title: 'Featured Resources & Tracks', order: 4, enabled: true },
-    { key: 'recent_wins', title: 'Recent Wins & Achievements', order: 5, enabled: true },
-    { key: 'team_preview', title: 'Leadership & Team Preview', order: 6, enabled: true },
-  ];
-
-  for (const hs of homeSections) {
-    await prisma.homeSection.create({ data: hs });
-  }
-  console.log('✅ Initialized home sections configuration');
 
   console.log('🎉 Database seeding completed successfully! All PRD features pre-loaded.');
 }

@@ -15,9 +15,6 @@ export default async function QuizzesPage() {
   const quizzes = await prisma.quiz.findMany({
     include: {
       department: true,
-      questions: {
-        select: { id: true },
-      },
     },
     orderBy: { createdAt: 'desc' },
   });
@@ -59,7 +56,13 @@ export default async function QuizzesPage() {
                     {quiz.department?.name || 'NJACK Core'}
                   </span>
                   <span className="text-xs font-mono text-[#8A8F98]">
-                    {quiz.questions.length} Questions
+                    {(() => {
+                      try {
+                        return JSON.parse(quiz.questions || '[]').length;
+                      } catch {
+                        return 0;
+                      }
+                    })()} Questions
                   </span>
                 </div>
 
