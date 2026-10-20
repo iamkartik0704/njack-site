@@ -1,21 +1,16 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import Link from 'next/link';
 import {
   Search,
-  Filter,
   BookOpen,
   FileText,
   PlayCircle,
   ExternalLink,
   Code,
   Layers,
-  Sparkles,
   Share2,
   Check,
-  Bookmark,
-  ArrowRight
 } from 'lucide-react';
 
 export interface ResourceItem {
@@ -57,9 +52,9 @@ const typeIcons: Record<string, React.ElementType> = {
 };
 
 const difficultyColors: Record<string, { bg: string; text: string; border: string }> = {
-  beginner: { bg: 'bg-emerald-500/15', text: 'text-emerald-400', border: 'border-emerald-500/30' },
-  intermediate: { bg: 'bg-cyan-500/15', text: 'text-cyan-400', border: 'border-cyan-500/30' },
-  advanced: { bg: 'bg-purple-500/15', text: 'text-purple-400', border: 'border-purple-500/30' },
+  beginner: { bg: 'bg-emerald-500/10', text: 'text-emerald-400', border: 'border-emerald-500/20' },
+  intermediate: { bg: 'bg-[#FF8A00]/10', text: 'text-[#FF8A00]', border: 'border-[#FF8A00]/20' },
+  advanced: { bg: 'bg-[#FF5722]/10', text: 'text-[#FF5722]', border: 'border-[#FF5722]/20' },
 };
 
 export default function ResourceCatalog({
@@ -128,46 +123,46 @@ export default function ResourceCatalog({
   return (
     <div className="w-full space-y-8">
       {/* Controls Bar: Search & Filters */}
-      <div className="rounded-2xl border border-white/10 bg-slate-900/60 p-4 sm:p-6 backdrop-blur-xl shadow-2xl">
+      <div className="rounded-2xl border border-white/[0.08] bg-[#0E1016]/80 p-4 sm:p-6 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]">
         <div className="flex flex-col gap-4">
           
           {/* Top row: Search input & quick stats */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <div className="relative flex-1">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#8A8F98]" />
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search resources by title, topic, or technology (e.g. Dynamic Programming, Docker, PyTorch)..."
-                className="w-full rounded-xl border border-white/10 bg-black/40 pl-10 pr-4 py-3 text-sm text-white placeholder-slate-400 transition-colors focus:border-cyan-500 focus:outline-none focus:ring-1 focus:ring-cyan-500"
+                className="w-full rounded-xl border border-white/[0.08] bg-[#07080A]/70 pl-10 pr-4 py-2.5 text-sm text-white placeholder-[#8A8F98] transition-colors focus:border-[#FF5722] focus:outline-none focus:ring-1 focus:ring-[#FF5722]"
                 id="resource-search-input"
               />
               {search && (
                 <button
                   onClick={() => setSearch('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-white"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[#8A8F98] hover:text-white"
                 >
                   Clear
                 </button>
               )}
             </div>
 
-            <div className="flex items-center gap-2 justify-between sm:justify-end text-xs font-mono text-slate-400">
-              <span className="rounded-lg bg-white/5 px-3 py-2 border border-white/10 text-cyan-400 font-semibold">
-                Showing {filteredResources.length} of {initialResources.length} resources
+            <div className="flex items-center gap-2 justify-between sm:justify-end text-xs font-mono text-[#8A8F98]">
+              <span className="rounded-lg bg-white/[0.04] px-3 py-2 border border-white/[0.08] text-neutral-300 font-semibold">
+                Showing {filteredResources.length} of {initialResources.length} items
               </span>
             </div>
           </div>
 
-          {/* Department Pills */}
+          {/* Department Filter Pills */}
           <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
             <button
               onClick={() => setSelectedDept('all')}
-              className={`rounded-xl px-3.5 py-1.5 text-xs font-medium transition-all whitespace-nowrap ${
+              className={`rounded-full px-3.5 py-1 text-xs font-mono transition-all whitespace-nowrap ${
                 selectedDept === 'all'
-                  ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-glow-cyan'
-                  : 'bg-white/5 text-slate-300 hover:bg-white/10 border border-white/5'
+                  ? 'bg-[#FF5722] text-white font-semibold shadow-[0_0_15px_rgba(255,87,34,0.4)]'
+                  : 'bg-white/[0.04] text-[#8A8F98] hover:text-white hover:bg-white/[0.08] border border-white/[0.08]'
               }`}
             >
               All Divisions
@@ -178,10 +173,10 @@ export default function ResourceCatalog({
                 <button
                   key={dept.id}
                   onClick={() => setSelectedDept(dept.slug)}
-                  className={`rounded-xl px-3.5 py-1.5 text-xs font-medium transition-all whitespace-nowrap ${
+                  className={`rounded-full px-3.5 py-1 text-xs font-mono transition-all whitespace-nowrap ${
                     active
-                      ? 'bg-cyan-500 text-white shadow-glow-cyan font-semibold'
-                      : 'bg-white/5 text-slate-300 hover:bg-white/10 border border-white/5'
+                      ? 'bg-[#FF5722] text-white font-semibold shadow-[0_0_15px_rgba(255,87,34,0.4)]'
+                      : 'bg-white/[0.04] text-[#8A8F98] hover:text-white hover:bg-white/[0.08] border border-white/[0.08]'
                   }`}
                 >
                   {dept.name}
@@ -191,16 +186,16 @@ export default function ResourceCatalog({
           </div>
 
           {/* Sub-Filters: Topic, Difficulty, Resource Type */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-white/5">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3 border-t border-white/[0.06]">
             {/* Topic Selector */}
             <div>
-              <label className="block text-[11px] font-mono text-slate-400 uppercase tracking-wider mb-1">
+              <label className="block text-[11px] font-mono text-[#8A8F98] uppercase tracking-wider mb-1">
                 Topic
               </label>
               <select
                 value={selectedTopic}
                 onChange={(e) => setSelectedTopic(e.target.value)}
-                className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-xs text-white transition-colors focus:border-cyan-500 focus:outline-none"
+                className="w-full rounded-lg border border-white/[0.08] bg-[#07080A]/90 px-3 py-2 text-xs text-white transition-colors focus:border-[#FF5722] focus:outline-none"
               >
                 <option value="all">All Topics</option>
                 {allTopics.map((topic) => (
@@ -213,13 +208,13 @@ export default function ResourceCatalog({
 
             {/* Difficulty Selector */}
             <div>
-              <label className="block text-[11px] font-mono text-slate-400 uppercase tracking-wider mb-1">
+              <label className="block text-[11px] font-mono text-[#8A8F98] uppercase tracking-wider mb-1">
                 Difficulty
               </label>
               <select
                 value={selectedDifficulty}
                 onChange={(e) => setSelectedDifficulty(e.target.value)}
-                className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-xs text-white transition-colors focus:border-cyan-500 focus:outline-none"
+                className="w-full rounded-lg border border-white/[0.08] bg-[#07080A]/90 px-3 py-2 text-xs text-white transition-colors focus:border-[#FF5722] focus:outline-none"
               >
                 <option value="all">All Difficulties</option>
                 <option value="beginner">Beginner</option>
@@ -230,13 +225,13 @@ export default function ResourceCatalog({
 
             {/* Resource Type Selector */}
             <div>
-              <label className="block text-[11px] font-mono text-slate-400 uppercase tracking-wider mb-1">
+              <label className="block text-[11px] font-mono text-[#8A8F98] uppercase tracking-wider mb-1">
                 Content Type
               </label>
               <select
                 value={selectedType}
                 onChange={(e) => setSelectedType(e.target.value)}
-                className="w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-xs text-white transition-colors focus:border-cyan-500 focus:outline-none"
+                className="w-full rounded-lg border border-white/[0.08] bg-[#07080A]/90 px-3 py-2 text-xs text-white transition-colors focus:border-[#FF5722] focus:outline-none"
               >
                 <option value="all">All Media Types</option>
                 <option value="note">Notes & Cheat Sheets</option>
@@ -253,11 +248,11 @@ export default function ResourceCatalog({
 
       {/* Resources Grid */}
       {filteredResources.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-white/15 bg-slate-900/30 p-12 text-center">
-          <BookOpen className="h-12 w-12 text-slate-500 mb-3" />
+        <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-white/[0.1] bg-[#0E1016]/40 p-12 text-center">
+          <BookOpen className="h-12 w-12 text-[#8A8F98]/50 mb-3" />
           <h3 className="text-lg font-semibold text-white">No matching resources found</h3>
-          <p className="mt-1 text-sm text-slate-400 max-w-md">
-            Try adjusting your search terms, changing the department filter, or resetting difficulty levels.
+          <p className="mt-1 text-sm text-[#8A8F98] max-w-md">
+            Try adjusting your search terms, changing the division filter, or resetting difficulty levels.
           </p>
           <button
             onClick={() => {
@@ -267,7 +262,7 @@ export default function ResourceCatalog({
               setSelectedType('all');
               setSelectedTopic('all');
             }}
-            className="mt-4 rounded-xl bg-cyan-500/20 px-4 py-2 text-xs font-semibold text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/30 transition-all"
+            className="mt-4 rounded-xl bg-[#FF5722]/15 px-4 py-2 text-xs font-semibold text-[#FF5722] border border-[#FF5722]/30 hover:bg-[#FF5722]/25 transition-all"
           >
             Reset All Filters
           </button>
@@ -285,37 +280,37 @@ export default function ResourceCatalog({
             return (
               <div
                 key={resource.id}
-                className="group relative flex flex-col justify-between rounded-2xl border border-white/10 bg-slate-900/40 p-5 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:border-cyan-500/40 hover:bg-slate-900/70 hover:shadow-xl hover:shadow-cyan-500/5"
+                className="group relative flex flex-col justify-between rounded-2xl border border-white/[0.08] bg-[#0E1016]/80 p-5 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] hover:border-white/20 hover:-translate-y-1 transition-all duration-300"
               >
                 <div>
                   {/* Card Header: Type Badge & Department */}
                   <div className="flex items-center justify-between gap-2 mb-3">
-                    <span className="flex items-center gap-1.5 rounded-lg bg-white/5 px-2.5 py-1 text-[11px] font-mono font-medium text-slate-300 border border-white/5">
-                      <TypeIcon className="h-3 w-3 text-cyan-400" />
+                    <span className="flex items-center gap-1.5 rounded-lg bg-white/[0.05] px-2.5 py-1 text-[11px] font-mono font-medium text-neutral-300 border border-white/[0.06]">
+                      <TypeIcon className="h-3 w-3 text-[#FF5722]" />
                       <span className="capitalize">{resource.type}</span>
                     </span>
 
                     <span
-                      className={`rounded-lg px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider font-semibold border ${diffStyle.bg} ${diffStyle.text} ${diffStyle.border}`}
+                      className={`rounded-full px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider font-semibold border ${diffStyle.bg} ${diffStyle.text} ${diffStyle.border}`}
                     >
                       {resource.difficulty}
                     </span>
                   </div>
 
                   {/* Title */}
-                  <h3 className="font-semibold text-white text-base leading-snug group-hover:text-cyan-300 transition-colors line-clamp-2">
+                  <h3 className="font-display font-bold text-white text-base leading-snug group-hover:text-[#FF5722] transition-colors line-clamp-2">
                     {resource.title}
                   </h3>
 
                   {/* Department & Topic subtitle */}
-                  <div className="mt-1 flex items-center gap-2 text-xs text-slate-400">
-                    <span className="font-medium text-cyan-400/90">{resource.department.name}</span>
-                    <span>•</span>
-                    <span className="text-slate-300">{resource.topic}</span>
+                  <div className="mt-1 flex items-center gap-2 text-xs text-[#8A8F98]">
+                    <span className="font-medium text-[#FF8A00]">{resource.department.name}</span>
+                    <span className="text-white/20">•</span>
+                    <span className="text-neutral-300">{resource.topic}</span>
                   </div>
 
                   {/* Description */}
-                  <p className="mt-2.5 text-xs text-slate-300/80 leading-relaxed line-clamp-3">
+                  <p className="mt-2.5 text-xs text-[#8A8F98] leading-relaxed line-clamp-3">
                     {resource.description}
                   </p>
 
@@ -325,13 +320,13 @@ export default function ResourceCatalog({
                       {tagsList.slice(0, 3).map((tag) => (
                         <span
                           key={tag}
-                          className="rounded-md bg-white/5 px-2 py-0.5 text-[10px] font-mono text-slate-400 border border-white/5"
+                          className="rounded-md bg-white/[0.03] px-2 py-0.5 text-[10px] font-mono text-[#8A8F98] border border-white/[0.06]"
                         >
                           #{tag}
                         </span>
                       ))}
                       {tagsList.length > 3 && (
-                        <span className="text-[10px] font-mono text-slate-500 self-center">
+                        <span className="text-[10px] font-mono text-[#8A8F98]/60 self-center">
                           +{tagsList.length - 3}
                         </span>
                       )}
@@ -340,10 +335,10 @@ export default function ResourceCatalog({
                 </div>
 
                 {/* Card Footer: Action Links */}
-                <div className="mt-5 flex items-center justify-between border-t border-white/5 pt-3">
+                <div className="mt-5 flex items-center justify-between border-t border-white/[0.06] pt-3">
                   <button
                     onClick={() => handleCopyLink(resource.id, resource.url)}
-                    className="flex items-center gap-1 text-[11px] font-mono text-slate-400 hover:text-white transition-colors"
+                    className="flex items-center gap-1.5 text-[11px] font-mono text-[#8A8F98] hover:text-white transition-colors"
                     title="Copy resource URL"
                   >
                     {copiedId === resource.id ? (
@@ -363,7 +358,7 @@ export default function ResourceCatalog({
                     href={resource.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 rounded-lg bg-cyan-500/15 px-3 py-1.5 text-xs font-semibold text-cyan-300 border border-cyan-500/30 transition-all hover:bg-cyan-500 hover:text-white hover:shadow-glow-cyan"
+                    className="flex items-center gap-1.5 rounded-xl bg-[#FF5722] px-3.5 py-1.5 text-xs font-semibold text-white transition-all hover:bg-[#FF3D00] hover:shadow-[0_0_15px_rgba(255,87,34,0.35)]"
                   >
                     <span>Open Resource</span>
                     <ExternalLink className="h-3.5 w-3.5" />

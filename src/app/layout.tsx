@@ -45,12 +45,12 @@ export const metadata: Metadata = {
     template: '%s | NJACK IIT Patna',
   },
   description:
-    'The premier student-led coding club of Indian Institute of Technology Patna (Not Just Another Coding Klub). Algorithmic problem solving, production systems, cybersecurity, and artificial intelligence.',
+    'The premier student-led computer science club of Indian Institute of Technology Patna (Not Just Another Computer Science Club). Algorithmic problem solving, production systems, cybersecurity, and artificial intelligence.',
   keywords: [
     'NJACK',
     'IIT Patna',
-    'Coding Club',
-    'Not Just Another Coding Klub',
+    'Computer Science Club',
+    'Not Just Another Computer Science Club',
     'Competitive Programming',
     'Open Source',
     'Machine Learning',
@@ -62,9 +62,9 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'NJACK IIT Patna', url: 'https://njack.iitp.ac.in' }],
   openGraph: {
-    title: 'NJACK — Official Coding Club | IIT Patna',
+    title: 'NJACK — Official Computer Science Club | IIT Patna',
     description:
-      'The official Coding Club of IIT Patna (Not Just Another Coding Klub) — fostering engineering excellence, open source, algorithmic dominance, and AI research.',
+      'The official Computer Science Club of IIT Patna (Not Just Another Computer Science Club) — fostering engineering excellence, open source, algorithmic dominance, and AI research.',
     url: 'https://njack.iitp.ac.in',
     siteName: 'NJACK IIT Patna',
     type: 'website',

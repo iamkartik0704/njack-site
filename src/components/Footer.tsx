@@ -144,7 +144,7 @@ export default function Footer() {
               </span>
             </div>
             <p className="font-sans text-xs leading-relaxed text-[#8A8F98]">
-              The official Coding Club of IIT Patna (Not Just Another Coding Klub). Fostering algorithmic supremacy, production systems, and artificial intelligence research.
+              The official Computer Science Club of IIT Patna (Not Just Another Computer Science Club). Fostering algorithmic supremacy, production systems, and artificial intelligence research.
             </p>
             <div className="pt-2 font-sans text-[11px] text-[#8A8F98]">
               Est. 2008 • Indian Institute of Technology Patna
@@ -257,16 +257,8 @@ export default function Footer() {
           </p>
 
           <p className="flex items-center gap-1.5 text-center">
-            <span>DEVELOPED WITH RIGOR BY</span>
-            <Link
-              href="https://github.com/iamkartik0704"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[#FF5722] font-semibold hover:underline"
-            >
-              iamkartik0704
-            </Link>
-            <span>(KARTIK CHAWLA)</span>
+            <span>DEVELOPED WITH ❤️ BY</span>
+            <span className="text-[#FF5722] font-semibold">NJACK</span>
           </p>
         </div>
       </div>

@@ -5,7 +5,7 @@ import { Users } from 'lucide-react';
 export const metadata = {
   title: 'Team & Coordinators | NJACK IIT Patna',
   description:
-    'Meet the student leaders, department coordinators, and sub-coordinators steering NJACK (Not Just Another Coding Klub) at IIT Patna.',
+    'Meet the student leaders, department coordinators, and sub-coordinators steering NJACK (Not Just Another Computer Science Club) at IIT Patna.',
 };
 
 export default function TeamPage() {

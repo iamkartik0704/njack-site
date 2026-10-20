@@ -44,13 +44,13 @@ export default function QuizPlayer({
 
   if (!questions || questions.length === 0) {
     return (
-      <div className="rounded-3xl border border-white/10 bg-slate-900/50 p-8 text-center text-slate-300">
-        <HelpCircle className="mx-auto h-12 w-12 text-slate-500 mb-3" />
+      <div className="rounded-2xl border border-white/[0.08] bg-[#0E1016]/80 p-8 text-center text-[#8A8F98]">
+        <HelpCircle className="mx-auto h-12 w-12 text-[#8A8F98]/50 mb-3" />
         <h3 className="text-lg font-semibold text-white">No questions available</h3>
-        <p className="mt-1 text-xs text-slate-400">Questions are currently being added for this topic.</p>
+        <p className="mt-1 text-xs text-[#8A8F98]">Questions are currently being added for this topic.</p>
         <Link
           href="/quizzes"
-          className="mt-4 inline-flex items-center gap-2 rounded-xl bg-cyan-500/20 px-4 py-2 text-xs font-semibold text-cyan-400 border border-cyan-500/30"
+          className="mt-4 inline-flex items-center gap-2 rounded-xl bg-[#FF5722]/15 px-4 py-2 text-xs font-semibold text-[#FF5722] border border-[#FF5722]/30 hover:bg-[#FF5722]/25"
         >
           Back to Quizzes
         </Link>
@@ -106,45 +106,45 @@ export default function QuizPlayer({
   if (quizCompleted) {
     const percentage = Math.round((score / questions.length) * 100);
     let gradeMsg = 'Keep Practicing!';
-    let gradeDesc = 'Review the topics in our Resource Hub and attempt the quiz again to cement your understanding.';
+    let gradeDesc = 'Review the topics in our Resource Catalog and attempt the quiz again to cement your understanding.';
     if (percentage === 100) {
-      gradeMsg = 'Flawless Victory! 🎯';
-      gradeDesc = 'Outstanding! You have complete mastery of this subject matter.';
+      gradeMsg = 'Flawless Mastery! 🎯';
+      gradeDesc = 'Outstanding! You demonstrated complete conceptual and algorithmic precision.';
     } else if (percentage >= 75) {
-      gradeMsg = 'Great Job! 🚀';
-      gradeDesc = 'Solid foundation! You demonstrated clear command over key concepts.';
+      gradeMsg = 'Great Performance! 🚀';
+      gradeDesc = 'Solid foundation! You demonstrated clear command over key systems and concepts.';
     }
 
     return (
-      <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-6 sm:p-10 backdrop-blur-xl shadow-2xl text-center space-y-6 max-w-2xl mx-auto">
-        <div className="inline-flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-500/40 text-amber-400 shadow-glow-amber">
+      <div className="rounded-2xl border border-white/[0.08] bg-[#0E1016]/80 p-6 sm:p-10 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] text-center space-y-6 max-w-2xl mx-auto">
+        <div className="inline-flex h-20 w-20 items-center justify-center rounded-2xl bg-[#FF5722]/15 border border-[#FF5722]/30 text-[#FF5722] shadow-[0_0_25px_rgba(255,87,34,0.35)]">
           <Trophy className="h-10 w-10 animate-bounce" />
         </div>
 
         <div>
-          <span className="rounded-full bg-cyan-500/15 px-3 py-1 text-xs font-mono font-semibold text-cyan-400 border border-cyan-500/30">
+          <span className="rounded-full bg-[#FF5722]/10 px-3 py-1 text-xs font-mono font-semibold text-[#FF5722] border border-[#FF5722]/20">
             {departmentName} • {quizTopic}
           </span>
-          <h2 className="mt-3 text-2xl sm:text-3xl font-black text-white">{gradeMsg}</h2>
-          <p className="mt-2 text-sm text-slate-300">{gradeDesc}</p>
+          <h2 className="mt-3 text-2xl sm:text-3xl font-display font-black text-white">{gradeMsg}</h2>
+          <p className="mt-2 text-sm text-[#8A8F98]">{gradeDesc}</p>
         </div>
 
         {/* Score Badge */}
-        <div className="rounded-2xl border border-white/10 bg-black/40 p-6 flex items-center justify-around">
+        <div className="rounded-2xl border border-white/[0.08] bg-[#07080A]/60 p-6 flex items-center justify-around">
           <div>
-            <div className="text-3xl sm:text-4xl font-black text-cyan-400 font-mono">
+            <div className="text-3xl sm:text-4xl font-black text-[#FF8A00] font-mono">
               {score}/{questions.length}
             </div>
-            <div className="text-xs font-mono text-slate-400 uppercase tracking-wider mt-1">
+            <div className="text-xs font-mono text-[#8A8F98] uppercase tracking-wider mt-1">
               Correct Answers
             </div>
           </div>
           <div className="h-10 w-px bg-white/10" />
           <div>
-            <div className="text-3xl sm:text-4xl font-black text-amber-400 font-mono">
+            <div className="text-3xl sm:text-4xl font-black text-[#FF5722] font-mono">
               {percentage}%
             </div>
-            <div className="text-xs font-mono text-slate-400 uppercase tracking-wider mt-1">
+            <div className="text-xs font-mono text-[#8A8F98] uppercase tracking-wider mt-1">
               Accuracy
             </div>
           </div>
@@ -154,7 +154,7 @@ export default function QuizPlayer({
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
           <button
             onClick={handleRestart}
-            className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-white/10 px-5 py-2.5 text-xs font-semibold text-white hover:bg-white/20 transition-all border border-white/10"
+            className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-white/[0.04] px-5 py-2.5 text-xs font-semibold text-white hover:bg-white/[0.08] transition-all border border-white/[0.08]"
           >
             <RotateCcw className="h-4 w-4" />
             <span>Retake Quiz</span>
@@ -162,10 +162,10 @@ export default function QuizPlayer({
 
           <Link
             href="/resources"
-            className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-5 py-2.5 text-xs font-semibold text-white shadow-glow-cyan transition-all hover:scale-[1.02]"
+            className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-[#FF5722] px-5 py-2.5 text-xs font-semibold text-white shadow-[0_0_15px_rgba(255,87,34,0.35)] transition-all hover:bg-[#FF3D00]"
           >
             <BookOpen className="h-4 w-4" />
-            <span>Explore Resource Hub</span>
+            <span>Explore Resources</span>
           </Link>
         </div>
       </div>
@@ -178,27 +178,27 @@ export default function QuizPlayer({
   return (
     <div className="w-full max-w-3xl mx-auto space-y-6">
       {/* Progress Bar & Header */}
-      <div className="flex items-center justify-between text-xs font-mono text-slate-400">
-        <span className="text-cyan-400 font-semibold">
+      <div className="flex items-center justify-between text-xs font-mono text-[#8A8F98]">
+        <span className="text-[#FF5722] font-semibold">
           Question {currentIndex + 1} of {questions.length}
         </span>
         <span>{progressPercent}% Complete</span>
       </div>
 
-      <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10">
+      <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/[0.08]">
         <div
-          className="h-full bg-gradient-to-r from-cyan-500 to-blue-600 transition-all duration-300"
+          className="h-full bg-gradient-to-r from-[#FF8A00] to-[#FF5722] transition-all duration-300"
           style={{ width: `${progressPercent}%` }}
         />
       </div>
 
       {/* Main Question Card */}
-      <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-6 sm:p-8 backdrop-blur-xl shadow-2xl space-y-6">
+      <div className="rounded-2xl border border-white/[0.08] bg-[#0E1016]/80 p-6 sm:p-8 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] space-y-6">
         <div>
-          <span className="text-[11px] font-mono uppercase tracking-wider text-cyan-400/90">
+          <span className="text-[11px] font-mono uppercase tracking-wider text-[#FF8A00]">
             {departmentName} • {quizTopic}
           </span>
-          <h2 className="mt-2 text-lg sm:text-xl font-bold text-white leading-relaxed">
+          <h2 className="mt-2 text-lg sm:text-xl font-display font-bold text-white leading-relaxed">
             {currentQ.question}
           </h2>
         </div>
@@ -206,7 +206,7 @@ export default function QuizPlayer({
         {/* Options */}
         <div className="space-y-3">
           {parsedOptions.map((opt, idx) => {
-            let optionStyles = 'border-white/10 bg-black/40 text-slate-200 hover:border-cyan-500/50 hover:bg-white/5';
+            let optionStyles = 'border-white/[0.08] bg-[#07080A]/60 text-neutral-200 hover:border-[#FF5722]/50 hover:bg-white/[0.03]';
             const isSelected = selectedOption === idx;
             const isCorrect = idx === currentQ.correctIndex;
 
@@ -216,10 +216,10 @@ export default function QuizPlayer({
               } else if (isSelected) {
                 optionStyles = 'border-rose-500/50 bg-rose-500/15 text-rose-300 font-medium';
               } else {
-                optionStyles = 'border-white/5 bg-black/20 text-slate-500 opacity-60';
+                optionStyles = 'border-white/[0.04] bg-black/20 text-[#8A8F98] opacity-50';
               }
             } else if (isSelected) {
-              optionStyles = 'border-cyan-500 bg-cyan-500/15 text-cyan-300 font-medium shadow-glow-cyan';
+              optionStyles = 'border-[#FF5722] bg-[#FF5722]/15 text-white font-medium shadow-[0_0_15px_rgba(255,87,34,0.35)]';
             }
 
             return (
@@ -227,9 +227,9 @@ export default function QuizPlayer({
                 key={idx}
                 onClick={() => handleSelect(idx)}
                 disabled={isAnswerSubmitted}
-                className={`flex w-full items-start gap-3.5 rounded-2xl border p-4 text-left text-sm transition-all duration-200 ${optionStyles}`}
+                className={`flex w-full items-start gap-3.5 rounded-xl border p-4 text-left text-sm transition-all duration-200 ${optionStyles}`}
               >
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-white/20 font-mono text-xs font-semibold">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-white/10 font-mono text-xs font-semibold">
                   {String.fromCharCode(65 + idx)}
                 </span>
                 <span className="flex-1 leading-relaxed">{opt}</span>
@@ -247,14 +247,14 @@ export default function QuizPlayer({
 
         {/* Pedagogical Explanation Card */}
         {isAnswerSubmitted && (
-          <div className="rounded-2xl border border-cyan-500/30 bg-cyan-950/30 p-4 sm:p-5 backdrop-blur-md animate-fadeIn">
+          <div className="rounded-xl border border-[#FF5722]/30 bg-[#FF5722]/10 p-4 sm:p-5 backdrop-blur-md animate-fadeIn">
             <div className="flex items-start gap-3">
-              <Sparkles className="h-5 w-5 text-cyan-400 shrink-0 mt-0.5" />
+              <Sparkles className="h-5 w-5 text-[#FF5722] shrink-0 mt-0.5" />
               <div className="space-y-1">
-                <div className="text-xs font-mono font-semibold uppercase tracking-wider text-cyan-400">
+                <div className="text-xs font-mono font-semibold uppercase tracking-wider text-[#FF5722]">
                   Concept Explanation
                 </div>
-                <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
+                <p className="text-xs sm:text-sm text-neutral-200 leading-relaxed">
                   {currentQ.explanation}
                 </p>
               </div>
@@ -263,8 +263,8 @@ export default function QuizPlayer({
         )}
 
         {/* Card Actions */}
-        <div className="flex items-center justify-between border-t border-white/5 pt-4">
-          <div className="text-xs font-mono text-slate-400">
+        <div className="flex items-center justify-between border-t border-white/[0.06] pt-4">
+          <div className="text-xs font-mono text-[#8A8F98]">
             {isAnswerSubmitted ? (
               selectedOption === currentQ.correctIndex ? (
                 <span className="text-emerald-400 font-semibold">✓ Correct answer!</span>
@@ -272,7 +272,7 @@ export default function QuizPlayer({
                 <span className="text-rose-400 font-semibold">✗ Not quite right</span>
               )
             ) : (
-              <span>Select an option to check</span>
+              <span>Select an option to evaluate</span>
             )}
           </div>
 
@@ -282,8 +282,8 @@ export default function QuizPlayer({
               disabled={selectedOption === null}
               className={`rounded-xl px-5 py-2.5 text-xs font-semibold transition-all ${
                 selectedOption !== null
-                  ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-glow-cyan hover:scale-[1.02]'
-                  : 'bg-white/5 text-slate-500 cursor-not-allowed border border-white/5'
+                  ? 'bg-[#FF5722] text-white shadow-[0_0_15px_rgba(255,87,34,0.35)] hover:bg-[#FF3D00]'
+                  : 'bg-white/[0.04] text-[#8A8F98] cursor-not-allowed border border-white/[0.06]'
               }`}
             >
               Submit Answer
@@ -291,7 +291,7 @@ export default function QuizPlayer({
           ) : (
             <button
               onClick={handleNextQuestion}
-              className="inline-flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 px-5 py-2.5 text-xs font-semibold text-white shadow-glow-cyan hover:scale-[1.02] transition-all"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-[#FF5722] px-5 py-2.5 text-xs font-semibold text-white shadow-[0_0_15px_rgba(255,87,34,0.35)] hover:bg-[#FF3D00] transition-all"
             >
               <span>{currentIndex + 1 === questions.length ? 'View Score' : 'Next Question'}</span>
               <ArrowRight className="h-4 w-4" />
