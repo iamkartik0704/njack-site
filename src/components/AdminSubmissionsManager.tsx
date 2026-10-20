@@ -152,6 +152,7 @@ export default function AdminSubmissionsManager({
               year: 'numeric',
               hour: '2-digit',
               minute: '2-digit',
+              timeZone: 'UTC',
             });
 
             const isReport = item.kind === 'report';

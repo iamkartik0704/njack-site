@@ -10,6 +10,7 @@ import {
   ArrowLeft,
   ExternalLink,
 } from 'lucide-react';
+import { formatEventDateLong, formatEventTime } from '@/lib/utils';
 
 export const revalidate = 300;
 
@@ -28,17 +29,8 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
     notFound();
   }
 
-  const dateObj = new Date(event.startsAt);
-  const dateStr = dateObj.toLocaleDateString('en-US', {
-    weekday: 'long',
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  });
-  const timeStr = dateObj.toLocaleTimeString('en-US', {
-    hour: '2-digit',
-    minute: '2-digit',
-  });
+  const dateStr = formatEventDateLong(event.startsAt);
+  const timeStr = formatEventTime(event.startsAt);
 
   return (
     <div className="min-h-screen bg-[#07080A] text-[#F3F4F6] pt-16 pb-20">
@@ -120,7 +112,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
                   <Calendar className="h-4 w-4 text-[#FF5722] shrink-0 mt-0.5" />
                   <div>
                     <div className="text-[#8A8F98]">Date</div>
-                    <div className="font-semibold text-white">{dateStr}</div>
+                    <div className="font-semibold text-white" suppressHydrationWarning>{dateStr}</div>
                   </div>
                 </div>
 
@@ -128,7 +120,7 @@ export default async function EventDetailPage({ params }: EventDetailPageProps) 
                   <Clock className="h-4 w-4 text-[#FF5722] shrink-0 mt-0.5" />
                   <div>
                     <div className="text-[#8A8F98]">Time</div>
-                    <div className="font-semibold text-white">{timeStr}</div>
+                    <div className="font-semibold text-white" suppressHydrationWarning>{timeStr}</div>
                   </div>
                 </div>
 

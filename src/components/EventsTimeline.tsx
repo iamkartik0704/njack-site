@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import SpotlightBentoCard from '@/components/SpotlightBentoCard';
 import SplitTextReveal from '@/components/SplitTextReveal';
+import { formatEventDate } from '@/lib/utils';
 
 interface EventItem {
   id: string;
@@ -147,18 +148,7 @@ export default function EventsTimeline({ events }: EventsTimelineProps) {
           <div className="space-y-12">
             {items.map((event, idx) => {
               const isEven = idx % 2 === 0;
-              const dateStr =
-                typeof event.startsAt === 'string'
-                  ? new Date(event.startsAt).toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                    })
-                  : event.startsAt.toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                    });
+              const dateStr = formatEventDate(event.startsAt);
 
               return (
                 <div
@@ -194,7 +184,7 @@ export default function EventsTimeline({ events }: EventsTimelineProps) {
 
                         {/* Metadata Pills */}
                         <div className="flex flex-wrap items-center gap-3 font-mono text-xs text-[#8A8F98] pt-2 border-t border-white/[0.06]">
-                          <span className="flex items-center gap-1.5">
+                          <span className="flex items-center gap-1.5" suppressHydrationWarning>
                             <Calendar className="h-3.5 w-3.5 text-[#FF8A00]" />
                             {dateStr}
                           </span>

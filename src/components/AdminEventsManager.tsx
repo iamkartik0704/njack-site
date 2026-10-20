@@ -119,6 +119,7 @@ export default function AdminEventsManager({ initialEvents }: AdminEventsManager
                 month: 'short',
                 day: 'numeric',
                 year: 'numeric',
+                timeZone: 'UTC',
               });
 
               return (

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Calendar, User, ArrowLeft, Clock, Share2 } from 'lucide-react';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
+import { formatEventDateLong } from '@/lib/utils';
 
 export const revalidate = 60;
 
@@ -23,12 +24,7 @@ export default async function BlogPostPage({ params }: PostPageProps) {
     notFound();
   }
 
-  const dateStr = new Date(post.publishedAt).toLocaleDateString('en-US', {
-    weekday: 'long',
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  });
+  const dateStr = formatEventDateLong(post.publishedAt);
   const tags = post.tags ? post.tags.split(',').map((t) => t.trim()) : [];
 
   return (
@@ -67,7 +63,7 @@ export default async function BlogPostPage({ params }: PostPageProps) {
               {post.author}
             </span>
             <span>•</span>
-            <span className="flex items-center gap-1.5">
+            <span className="flex items-center gap-1.5" suppressHydrationWarning>
               <Calendar className="h-3.5 w-3.5" />
               {dateStr}
             </span>

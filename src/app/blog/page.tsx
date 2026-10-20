@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FileText, Calendar, User, ArrowRight, Sparkles } from 'lucide-react';
+import { formatEventDate } from '@/lib/utils';
 
 export const revalidate = 60;
 
@@ -36,11 +37,7 @@ export default async function BlogPage() {
       <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-14">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {posts.map((post) => {
-            const dateStr = new Date(post.publishedAt).toLocaleDateString('en-US', {
-              month: 'short',
-              day: 'numeric',
-              year: 'numeric',
-            });
+            const dateStr = formatEventDate(post.publishedAt);
             const tags = post.tags ? post.tags.split(',').map((t) => t.trim()) : [];
 
             return (
@@ -64,7 +61,7 @@ export default async function BlogPage() {
 
                   <div className="p-6 space-y-3">
                     <div className="flex items-center gap-3 text-xs font-mono text-slate-400">
-                      <span className="flex items-center gap-1 text-cyan-400">
+                      <span className="flex items-center gap-1 text-cyan-400" suppressHydrationWarning>
                         <Calendar className="h-3.5 w-3.5" />
                         {dateStr}
                       </span>

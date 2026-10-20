@@ -32,12 +32,12 @@ export default function UpcomingEventsStrip({ events }: { events: EventStripItem
                   href={`/events`}
                   className="group shrink-0 flex items-center gap-3 rounded-lg border border-white/10 bg-[#0e1118] px-4 py-2 transition-colors hover:border-orange-500/50 hover:bg-[#141824]"
                 >
-                  <div className="flex flex-col items-center text-center w-10">
+                  <div className="flex flex-col items-center text-center w-10" suppressHydrationWarning>
                     <span className="text-[10px] font-semibold text-orange-400 uppercase">
-                      {date.toLocaleDateString('en-IN', { month: 'short' })}
+                      {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][date.getUTCMonth()]}
                     </span>
                     <span className="text-xl font-bold text-white leading-tight">
-                      {date.getDate()}
+                      {date.getUTCDate()}
                     </span>
                   </div>
                   <div className="border-l border-white/10 pl-3 min-w-0">

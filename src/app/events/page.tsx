@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Calendar, MapPin, ExternalLink, ArrowRight, Clock, CheckCircle2 } from 'lucide-react';
+import { formatEventDate, formatEventTime } from '@/lib/utils';
 
 export const revalidate = 300; // Cache 5 min for ultra-fast loads
 
@@ -59,16 +60,8 @@ export default async function EventsPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {upcomingEvents.map((event) => {
-                const dateObj = new Date(event.startsAt);
-                const dateStr = dateObj.toLocaleDateString('en-US', {
-                  month: 'short',
-                  day: 'numeric',
-                  year: 'numeric',
-                });
-                const timeStr = dateObj.toLocaleTimeString('en-US', {
-                  hour: '2-digit',
-                  minute: '2-digit',
-                });
+                const dateStr = formatEventDate(event.startsAt);
+                const timeStr = formatEventTime(event.startsAt);
 
                 return (
                   <div
@@ -102,7 +95,7 @@ export default async function EventsPage() {
                     <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
                       <div className="space-y-2">
                         <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-[#8A8F98]">
-                          <span className="flex items-center gap-1.5 text-[#FF5722]">
+                          <span className="flex items-center gap-1.5 text-[#FF5722]" suppressHydrationWarning>
                             <Clock className="h-3.5 w-3.5" />
                             {dateStr} • {timeStr}
                           </span>
@@ -163,12 +156,7 @@ export default async function EventsPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {pastEvents.map((event) => {
-              const dateObj = new Date(event.startsAt);
-              const dateStr = dateObj.toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric',
-              });
+              const dateStr = formatEventDate(event.startsAt);
 
               return (
                 <div
@@ -187,7 +175,7 @@ export default async function EventsPage() {
                     </div>
 
                     <div className="text-[11px] font-mono text-[#8A8F98] flex items-center justify-between">
-                      <span>{dateStr}</span>
+                      <span suppressHydrationWarning>{dateStr}</span>
                       <span className="text-[#8A8F98]/70">{event.venue}</span>
                     </div>
 
