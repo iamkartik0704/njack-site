@@ -60,14 +60,14 @@ export default async function HomePage() {
                 text="CONQUER."
                 as="h1"
                 delay={0.2}
-                wordClassName="text-gradient-njack drop-shadow-[0_0_35px_rgba(255,87,34,0.45)]"
+                wordClassName="text-[#FF5722]"
                 className="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[0.95]"
               />
             </div>
 
             {/* Editorial Subtitle */}
             <p className="mt-7 max-w-2xl font-sans text-base sm:text-lg leading-relaxed text-[#8A8F98]">
-              NJACK (Not Just Another Computer Science Club) is the official Computer Science Club of IIT Patna—a vibrant community dedicated to empowering students to hone technical skills, collaborate on real-world projects, and organize premier coding competitions and hackathons.
+              NJACK (Not Just Another Computer Science Club) is the official Computer Science Club of IIT Patna, a vibrant community dedicated to empowering students to hone technical skills, collaborate on real-world projects, and organize premier coding competitions and hackathons.
             </p>
 
             {/* Action Buttons & Magnetic Trigger */}
@@ -75,7 +75,7 @@ export default async function HomePage() {
               <Magnetic pullFactor={0.15}>
                 <Link
                   href="/#divisions"
-                  className="group inline-flex items-center gap-2.5 rounded-full bg-[#FF5722] px-6 py-2.5 font-sans text-sm font-semibold text-white shadow-[0_1px_2px_rgba(0,0,0,0.4),0_0_24px_rgba(255,87,34,0.3)] transition-all hover:bg-[#FF6A3D] hover:shadow-[0_0_36px_rgba(255,87,34,0.45)] active:scale-[0.98]"
+                  className="group inline-flex items-center gap-2.5 rounded-full bg-[#FF5722] px-6 py-2.5 font-sans text-sm font-semibold text-[#F3F4F6] shadow-lift transition-all hover:bg-[#FF6A3D] active:scale-[0.98]"
                 >
                   <span>Explore Divisions</span>
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
@@ -85,7 +85,7 @@ export default async function HomePage() {
               <Magnetic pullFactor={0.15}>
                 <Link
                   href="/resources"
-                  className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-5 py-2.5 font-sans text-sm font-medium text-neutral-300 transition-all hover:border-white/20 hover:bg-white/[0.07] hover:text-white active:scale-[0.98]"
+                  className="group inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.03] px-5 py-2.5 font-sans text-sm font-medium text-neutral-300 transition-all hover:border-white/[0.18] hover:bg-white/[0.07] hover:text-white active:scale-[0.98]"
                 >
                   <span>Explore Resources</span>
                   <ArrowRight className="h-4 w-4 text-neutral-500 transition-transform group-hover:translate-x-0.5 group-hover:text-white" />
@@ -93,63 +93,16 @@ export default async function HomePage() {
               </Magnetic>
             </div>
 
-            {/* Key Pillars & Club Overview */}
-            <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 border-t border-white/[0.08] pt-8">
-              <Link
-                href="/#divisions"
-                className="group block space-y-1.5 transition-opacity hover:opacity-90"
-              >
-                <div className="font-display text-3xl sm:text-4xl font-black text-[#F3F4F6] tracking-tight group-hover:text-white transition-colors">
-                  4
-                </div>
-                <div>
-                  <p className="font-sans text-xs font-semibold text-neutral-300 group-hover:text-[#FF5722] transition-colors">
-                    Core Divisions
-                  </p>
-                  <p className="font-sans text-[11px] text-[#8A8F98]">
-                    CP · Dev &amp; OS · AI/ML · CSEC
-                  </p>
-                </div>
-              </Link>
-
-              <Link
-                href="/apeireon"
-                className="group block space-y-1.5 transition-opacity hover:opacity-90"
-              >
-                <div className="font-display text-2xl sm:text-3xl lg:text-4xl font-black text-[#FF5722] tracking-tight group-hover:text-[#FF6A3D] transition-colors">
-                  Apeireon
-                </div>
-                <div>
-                  <p className="font-sans text-xs font-semibold text-neutral-300 group-hover:text-[#FF5722] transition-colors">
-                    Flagship Tech Fest
-                  </p>
-                  <p className="font-sans text-[11px] text-[#8A8F98]">
-                    Annual Hackathons &amp; Contests
-                  </p>
-                </div>
-              </Link>
-
-              <Link
-                href="/nwoc"
-                className="group block space-y-1.5 transition-opacity hover:opacity-90"
-              >
-                <div className="font-display text-2xl sm:text-3xl lg:text-4xl font-black text-[#F3F4F6] tracking-tight group-hover:text-white transition-colors">
-                  NWoC
-                </div>
-                <div>
-                  <p className="font-sans text-xs font-semibold text-neutral-300 group-hover:text-[#FF5722] transition-colors">
-                    Winter of Code
-                  </p>
-                  <p className="font-sans text-[11px] text-[#8A8F98]">
-                    Open-Source Mentorship
-                  </p>
-                </div>
-              </Link>
-            </div>
-          </div>
-
-        </div>
-      </section>
+            {/* Club orientation: running copy, not a metric template */}
+            <div className="mt-14 border-t border-white/[0.10] pt-7">
+              <p className="max-w-prose font-sans text-sm leading-relaxed text-[#8A8F98]">
+                Four divisions run the club:{' '}
+                <Link href="/#divisions" className="font-medium text-[#F3F4F6] underline decoration-white/25 underline-offset-4 transition-colors hover:text-white hover:decoration-[#FF5722]">competitive programming, development and open source, machine learning, and cyber security</Link>. Each winter we run{' '}
+                <Link href="/nwoc" className="font-medium text-[#F3F4F6] underline decoration-white/25 underline-offset-4 transition-colors hover:text-white hover:decoration-[#FF5722]">NWoC</Link>, a mentored open-source programme. Each spring,{' '}
+                <Link href="/apeireon" className="font-medium text-[#FF5722] underline decoration-[#FF5722]/40 underline-offset-4 transition-colors hover:decoration-[#FF5722]">Apeireon</Link>, our flagship fest.
+              </p>
+            </div></div></div>
+          </section>
 
       {/* ========================================================
           2. INTERACTIVE BENTO GRID (DIVISIONS & WHAT WE BUILD)
@@ -190,7 +143,7 @@ export default async function HomePage() {
               <Magnetic pullFactor={0.25}>
                 <Link
                   href="/quizzes"
-                  className="inline-flex items-center gap-2.5 rounded-full border border-[#FF5722] bg-[#FF5722] px-6 py-3 font-mono text-xs font-bold uppercase tracking-wider text-white transition-all hover:bg-[#FF8A00] shadow-[0_0_25px_rgba(255,87,34,0.4)] shrink-0"
+                  className="inline-flex items-center gap-2.5 rounded-full border border-[#FF5722] bg-[#FF5722] px-6 py-3 font-mono text-xs font-bold uppercase tracking-wider text-white transition-all hover:bg-[#FF8A00] shrink-0"
                 >
                   <Trophy className="h-4 w-4" />
                   <span>ENTER ARENA</span>

@@ -12,6 +12,21 @@ const config: Config = {
       colors: {
         background: "#07080A",
         foreground: "#F3F4F6",
+        // Neutrals tinted toward the brand hue; never pure #000 / #fff.
+        ink: {
+          DEFAULT: '#07080A',
+          raised: '#0E1016',
+          hairline: 'rgba(255, 247, 243, 0.06)',
+          line: 'rgba(255, 247, 243, 0.10)',
+          edge: 'rgba(255, 247, 243, 0.18)',
+        },
+        // Secondary: a light inverted surface, not a second accent hue.
+        bone: {
+          DEFAULT: '#E8E0D4',
+          paper: '#F4F1EC',
+          deep: '#CFC5B5',
+          ink: '#1A1714',
+        },
         obsidian: {
           DEFAULT: '#07080A',
           surface: '#0E1016',
@@ -50,6 +65,19 @@ const config: Config = {
           900: '#7c2d12',
         },
       },
+      borderRadius: {
+        sm: '6px',
+        md: '12px',
+        lg: '20px',
+      },
+      spacing: {
+        'sec-tight': '3.5rem',
+        'sec': '6rem',
+        'sec-loose': '9rem',
+      },
+      maxWidth: {
+        prose: '68ch',
+      },
       fontFamily: {
         display: ['var(--font-space-grotesk)', 'var(--font-syne)', 'sans-serif'],
         heading: ['var(--font-space-grotesk)', 'sans-serif'],
@@ -61,6 +89,9 @@ const config: Config = {
         'accent-glow': '0 0 25px -4px rgba(255, 87, 34, 0.45)',
         'njack-glow': '0 0 30px -4px rgba(255, 87, 34, 0.55)',
         'obsidian-card': 'inset 0 1px 0 0 rgba(255, 255, 255, 0.12), 0 20px 40px -15px rgba(0, 0, 0, 0.6)',
+        // Tinted toward the background hue rather than a neon glow.
+        'lift': '0 1px 2px rgba(7, 8, 10, 0.5), 0 12px 32px -12px rgba(7, 8, 10, 0.8)',
+        'lift-bone': '0 1px 2px rgba(26, 23, 20, 0.08), 0 12px 32px -12px rgba(26, 23, 20, 0.18)',
       },
       animation: {
         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',

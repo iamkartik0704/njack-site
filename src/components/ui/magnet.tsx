@@ -49,8 +49,6 @@ export function Magnet({
       animate={{ x: position.x, y: position.y }}
       transition={{ type: 'spring', damping: 15, stiffness: 150, mass: 0.1 }}
       className={className}
-    >
-      {children}
-    </motion.div>
-  );
+    > {children}
+    </motion.div> );
 }

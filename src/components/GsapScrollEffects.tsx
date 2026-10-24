@@ -40,8 +40,7 @@ export default function GsapScrollEffects() {
               heroTitle,
               { opacity: 0, y: 50, filter: 'blur(12px)' },
               { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.1 },
-              '-=0.5'
-            );
+              '-=0.5' );
           }
 
           if (heroDesc) {
@@ -49,8 +48,7 @@ export default function GsapScrollEffects() {
               heroDesc,
               { opacity: 0, y: 30 },
               { opacity: 1, y: 0, duration: 0.85 },
-              '-=0.7'
-            );
+              '-=0.7' );
           }
 
           if (heroCta) {
@@ -58,8 +56,7 @@ export default function GsapScrollEffects() {
               heroCta,
               { opacity: 0, y: 25 },
               { opacity: 1, y: 0, duration: 0.75 },
-              '-=0.5'
-            );
+              '-=0.5' );
           }
 
           if (heroStats) {
@@ -67,8 +64,7 @@ export default function GsapScrollEffects() {
               heroStats,
               { opacity: 0, y: 35 },
               { opacity: 1, y: 0, duration: 0.9 },
-              '-=0.4'
-            );
+              '-=0.4' );
           }
 
           // Hero scroll scrub: smoothly shrink, blur and fade hero content as user scrolls down

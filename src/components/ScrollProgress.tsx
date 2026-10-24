@@ -32,12 +32,8 @@ export default function ScrollProgress() {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-[100] h-[3px] bg-transparent pointer-events-none">
-      <div
+    <div className="fixed top-0 left-0 right-0 z-[100] h-[3px] bg-transparent pointer-events-none"> <div
         ref={barRef}
-        className="h-full w-full origin-left bg-gradient-to-r from-orange-600 via-amber-500 to-orange-400 shadow-[0_0_14px_rgba(255,107,0,0.85)]"
-        style={{ transform: 'scaleX(0)' }}
-      />
-    </div>
-  );
+        className="h-full w-full origin-left bg-gradient-to-r from-orange-600 via-[#FF8A00] to-orange-400 shadow-[0_0_14px_rgba(255,107,0,0.85)]" style={{ transform: 'scaleX(0)' }}
+      /> </div> );
 }

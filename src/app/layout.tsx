@@ -5,6 +5,7 @@ import 'lenis/dist/lenis.css';
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import PublicChrome from '@/components/PublicChrome';
 import SmoothScroll from '@/components/SmoothScroll';
 import ScrollProgress from '@/components/ScrollProgress';
 import NoiseOverlay from '@/components/NoiseOverlay';
@@ -42,7 +43,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: 'NJACK — Official Coding Club | IIT Patna',
+    default: 'NJACK · Official Coding Club, IIT Patna',
     template: '%s | NJACK IIT Patna',
   },
   description:
@@ -63,9 +64,9 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'NJACK IIT Patna', url: 'https://njack.iitp.ac.in' }],
   openGraph: {
-    title: 'NJACK — Official Computer Science Club | IIT Patna',
+    title: 'NJACK · Official Computer Science Club, IIT Patna',
     description:
-      'The official Computer Science Club of IIT Patna (Not Just Another Computer Science Club) — fostering engineering excellence, open source, algorithmic dominance, and AI research.',
+      'The official Computer Science Club of IIT Patna (Not Just Another Computer Science Club): fostering engineering excellence, open source, algorithmic dominance, and AI research.',
     url: 'https://njack.iitp.ac.in',
     siteName: 'NJACK IIT Patna',
     type: 'website',
@@ -88,32 +89,19 @@ export default function RootLayout({
       >
         {/* Global Atmospheric Noise Overlay */}
         <NoiseOverlay />
-
         {/* Global Architectural Radial Masked Grid */}
         <div
-          aria-hidden="true"
-          className="fixed inset-0 z-0 pointer-events-none architectural-grid"
-        />
-
+          aria-hidden="true" className="fixed inset-0 z-0 pointer-events-none architectural-grid" />
         {/* Persistent Scroll-Linked 3D Canvas */}
-        <Scene3D />
-
+        <PublicChrome> <Scene3D /> </PublicChrome>
         {/* Instant Route Loading Indicator & NJACK Loading Screen */}
         <RouteLoadingIndicator />
-
         {/* Global Command Palette (⌘K) */}
-        <CommandPalette />
-
+        <PublicChrome> <CommandPalette /> </PublicChrome>
         {/* Scroll Progress Bar */}
-        <ScrollProgress />
-
+        <PublicChrome> <ScrollProgress /> </PublicChrome>
         {/* Inertia Smooth Scroll Container */}
-        <SmoothScroll>
-          <Navbar />
-          <main className="relative z-10 flex-1">{children}</main>
-          <Footer />
-        </SmoothScroll>
+        <SmoothScroll> <PublicChrome> <Navbar /> </PublicChrome> <main className="relative z-10 flex-1">{children}</main> <PublicChrome> <Footer /> </PublicChrome> </SmoothScroll>
       </body>
-    </html>
-  );
+    </html> );
 }

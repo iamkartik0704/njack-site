@@ -50,28 +50,16 @@ export default function SplitTextReveal({
   };
 
   return (
-    <Component className={className}>
-      <motion.span
+    <Component className={className}> <motion.span
         variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: '-40px' }}
-        className="inline-flex flex-wrap items-baseline gap-x-[0.25em]"
-      >
-        {words.map((word, idx) => (
+        initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-40px' }}
+        className="inline-flex flex-wrap items-baseline gap-x-[0.25em]" > {words.map((word, idx) => (
           <span
             key={`${word}-${idx}`}
-            className="inline-block overflow-hidden pb-[0.08em] -mb-[0.08em]"
-          >
-            <motion.span
+            className="inline-block overflow-hidden pb-[0.08em] -mb-[0.08em]" > <motion.span
               variants={wordVariants}
               className={`inline-block origin-bottom-left will-change-transform ${wordClassName}`}
-            >
-              {word}
-            </motion.span>
-          </span>
-        ))}
-      </motion.span>
-    </Component>
-  );
+            > {word}
+            </motion.span> </span> ))}
+      </motion.span> </Component> );
 }

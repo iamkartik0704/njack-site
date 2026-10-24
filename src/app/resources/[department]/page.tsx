@@ -41,33 +41,11 @@ export default async function DepartmentResourcePage({ params }: DeptResourcePag
   ]);
 
   return (
-    <div className="min-h-screen bg-[#070a12] text-slate-100">
-      <section className="relative overflow-hidden border-b border-white/10 bg-slate-900/40 py-12 sm:py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <Link
-            href="/resources"
-            className="inline-flex items-center gap-1.5 text-xs font-mono text-cyan-400 hover:text-white transition-colors mb-4"
-          >
-            <ArrowLeft className="h-3.5 w-3.5" />
-            <span>All Resources</span>
-          </Link>
-
-          <h1 className="text-3xl sm:text-4xl font-black text-white">
-            {dept.name} <span className="text-cyan-400">Resources</span>
-          </h1>
-          <p className="mt-2 text-sm text-slate-300 max-w-2xl">
-            {dept.description}
-          </p>
-        </div>
-      </section>
-
-      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
-        <ResourceCatalog
+    <div className="min-h-screen bg-[#07080A] text-[#F3F4F6]"> <section className="relative overflow-hidden border-b border-white/[0.10] bg-[#0E1016]/40 py-12 sm:py-16"> <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"> <Link
+            href="/resources" className="inline-flex items-center gap-1.5 text-xs font-mono text-[#FF8A00] hover:text-white transition-colors mb-4" > <ArrowLeft className="h-3.5 w-3.5" /> <span>All Resources</span> </Link> <h1 className="text-3xl sm:text-4xl font-semibold text-[#F3F4F6]"> {dept.name} <span className="text-[#FF8A00]">Resources</span> </h1> <p className="mt-2 text-sm text-neutral-300 max-w-2xl"> {dept.description}
+          </p> </div> </section> <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10"> <ResourceCatalog
           initialResources={resources}
           departments={departments}
           defaultDept={deptSlug}
-        />
-      </main>
-    </div>
-  );
+        /> </main> </div> );
 }

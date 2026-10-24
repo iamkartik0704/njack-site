@@ -80,32 +80,21 @@ export function AnimatedGridPattern({
   return (
     <svg
       ref={containerRef}
-      aria-hidden="true"
-      className={cn(
+      aria-hidden="true" className={cn(
         'pointer-events-none absolute inset-0 h-full w-full fill-white/5 stroke-white/10',
         className
       )}
       {...props}
-    >
-      <defs>
-        <pattern
+    > <defs> <pattern
           id={id}
           width={width}
           height={height}
-          patternUnits="userSpaceOnUse"
-          x={x}
+          patternUnits="userSpaceOnUse" x={x}
           y={y}
-        >
-          <path
+        > <path
             d={`M.5 ${height}V.5H${width}`}
-            fill="none"
-            strokeDasharray={strokeDasharray}
-          />
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill={`url(#${id})`} />
-      <svg x={x} y={y} className="overflow-visible">
-        {squares.map(({ pos: [sqX, sqY], id: sqId }, index) => (
+            fill="none" strokeDasharray={strokeDasharray}
+          /> </pattern> </defs> <rect width="100%" height="100%" fill={`url(#${id})`} /> <svg x={x} y={y} className="overflow-visible"> {squares.map(({ pos: [sqX, sqY], id: sqId }, index) => (
           <motion.rect
             initial={{ opacity: 0 }}
             animate={{ opacity: maxOpacity }}
@@ -117,9 +106,7 @@ export function AnimatedGridPattern({
               repeatDelay,
             }}
             onAnimationComplete={() => {
-              setSquares((prev) =>
-                prev.map((sq) =>
-                  sq.id === sqId ? { ...sq, pos: getPos() } : sq
+              setSquares((prev) => prev.map((sq) => sq.id === sqId ? { ...sq, pos: getPos() } : sq
                 )
               );
             }}
@@ -128,12 +115,6 @@ export function AnimatedGridPattern({
             height={height - 1}
             x={sqX * width + 1}
             y={sqY * height + 1}
-            fill="rgba(255, 85, 0, 0.18)"
-            stroke="rgba(255, 85, 0, 0.35)"
-            strokeWidth="1"
-          />
-        ))}
-      </svg>
-    </svg>
-  );
+            fill="rgba(255, 85, 0, 0.18)" stroke="rgba(255, 85, 0, 0.35)" strokeWidth="1" /> ))}
+      </svg> </svg> );
 }

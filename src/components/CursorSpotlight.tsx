@@ -29,8 +29,5 @@ export default function CursorSpotlight() {
   return (
     <div
       ref={spotlightRef}
-      className="pointer-events-none fixed top-0 left-0 -translate-x-1/2 -translate-y-1/2 z-30 h-[500px] w-[500px] rounded-full bg-gradient-radial from-orange-500/[0.08] via-amber-500/[0.03] to-transparent blur-3xl opacity-80 transition-opacity"
-      aria-hidden="true"
-    />
-  );
+      className="pointer-events-none fixed top-0 left-0 -translate-x-1/2 -translate-y-1/2 z-30 h-[500px] w-[500px] rounded-full bg-gradient-radial from-orange-500/[0.08] via-[#FF8A00]/[0.03] to-transparent blur-3xl opacity-80 transition-opacity" aria-hidden="true" /> );
 }
