@@ -37,52 +37,30 @@ function NjackHexMonolith() {
   }, []);
 
   return (
-    <group ref={groupRef}>
-      {/* Sleek Anodized Obsidian Hexagonal Monolith Core */}
-      <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[1.42, 1.42, 0.10, 6]} />
-        <meshStandardMaterial
-          color="#0C0E14"
-          metalness={0.92}
+    <group ref={groupRef}> {/* Sleek Anodized Obsidian Hexagonal Monolith Core */}
+      <mesh rotation={[Math.PI / 2, 0, 0]}> <cylinderGeometry args={[1.42, 1.42, 0.10, 6]} /> <meshStandardMaterial
+          color="#0C0E14" metalness={0.92}
           roughness={0.18}
           envMapIntensity={1.2}
-        />
-        <Edges scale={1.002} threshold={15} color="#FF5722" />
-      </mesh>
-
-      {/* Outer Hexagonal Glowing Edge Halo */}
-      <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <cylinderGeometry args={[1.52, 1.52, 0.02, 6]} />
-        <meshBasicMaterial color="#FF8A00" wireframe transparent opacity={0.35} />
-      </mesh>
-
-      {/* Front Face: Pristine Official NJACK Logo Mark */}
+        /> <Edges scale={1.002} threshold={15} color="#FF5722" /> </mesh> {/* Outer Hexagonal Glowing Edge Halo */}
+      <mesh rotation={[Math.PI / 2, 0, 0]}> <cylinderGeometry args={[1.52, 1.52, 0.02, 6]} /> <meshBasicMaterial color="#FF8A00" wireframe transparent opacity={0.35} /> </mesh> {/* Front Face: Pristine Official NJACK Logo Mark */}
       {logoTexture && (
-        <mesh position={[0, 0, 0.055]}>
-          <planeGeometry args={[2.24, 2.24]} />
-          <meshBasicMaterial
+        <mesh position={[0, 0, 0.055]}> <planeGeometry args={[2.24, 2.24]} /> <meshBasicMaterial
             map={logoTexture}
             transparent={true}
             toneMapped={false}
             side={THREE.FrontSide}
-          />
-        </mesh>
-      )}
+          /> </mesh> )}
 
       {/* Back Face: Pristine Official NJACK Logo Mark */}
       {logoTexture && (
-        <mesh position={[0, 0, -0.055]} rotation={[0, Math.PI, 0]}>
-          <planeGeometry args={[2.24, 2.24]} />
-          <meshBasicMaterial
+        <mesh position={[0, 0, -0.055]} rotation={[0, Math.PI, 0]}> <planeGeometry args={[2.24, 2.24]} /> <meshBasicMaterial
             map={logoTexture}
             transparent={true}
             toneMapped={false}
             side={THREE.FrontSide}
-          />
-        </mesh>
-      )}
-    </group>
-  );
+          /> </mesh> )}
+    </group> );
 }
 
 // 3D Floating Mechanical Keycap with glowing code symbol
@@ -100,24 +78,12 @@ function MechanicalKeycap({
   floatSpeed?: number;
 }) {
   return (
-    <Float speed={floatSpeed} rotationIntensity={0.6} floatIntensity={0.8}>
-      <group position={position} rotation={rotation}>
-        <RoundedBox args={[0.62, 0.62, 0.38]} radius={0.06} smoothness={4}>
-          <meshStandardMaterial color="#111319" metalness={0.7} roughness={0.25} />
-          <Edges scale={1.002} threshold={20} color={textColor} />
-        </RoundedBox>
-        <Text
+    <Float speed={floatSpeed} rotationIntensity={0.6} floatIntensity={0.8}> <group position={position} rotation={rotation}> <RoundedBox args={[0.62, 0.62, 0.38]} radius={0.06} smoothness={4}> <meshStandardMaterial color="#111319" metalness={0.7} roughness={0.25} /> <Edges scale={1.002} threshold={20} color={textColor} /> </RoundedBox> <Text
           position={[0, 0, 0.2]}
           fontSize={0.2}
           color={textColor}
-          anchorX="center"
-          anchorY="middle"
-        >
-          {text}
-        </Text>
-      </group>
-    </Float>
-  );
+          anchorX="center" anchorY="middle" > {text}
+        </Text> </group> </Float> );
 }
 
 // Algorithmic Concentric Hexagonal Syntax Rings
@@ -137,20 +103,9 @@ function HexagonalSyntaxRings() {
   });
 
   return (
-    <group>
-      {/* Inner Orange Hexagon Ring */}
-      <lineSegments ref={ring1} rotation={[Math.PI / 4, 0, 0]}>
-        <edgesGeometry args={[new THREE.CircleGeometry(2.35, 6)]} />
-        <lineBasicMaterial color="#FF5722" transparent opacity={0.4} />
-      </lineSegments>
-
-      {/* Outer Amber Hexagon Ring */}
-      <lineSegments ref={ring2} rotation={[-Math.PI / 3, Math.PI / 6, 0]}>
-        <edgesGeometry args={[new THREE.CircleGeometry(2.75, 6)]} />
-        <lineBasicMaterial color="#FF8A00" transparent opacity={0.25} />
-      </lineSegments>
-    </group>
-  );
+    <group> {/* Inner Orange Hexagon Ring */}
+      <lineSegments ref={ring1} rotation={[Math.PI / 4, 0, 0]}> <edgesGeometry args={[new THREE.CircleGeometry(2.35, 6)]} /> <lineBasicMaterial color="#FF5722" transparent opacity={0.4} /> </lineSegments> {/* Outer Amber Hexagon Ring */}
+      <lineSegments ref={ring2} rotation={[-Math.PI / 3, Math.PI / 6, 0]}> <edgesGeometry args={[new THREE.CircleGeometry(2.75, 6)]} /> <lineBasicMaterial color="#FF8A00" transparent opacity={0.25} /> </lineSegments> </group> );
 }
 
 
@@ -256,44 +211,35 @@ function CenterpieceScene({ scrollProgress }: { scrollProgress: number }) {
   });
 
   return (
-    <group ref={groupRef} position={[1.2, 0, 0]}>
-      {/* Central 3D Hexagonal Isometric NJACK Monolith */}
-      <Float speed={1.5} rotationIntensity={0.3} floatIntensity={0.5}>
-        <NjackHexMonolith />
-      </Float>
-
-      {/* Orbiting Mechanical Keycaps with code symbols */}
+    <group ref={groupRef} position={[1.2, 0, 0]}> {/* Central 3D Hexagonal Isometric NJACK Monolith */}
+      <Float speed={1.5} rotationIntensity={0.3} floatIntensity={0.5}> <NjackHexMonolith /> </Float> {/* Orbiting Mechanical Keycaps with code symbols */}
       <MechanicalKeycap
         position={[-1.9, 1.2, 0.6]}
         rotation={[0.2, 0.3, -0.1]}
-        text="</>"
-        textColor="#FF8A00"
-        floatSpeed={2.2}
-      />
-      <MechanicalKeycap
+        text="</>" textColor="#FF8A00" floatSpeed={2.2}
+      /> <MechanicalKeycap
         position={[2.1, -1.1, 0.7]}
         rotation={[-0.2, -0.4, 0.15]}
-        text="{ }"
-        textColor="#FF5722"
-        floatSpeed={1.8}
-      />
-      <MechanicalKeycap
+        text="{ }" textColor="#FF5722" floatSpeed={1.8}
+      /> <MechanicalKeycap
         position={[1.8, 1.4, -0.5]}
         rotation={[0.3, -0.2, 0.2]}
-        text="0x1"
-        textColor="#D9381E"
-        floatSpeed={2.5}
-      />
-
-      {/* Hexagonal Algorithmic Syntax Rings */}
-      <HexagonalSyntaxRings />
-    </group>
-  );
+        text="0x1" textColor="#D9381E" floatSpeed={2.5}
+      /> {/* Hexagonal Algorithmic Syntax Rings */}
+      <HexagonalSyntaxRings /> </group> );
 }
 
 export default function Scene3D() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [mounted, setMounted] = useState(false);
+  // Stop burning GPU on a canvas nobody is looking at.
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const onVisibility = () => setVisible(!document.hidden);
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => document.removeEventListener('visibilitychange', onVisibility);
+  }, []);
 
   useEffect(() => {
     setMounted(true);
@@ -315,49 +261,30 @@ export default function Scene3D() {
   if (!mounted) {
     return (
       <div
-        aria-hidden="true"
-        className="fixed inset-0 z-0 pointer-events-none bg-[#07080A]"
-      />
-    );
+        aria-hidden="true" className="fixed inset-0 z-0 pointer-events-none bg-[#07080A]" /> );
   }
 
   return (
     <div
-      aria-hidden="true"
-      className="fixed inset-0 z-0 pointer-events-none overflow-hidden"
-      style={{ perspective: 1200 }}
-    >
-      <Canvas
+      aria-hidden="true" className="fixed inset-0 z-0 pointer-events-none overflow-hidden" style={{ perspective: 1200 }}
+    > <Canvas
         camera={{ position: [0, 0, 5.2], fov: 45 }}
-        dpr={[1, 2]}
+        dpr={[1, 1.5]}
+        frameloop={visible ? 'always' : 'never'}
         gl={{
           antialias: true,
           alpha: true,
           powerPreference: 'high-performance',
         }}
-      >
-        {/* Crisp Physical Lighting for NJACK Brand */}
-        <ambientLight intensity={0.4} />
-        <pointLight position={[4, 4, 4]} intensity={40} color="#FF5722" />
-        <pointLight position={[-4, -3, 2]} intensity={25} color="#FF8A00" />
-        <directionalLight position={[0, 10, 0]} intensity={1.0} color="#ffffff" />
-
-        {/* Centerpiece 3D NJACK Coding Core */}
-        <CenterpieceScene scrollProgress={scrollProgress} />
-
-        {/* Floating Sparks / Particles */}
+      > {/* Crisp Physical Lighting for NJACK Brand */}
+        <ambientLight intensity={0.4} /> <pointLight position={[4, 4, 4]} intensity={40} color="#FF5722" /> <pointLight position={[-4, -3, 2]} intensity={25} color="#FF8A00" /> <directionalLight position={[0, 10, 0]} intensity={1.0} color="#ffffff" /> {/* Centerpiece 3D NJACK Coding Core */}
+        <CenterpieceScene scrollProgress={scrollProgress} /> {/* Floating Sparks / Particles */}
         <Sparkles
           count={70}
           scale={10}
           size={1.6}
           speed={0.4}
           opacity={0.3}
-          color="#FF5722"
-        />
-
-        {/* Spatial HDR Environment Preset */}
-        <Environment preset="city" />
-      </Canvas>
-    </div>
-  );
+          color="#FF5722" /> {/* Spatial HDR Environment Preset */}
+        <Environment preset="city" /> </Canvas> </div> );
 }
