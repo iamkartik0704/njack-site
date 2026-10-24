@@ -2,15 +2,17 @@
 
 import React, { useState } from 'react';
 import {
-  Inbox,
   ShieldAlert,
   Mail,
   Trash2,
   CheckCircle2,
   Clock,
-  ExternalLink,
-  AlertCircle
+  Loader2,
+  AlertCircle,
 } from 'lucide-react';
+import { Badge, Button, ErrorNote, IconButton, Modal, Panel, EmptyState } from '@/components/admin/ui';
+import { cn } from '@/lib/utils';
+import { formatEventDate, formatEventTime } from '@/lib/utils';
 
 export interface SubmissionItem {
   id: string;
@@ -20,280 +22,233 @@ export interface SubmissionItem {
   createdAt: string;
 }
 
-interface AdminSubmissionsManagerProps {
-  initialSubmissions: SubmissionItem[];
+const STATUS_TONE = {
+  pending: 'warning',
+  reviewed: 'accent',
+  resolved: 'success',
+} as const;
+
+function parsePayload(payload: string): Record<string, string> {
+  try {
+    const parsed = JSON.parse(payload);
+    return typeof parsed === 'object' && parsed !== null ? parsed : { value: String(parsed) };
+  } catch {
+    return { value: payload };
+  }
 }
 
 export default function AdminSubmissionsManager({
   initialSubmissions,
-}: AdminSubmissionsManagerProps) {
+}: {
+  initialSubmissions: SubmissionItem[];
+}) {
   const [submissions, setSubmissions] = useState<SubmissionItem[]>(initialSubmissions);
-  const [filterKind, setFilterKind] = useState<string>('all');
-  const [filterStatus, setFilterStatus] = useState<string>('all');
-  const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [filterKind, setFilterKind] = useState('all');
+  const [filterStatus, setFilterStatus] = useState('all');
+  const [busyId, setBusyId] = useState<string | null>(null);
+  const [pendingDelete, setPendingDelete] = useState<SubmissionItem | null>(null);
+  const [error, setError] = useState('');
 
-  const filtered = submissions.filter((s) => {
-    if (filterKind !== 'all' && s.kind !== filterKind) return false;
-    if (filterStatus !== 'all' && s.status !== filterStatus) return false;
-    return true;
-  });
+  const filtered = submissions.filter(
+    (s) =>
+      (filterKind === 'all' || s.kind === filterKind) &&
+      (filterStatus === 'all' || s.status === filterStatus)
+  );
 
-  const handleStatusChange = async (id: string, newStatus: string) => {
-    setUpdatingId(id);
+  const countOf = (kind: string) => submissions.filter((s) => s.kind === kind).length;
+
+  const changeStatus = async (id: string, status: string) => {
+    setBusyId(id);
+    setError('');
     try {
       const res = await fetch('/api/admin/submissions', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id, status: newStatus }),
+        body: JSON.stringify({ id, status }),
       });
-      if (res.ok) {
-        setSubmissions((prev) =>
-          prev.map((s) => (s.id === id ? { ...s, status: newStatus } : s))
-        );
+      if (!res.ok) {
+        setError('Could not update that submission.');
+        return;
       }
-    } catch (err) {
-      console.error('Failed to update status:', err);
+      setSubmissions((prev) => prev.map((s) => (s.id === id ? { ...s, status } : s)));
+    } catch {
+      setError('Network error. Please try again.');
     } finally {
-      setUpdatingId(null);
+      setBusyId(null);
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to permanently delete this submission?')) return;
-
+  const confirmDelete = async () => {
+    if (!pendingDelete) return;
+    setBusyId(pendingDelete.id);
+    setError('');
     try {
-      const res = await fetch(`/api/admin/submissions?id=${id}`, {
-        method: 'DELETE',
-      });
-      if (res.ok) {
-        setSubmissions((prev) => prev.filter((s) => s.id !== id));
+      const res = await fetch(`/api/admin/submissions?id=${pendingDelete.id}`, { method: 'DELETE' });
+      if (!res.ok) {
+        setError('Could not delete that submission.');
+        return;
       }
-    } catch (err) {
-      console.error('Failed to delete submission:', err);
+      setSubmissions((prev) => prev.filter((s) => s.id !== pendingDelete.id));
+      setPendingDelete(null);
+    } catch {
+      setError('Network error. Please try again.');
+    } finally {
+      setBusyId(null);
     }
   };
+
+  const Tab = ({
+    active,
+    onClick,
+    children,
+  }: {
+    active: boolean;
+    onClick: () => void;
+    children: React.ReactNode;
+  }) => (
+    <button
+      onClick={onClick}
+      className={cn(
+        'flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all active:scale-[0.98]',
+        active
+          ? 'border border-[#FF5722]/40 bg-[#FF5722]/15 text-[#FF5722] shadow-[0_0_18px_-6px_rgba(255,87,34,0.6)]'
+          : 'border border-white/10 bg-white/[0.03] text-neutral-300 hover:bg-white/[0.07] hover:text-white'
+      )}
+    >
+      {children}
+    </button>
+  );
 
   return (
     <div className="space-y-6">
-      {/* Filters */}
-      <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-white/10 bg-slate-900/60 p-4 backdrop-blur-md">
-        
-        {/* Kind tabs */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
-          <button
-            onClick={() => setFilterKind('all')}
-            className={`rounded-xl px-3.5 py-1.5 text-xs font-semibold transition-all ${
-              filterKind === 'all'
-                ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white shadow-glow-cyan'
-                : 'bg-white/5 text-slate-300 hover:bg-white/10'
-            }`}
-          >
-            All Submissions ({submissions.length})
-          </button>
-          <button
-            onClick={() => setFilterKind('report')}
-            className={`flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-xs font-semibold transition-all ${
-              filterKind === 'report'
-                ? 'bg-rose-500 text-white shadow-lg shadow-rose-500/20'
-                : 'bg-white/5 text-slate-300 hover:bg-white/10'
-            }`}
-          >
-            <ShieldAlert className="h-3.5 w-3.5" />
-            <span>CF Plagiarism Reports ({submissions.filter((s) => s.kind === 'report').length})</span>
-          </button>
-          <button
-            onClick={() => setFilterKind('contact')}
-            className={`flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-xs font-semibold transition-all ${
-              filterKind === 'contact'
-                ? 'bg-cyan-500 text-white shadow-glow-cyan'
-                : 'bg-white/5 text-slate-300 hover:bg-white/10'
-            }`}
-          >
-            <Mail className="h-3.5 w-3.5" />
-            <span>Inquiries ({submissions.filter((s) => s.kind === 'contact').length})</span>
-          </button>
-        </div>
+      <Panel hover={false} className="p-4">
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 lg:pb-0">
+            <Tab active={filterKind === 'all'} onClick={() => setFilterKind('all')}>
+              All ({submissions.length})
+            </Tab>
+            <Tab active={filterKind === 'report'} onClick={() => setFilterKind('report')}>
+              <ShieldAlert className="h-3.5 w-3.5" />
+              Reports ({countOf('report')})
+            </Tab>
+            <Tab active={filterKind === 'contact'} onClick={() => setFilterKind('contact')}>
+              <Mail className="h-3.5 w-3.5" />
+              Contact ({countOf('contact')})
+            </Tab>
+          </div>
 
-        {/* Status Filter */}
-        <div className="flex items-center gap-2 text-xs font-mono">
-          <span className="text-slate-400">Status:</span>
-          <select
-            value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value)}
-            className="rounded-lg border border-white/10 bg-black/50 px-3 py-1.5 text-xs text-white focus:border-cyan-500 focus:outline-none"
-          >
-            <option value="all">All Statuses</option>
-            <option value="pending">Pending</option>
-            <option value="reviewed">Reviewed</option>
-            <option value="resolved">Resolved</option>
-          </select>
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 lg:pb-0">
+            {['all', 'pending', 'reviewed', 'resolved'].map((s) => (
+              <Tab key={s} active={filterStatus === s} onClick={() => setFilterStatus(s)}>
+                {s[0].toUpperCase() + s.slice(1)}
+              </Tab>
+            ))}
+          </div>
         </div>
-      </div>
+      </Panel>
 
-      {/* Submissions List */}
+      {error && (
+        <ErrorNote>
+          <AlertCircle className="h-4 w-4 shrink-0" />
+          {error}
+        </ErrorNote>
+      )}
+
       {filtered.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-white/15 bg-slate-900/30 p-12 text-center text-slate-400">
-          <Inbox className="h-10 w-10 text-slate-600 mx-auto mb-2" />
-          <div className="text-sm font-semibold text-white">No submissions match the current filter</div>
-        </div>
+        <Panel hover={false}>
+          <EmptyState message="Nothing matches these filters" />
+        </Panel>
       ) : (
-        <div className="space-y-4">
-          {filtered.map((item) => {
-            let p: any = {};
-            try {
-              p = JSON.parse(item.payload);
-            } catch {
-              p = {};
-            }
-
-            const dateStr = new Date(item.createdAt).toLocaleDateString('en-US', {
-              month: 'short',
-              day: 'numeric',
-              year: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit',
-              timeZone: 'UTC',
-            });
-
-            const isReport = item.kind === 'report';
-
+        <div className="space-y-3">
+          {filtered.map((s) => {
+            const data = parsePayload(s.payload);
+            const isReport = s.kind === 'report';
             return (
-              <div
-                key={item.id}
-                className="rounded-3xl border border-white/10 bg-slate-900/40 p-6 backdrop-blur-md transition-all hover:border-white/20 space-y-4"
-              >
-                {/* Header row */}
-                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 pb-3">
-                  <div className="flex items-center gap-2">
-                    <span
-                      className={`rounded-full px-2.5 py-0.5 text-[11px] font-mono font-bold uppercase ${
-                        isReport
-                          ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
-                          : 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
-                      }`}
-                    >
-                      {isReport ? 'Codeforces Plagiarism Report' : 'General Inquiry'}
-                    </span>
-                    <span className="text-xs font-mono text-slate-400">{dateStr}</span>
+              <Panel key={s.id} className="p-4 sm:p-5">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                  <div className="min-w-0 flex-1 space-y-3">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Badge tone={isReport ? 'danger' : 'neutral'}>
+                        {isReport ? (
+                          <ShieldAlert className="h-3 w-3" />
+                        ) : (
+                          <Mail className="h-3 w-3" />
+                        )}
+                        {s.kind}
+                      </Badge>
+                      <Badge tone={STATUS_TONE[s.status as keyof typeof STATUS_TONE] ?? 'neutral'}>
+                        {s.status}
+                      </Badge>
+                      <span className="font-mono text-[10px] text-[#5A5F68]">
+                        {formatEventDate(s.createdAt)} · {formatEventTime(s.createdAt)}
+                      </span>
+                    </div>
+
+                    <dl className="grid gap-x-6 gap-y-1.5 sm:grid-cols-2">
+                      {Object.entries(data).map(([key, value]) => (
+                        <div key={key} className="min-w-0">
+                          <dt className="font-mono text-[10px] uppercase tracking-wider text-[#5A5F68]">
+                            {key}
+                          </dt>
+                          <dd className="break-words text-xs text-neutral-300">{String(value)}</dd>
+                        </div>
+                      ))}
+                    </dl>
                   </div>
 
-                  {/* Actions & Status Dropdown */}
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs font-mono text-slate-400">Mark as:</span>
-                    <select
-                      value={item.status}
-                      disabled={updatingId === item.id}
-                      onChange={(e) => handleStatusChange(item.id, e.target.value)}
-                      className={`rounded-lg border px-2.5 py-1 text-xs font-mono font-semibold uppercase ${
-                        item.status === 'pending'
-                          ? 'border-amber-500/40 bg-amber-500/10 text-amber-400'
-                          : item.status === 'reviewed'
-                          ? 'border-blue-500/40 bg-blue-500/10 text-blue-400'
-                          : 'border-emerald-500/40 bg-emerald-500/10 text-emerald-400'
-                      }`}
-                    >
-                      <option value="pending">Pending</option>
-                      <option value="reviewed">Reviewed</option>
-                      <option value="resolved">Resolved</option>
-                    </select>
-
-                    <button
-                      onClick={() => handleDelete(item.id)}
-                      className="rounded-lg p-1.5 text-slate-400 hover:text-rose-400 hover:bg-white/5 transition-colors"
-                      title="Delete record"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
+                  <div className="flex shrink-0 flex-wrap items-center gap-2 border-t border-white/[0.06] pt-3 sm:border-0 sm:pt-0">
+                    {busyId === s.id ? (
+                      <Loader2 className="h-4 w-4 animate-spin text-[#FF5722]" />
+                    ) : (
+                      <>
+                        {s.status !== 'reviewed' && (
+                          <Button
+                            variant="secondary"
+                            onClick={() => changeStatus(s.id, 'reviewed')}
+                          >
+                            <Clock className="h-3.5 w-3.5" />
+                            Reviewed
+                          </Button>
+                        )}
+                        {s.status !== 'resolved' && (
+                          <Button onClick={() => changeStatus(s.id, 'resolved')}>
+                            <CheckCircle2 className="h-3.5 w-3.5" />
+                            Resolve
+                          </Button>
+                        )}
+                        <IconButton
+                          danger
+                          label="Delete submission"
+                          onClick={() => setPendingDelete(s)}
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </IconButton>
+                      </>
+                    )}
                   </div>
                 </div>
-
-                {/* Body Content */}
-                {isReport ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                    <div className="space-y-2">
-                      <div>
-                        <span className="text-slate-400">Reported CF Handle:</span>{' '}
-                        <span className="font-mono font-bold text-rose-400">
-                          {p.reportedHandle}
-                        </span>
-                      </div>
-                      {p.suspectedCollaborator && (
-                        <div>
-                          <span className="text-slate-400">Suspected Collaborator:</span>{' '}
-                          <span className="font-mono text-amber-400">
-                            {p.suspectedCollaborator}
-                          </span>
-                        </div>
-                      )}
-                      <div>
-                        <span className="text-slate-400">Contest / Round:</span>{' '}
-                        <a
-                          href={p.contestLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="font-mono text-cyan-400 hover:underline inline-flex items-center gap-1"
-                        >
-                          <span>{p.contestLink}</span>
-                          <ExternalLink className="h-3 w-3" />
-                        </a>
-                      </div>
-                      {p.codeSubmissionLinks && (
-                        <div>
-                          <span className="text-slate-400">Evidence Submission:</span>{' '}
-                          <a
-                            href={p.codeSubmissionLinks}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="font-mono text-cyan-400 hover:underline inline-flex items-center gap-1"
-                          >
-                            <span>{p.codeSubmissionLinks}</span>
-                            <ExternalLink className="h-3 w-3" />
-                          </a>
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="rounded-2xl border border-white/5 bg-black/40 p-4 space-y-1">
-                      <div className="font-mono uppercase tracking-wider text-slate-500 text-[10px]">
-                        Plagiarism Proof & Details:
-                      </div>
-                      <p className="text-slate-200 leading-relaxed whitespace-pre-line">
-                        {p.proofDetails}
-                      </p>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="space-y-3 text-xs">
-                    <div className="flex flex-wrap items-center gap-4 text-slate-400">
-                      <div>
-                        Sender: <span className="font-semibold text-white">{p.name}</span>
-                      </div>
-                      <div>•</div>
-                      <div>
-                        Email:{' '}
-                        <a
-                          href={`mailto:${p.email}`}
-                          className="font-mono text-cyan-400 hover:underline"
-                        >
-                          {p.email}
-                        </a>
-                      </div>
-                      <div>•</div>
-                      <div>
-                        Subject: <span className="font-medium text-slate-200">{p.subject}</span>
-                      </div>
-                    </div>
-
-                    <div className="rounded-2xl border border-white/5 bg-black/40 p-4 text-slate-200 leading-relaxed whitespace-pre-line">
-                      {p.message}
-                    </div>
-                  </div>
-                )}
-              </div>
+              </Panel>
             );
           })}
         </div>
       )}
+
+      <Modal
+        open={!!pendingDelete}
+        onClose={() => setPendingDelete(null)}
+        title="Delete this submission?"
+        description="This cannot be undone."
+      >
+        <div className="flex justify-end gap-2 border-t border-white/[0.08] pt-4">
+          <Button variant="secondary" onClick={() => setPendingDelete(null)}>
+            Keep it
+          </Button>
+          <Button variant="danger" onClick={confirmDelete} disabled={!!busyId}>
+            {busyId && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
+            Delete
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 }

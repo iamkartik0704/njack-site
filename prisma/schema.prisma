@@ -11,18 +11,23 @@ datasource db {
 }
 
 model Department {
-  id          String       @id @default(cuid())
+  id          String         @id @default(cuid())
   name        String
-  slug        String       @unique
+  slug        String         @unique
   tagline     String?
   description String
   icon        String
-  order       Int          @default(0)
+  order       Int            @default(0)
   teamMembers TeamMember[]
   resources   Resource[]
   quizzes     Quiz[]
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  events      Event[]
+  projects    Project[]
+  posts       Post[]
+  albums      GalleryAlbum[]
+  admins      AdminUser[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
 }
 
 model TeamMember {
@@ -44,12 +49,12 @@ model Resource {
   id           String     @id @default(cuid())
   title        String
   description  String
-  type         String     // "note", "link", "youtube", "slides", "repo", "article", "roadmap"
+  type         String // "note", "link", "youtube", "slides", "repo", "article", "roadmap"
   url          String
   departmentId String
   department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade)
   topic        String
-  tags         String     // comma separated: e.g. "React, Next.js, Frontend"
+  tags         String // comma separated: e.g. "React, Next.js, Frontend"
   difficulty   String     @default("beginner") // "beginner", "intermediate", "advanced"
   featured     Boolean    @default(false)
   createdAt    DateTime   @default(now())
@@ -70,73 +75,82 @@ model Quiz {
 }
 
 model Event {
-  id          String    @id @default(cuid())
-  title       String
-  slug        String    @unique
-  description String
-  poster      String
-  startsAt    DateTime
-  endsAt      DateTime?
-  venue       String
-  registerUrl String?
-  status      String    @default("upcoming") // "upcoming", "past"
-  department  String?
-  recap       String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id           String      @id @default(cuid())
+  title        String
+  slug         String      @unique
+  description  String
+  poster       String
+  startsAt     DateTime
+  endsAt       DateTime?
+  venue        String
+  registerUrl  String?
+  status       String      @default("upcoming") // "upcoming", "past"
+  departmentId String?
+  department   Department? @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  recap        String?
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 }
 
 model Project {
-  id           String   @id @default(cuid())
+  id           String      @id @default(cuid())
   title        String
-  slug         String   @unique
+  slug         String      @unique
   description  String
   cover        String
-  stackTags    String   // comma separated tags: "Next.js, Python, OpenCV"
+  stackTags    String // comma separated tags: "Next.js, Python, OpenCV"
   repoUrl      String?
   demoUrl      String?
-  contributors String?  // comma separated names
-  featured     Boolean  @default(false)
-  createdAt    DateTime @default(now())
+  contributors String? // comma separated names
+  featured     Boolean     @default(false)
+  departmentId String?
+  department   Department? @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  createdAt    DateTime    @default(now())
 }
 
 model Post {
-  id          String   @id @default(cuid())
-  title       String
-  slug        String   @unique
-  bodyMd      String
-  cover       String?
-  author      String
-  tags        String   // comma separated tags: "ICPC, Competitive, Announcements"
-  status      String   @default("published")
-  publishedAt DateTime @default(now())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String      @id @default(cuid())
+  title        String
+  slug         String      @unique
+  bodyMd       String
+  cover        String?
+  author       String
+  tags         String // comma separated tags: "ICPC, Competitive, Announcements"
+  status       String      @default("published")
+  departmentId String?
+  department   Department? @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  publishedAt  DateTime    @default(now())
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
 }
 
 model GalleryAlbum {
-  id        String   @id @default(cuid())
-  title     String
-  slug      String   @unique
-  cover     String
-  date      String
-  images    String   @default("[]") // Embedded JSON array: [{ id, url, caption }]
-  createdAt DateTime @default(now())
+  id           String      @id @default(cuid())
+  title        String
+  slug         String      @unique
+  cover        String
+  date         String
+  images       String      @default("[]") // Embedded JSON array: [{ id, url, caption }]
+  departmentId String?
+  department   Department? @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  createdAt    DateTime    @default(now())
 }
 
 model Submission {
   id        String   @id @default(cuid())
-  kind      String   // Polymorphic form type: "contact" | "report" | "feedback" | "rsvp"
-  payload   String   // JSON string of form fields
+  kind      String // Polymorphic form type: "contact" | "report" | "feedback" | "rsvp"
+  payload   String // JSON string of form fields
   status    String   @default("pending") // "pending", "reviewed", "resolved"
   createdAt DateTime @default(now())
 }
 
 model AdminUser {
-  id           String   @id @default(cuid())
-  email        String   @unique
+  id           String      @id @default(cuid())
+  email        String      @unique
   passwordHash String
   name         String
-  role         String   @default("super-admin")
-  createdAt    DateTime @default(now())
+  role         String      @default("super-admin") // "super-admin" | "coordinator" | "sub-coordinator"
+  departmentId String?
+  department   Department? @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  createdAt    DateTime    @default(now())
 }

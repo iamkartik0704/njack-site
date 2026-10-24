@@ -47,3 +47,7 @@ skills-lock.json
 *.tsbuildinfo
 next-env.d.ts
 
+
+# local tooling artefacts
+.playwright-mcp/
+installedskills.md

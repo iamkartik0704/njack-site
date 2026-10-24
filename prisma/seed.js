@@ -35,7 +35,7 @@ async function main() {
     data: {
       name: 'Competitive Programming',
       slug: 'cp',
-      tagline: 'Code fast, think faster — algorithmic excellence at IIT Patna.',
+      tagline: 'Code fast, think faster: algorithmic excellence at IIT Patna.',
       description: "Committed to honing students' problem-solving skills, algorithmic thinking, and programming prowess through regular coding contests, workshops, and practice sessions to solve complex challenges efficiently.",
       icon: 'Binary',
       order: 1,
@@ -47,7 +47,7 @@ async function main() {
       name: 'Development & Open Source',
       slug: 'dev-os',
       tagline: 'Architecting modern software and powering open source.',
-      description: "Encourages students to delve into software development and contribute to open-source through hands-on workshops, collaborative projects, and mentorship—building robust, scalable solutions.",
+      description: "Encourages students to delve into software development and contribute to open-source through hands-on workshops, collaborative projects, and mentorship, building robust, scalable solutions.",
       icon: 'Code2',
       order: 2,
     },
@@ -58,7 +58,7 @@ async function main() {
       name: 'Machine Learning',
       slug: 'ml',
       tagline: 'Demystifying neural intelligence, computer vision, and LLMs.',
-      description: "Dedicated to exploring artificial intelligence and machine learning through workshops, lectures, and practical sessions—equipping members with the tools to solve complex problems.",
+      description: "Dedicated to exploring artificial intelligence and machine learning through workshops, lectures, and practical sessions, equipping members with the tools to solve complex problems.",
       icon: 'Brain',
       order: 3,
     },
@@ -75,6 +75,28 @@ async function main() {
     },
   });
   console.log('✅ Created 4 core departments');
+
+  // 3b. Division-scoped admin accounts (coordinator + sub-coordinator)
+  const scopedPasswordHash = await bcrypt.hash('council123', 10);
+  await prisma.adminUser.createMany({
+    data: [
+      {
+        email: 'cord.dev@njack.iitp.ac.in',
+        name: 'Dev Coordinator',
+        passwordHash: scopedPasswordHash,
+        role: 'coordinator',
+        departmentId: deptDev.id,
+      },
+      {
+        email: 'subcord.cp@njack.iitp.ac.in',
+        name: 'CP Sub-Coordinator',
+        passwordHash: scopedPasswordHash,
+        role: 'sub-coordinator',
+        departmentId: deptCP.id,
+      },
+    ],
+  });
+  console.log('✅ Created division coordinator accounts');
 
   // 4. Team Members
   const teamMembersData = [
@@ -670,7 +692,7 @@ async function main() {
       venue: 'Computer Science Lab 1 & Online Discord',
       registerUrl: 'https://unstop.com',
       status: 'upcoming',
-      department: 'Development & Open Source',
+      departmentId: deptDev.id,
       recap: null,
     },
     {
@@ -683,7 +705,7 @@ async function main() {
       venue: 'Tutorial Block Room 102 & Codeforces Platform',
       registerUrl: 'https://codeforces.com',
       status: 'upcoming',
-      department: 'Competitive Programming',
+      departmentId: deptCP.id,
       recap: null,
     },
     {
@@ -696,7 +718,7 @@ async function main() {
       venue: 'SAC Hall, IIT Patna',
       registerUrl: null,
       status: 'past',
-      department: 'Development & Open Source',
+      departmentId: deptDev.id,
       recap: 'Over 85 students participated. Winning teams created stunning interactive glassmorphism dashboards with smooth CSS keyframe animations.',
     },
     {
@@ -709,7 +731,7 @@ async function main() {
       venue: 'Online Sandbox & YouTube Stream',
       registerUrl: null,
       status: 'past',
-      department: 'Machine Learning',
+      departmentId: deptML.id,
       recap: '32 bots competed in double-elimination brackets. The grand final went to a sudden-death duel between deep DQN and minimax policy agents.',
     },
     {
@@ -722,7 +744,7 @@ async function main() {
       venue: 'Main Auditorium, IIT Patna',
       registerUrl: null,
       status: 'past',
-      department: 'Competitive Programming',
+      departmentId: deptCP.id,
       recap: 'Attended by 140+ students. 3 teams received direct interview referrals to top quantitative trading firms.',
     },
   ];
@@ -737,7 +759,7 @@ async function main() {
     {
       title: 'NJACK 2.0: Club Web & Resource Operating System',
       slug: 'njack-revamp',
-      description: 'The modern digital hub of IIT Patna Coding Club (Not Just Another Coding Klub) — dynamic department tracks, interactive quiz engine, and single super-admin CMS.',
+      description: 'The modern digital hub of IIT Patna Coding Club (Not Just Another Coding Klub): dynamic department tracks, interactive quiz engine, and single super-admin CMS.',
       cover: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1000&q=80',
       stackTags: 'Next.js 14, TypeScript, Tailwind CSS, Prisma, SQLite',
       repoUrl: 'https://github.com/njack-iitp/njack-revamp',
@@ -780,8 +802,10 @@ async function main() {
     },
   ];
 
-  for (const pr of projectsData) {
-    await prisma.project.create({ data: pr });
+  for (const [i, pr] of projectsData.entries()) {
+    await prisma.project.create({
+      data: { ...pr, departmentId: [deptDev.id, deptCP.id, deptML.id, deptCyber.id][i % 4] },
+    });
   }
   console.log('✅ Created club projects');
 
@@ -855,8 +879,15 @@ Stay tuned for our upcoming workshop on fine-tuning Llama-3 models with LoRA!`,
     },
   ];
 
-  for (const post of postsData) {
-    await prisma.post.create({ data: post });
+  for (const [i, post] of postsData.entries()) {
+    await prisma.post.create({
+      data: {
+        ...post,
+        departmentId: [deptCP.id, deptDev.id, deptML.id, deptCyber.id][i % 4],
+        // staggered so the blog index does not show one identical date
+        publishedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * (17 + i * 23)),
+      },
+    });
   }
   console.log('✅ Created blog posts');
 
@@ -875,6 +906,7 @@ Stay tuned for our upcoming workshop on fine-tuning Llama-3 models with LoRA!`,
       date: 'March 2025',
       cover: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80',
       images: JSON.stringify(album1Images),
+      departmentId: null,
     },
   });
 
@@ -890,6 +922,7 @@ Stay tuned for our upcoming workshop on fine-tuning Llama-3 models with LoRA!`,
       date: 'October 2025',
       cover: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80',
       images: JSON.stringify(album2Images),
+      departmentId: deptDev.id,
     },
   });
   console.log('✅ Created gallery albums with embedded images');
