@@ -110,7 +110,7 @@ export default function Footer() {
       <FooterCanvasVisualizer />
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        
+
         {/* Top Location & Return Bar */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-white/[0.08] pb-8 mb-14 gap-4">
           <div className="flex items-center gap-2.5 font-sans text-xs sm:text-sm text-[#9CA3AF]">
@@ -133,7 +133,7 @@ export default function Footer() {
 
         {/* 4-Column Navigation Layout */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
-          
+
           {/* Col 1: Brand & Synopsis with NjackLogo */}
           <div className="col-span-2 md:col-span-1 space-y-4">
             <div className="flex items-center gap-3">
@@ -158,22 +158,22 @@ export default function Footer() {
             <ul className="space-y-2.5 text-[#9CA3AF]">
               <li>
                 <Link href="/departments/cp" className="hover:text-[#FF5722] transition-colors">
-                  Competitive Programming
+                  CP
                 </Link>
               </li>
               <li>
                 <Link href="/departments/dev-os" className="hover:text-[#FF5722] transition-colors">
-                  Development & OS
+                  DevOS
                 </Link>
               </li>
               <li>
                 <Link href="/departments/ml" className="hover:text-[#FF5722] transition-colors">
-                  AI & Machine Learning
+                  AI-ML
                 </Link>
               </li>
               <li>
                 <Link href="/departments/cyber-security" className="hover:text-[#FF5722] transition-colors">
-                  Cybersecurity & InfoSec
+                  CSEC
                 </Link>
               </li>
             </ul>
@@ -190,61 +190,65 @@ export default function Footer() {
                   Resource Catalog
                 </Link>
               </li>
-              <li>
-                <Link href="/resources/tracks" className="hover:text-[#FF5722] transition-colors">
-                  Learning Tracks
-                </Link>
-              </li>
-              <li>
-                <Link href="/quizzes" className="hover:text-[#FF5722] transition-colors">
-                  Technical Quizzes
-                </Link>
-              </li>
-              <li>
-                <Link href="/apeireon" className="hover:text-[#FF5722] transition-colors">
-                  Apeireon Hackathon
-                </Link>
-              </li>
-            </ul>
-          </div>
 
-          {/* Col 4: Council & Integrity */}
-          <div className="space-y-3.5 font-sans text-xs sm:text-sm">
-            <h4 className="font-mono text-xs sm:text-sm font-bold uppercase tracking-wider text-[#F3F4F6]">
-              [ GOVERNANCE ]
-            </h4>
-            <ul className="space-y-2.5 text-[#9CA3AF]">
-              <li>
-                <Link href="/team" className="hover:text-[#FF5722] transition-colors">
-                  Executive Committee
-                </Link>
-              </li>
-              <li>
-                <Link href="/report-cheating" className="hover:text-[#FF5722] transition-colors text-red-400">
-                  Academic Integrity Portal
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        {/* Bottom Bar with Author Attribution & Legal */}
-        <div className="flex flex-col md:flex-row items-center justify-between border-t border-white/[0.08] pt-8 font-mono text-xs sm:text-sm text-[#9CA3AF] gap-4">
-          <p>
-            © {new Date().getFullYear()} NJACK IIT PATNA. ALL RIGHTS RESERVED.
-          </p>
-
-          <p className="flex items-center gap-1.5 text-center">
-            <span>DEVELOPED WITH ❤️ BY</span>
-            <span className="text-[#FF5722] font-semibold">NJACK</span>
-          </p>
-        </div>
+              {/* <li> */}
+              {/* <Link href="/resources/tracks" className="hover:text-[#FF5722] transition-colors"> */}
+              {/* Learning Tracks */}
+            {/* </Link> */}
+          {/* </li> */}
+          <li>
+            <Link href="/quizzes" className="hover:text-[#FF5722] transition-colors">
+              Technical Quizzes
+            </Link>
+          </li>
+          <li className="flex items-center justify-between text-[#8A8F98]">
+            <span>Apeireon</span>
+            {/* <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider">Annual</span> */}
+          </li>
+          <li className="flex items-center justify-between text-[#8A8F98]">
+            <span>NWoC</span>
+            {/* <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider">Winter</span> */}
+          </li>
+        </ul>
       </div>
 
-      {/* Interactive Display Typography with Particle Sparks and Orange Glow */}
-      <div className="mt-10 w-full overflow-hidden">
-        <FooterSparkText />
+      {/* Col 4: Council & Integrity */}
+      <div className="space-y-3.5 font-sans text-xs sm:text-sm">
+        <h4 className="font-mono text-xs sm:text-sm font-bold uppercase tracking-wider text-[#F3F4F6]">
+          [ GOVERNANCE ]
+        </h4>
+        <ul className="space-y-2.5 text-[#9CA3AF]">
+          <li>
+            <Link href="/team" className="hover:text-[#FF5722] transition-colors">
+              Our Team
+            </Link>
+          </li>
+          <li>
+            <Link href="/report-cheating" className="hover:text-[#FF5722] transition-colors text-red-400">
+              Report Cheating
+            </Link>
+          </li>
+        </ul>
       </div>
-    </footer>
+    </div>
+
+        {/* Bottom Bar with Author Attribution & Legal */ }
+  <div className="flex flex-col md:flex-row items-center justify-between border-t border-white/[0.08] pt-8 font-mono text-xs sm:text-sm text-[#9CA3AF] gap-4">
+    <p>
+      © {new Date().getFullYear()} NJACK IIT PATNA. ALL RIGHTS RESERVED.
+    </p>
+
+    <p className="flex items-center gap-1.5 text-center">
+      <span>DEVELOPED WITH ❤️ BY</span>
+      <span className="text-[#FF5722] font-semibold">NJACK</span>
+    </p>
+  </div>
+      </div >
+
+    {/* Interactive Display Typography with Particle Sparks and Orange Glow */ }
+    < div className = "mt-10 w-full overflow-hidden" >
+      <FooterSparkText />
+      </div >
+    </footer >
   );
 }

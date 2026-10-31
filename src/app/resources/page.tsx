@@ -1,7 +1,6 @@
 import React from 'react';
 import { prisma } from '@/lib/prisma';
 import ResourceCatalog from '@/components/ResourceCatalog';
-import { BookOpen } from 'lucide-react';
 
 export const revalidate = 300; // Cache 5 min for ultra-fast loads
 
@@ -29,22 +28,21 @@ export default async function ResourcesPage() {
 
   return (
     <div className="min-h-screen bg-[#07080A] text-[#F3F4F6] pt-16">
-      {/* Header Banner */}
-      <section className="relative overflow-hidden border-b border-white/[0.08] bg-gradient-to-b from-[#FF5722]/10 via-transparent to-transparent py-14 sm:py-20">
+      {/* Architectural Header (Crisp Engineering Aesthetic — No Muddy Gradient Blobs) */}
+      <section className="relative border-b border-white/[0.08] bg-[#07080A] py-14 sm:py-18">
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#FF5722]/30 bg-[#FF5722]/10 px-3.5 py-1 text-xs font-mono text-[#FF5722] mb-4">
-              <BookOpen className="h-3.5 w-3.5" />
-              <span>CENTRAL KNOWLEDGE REPOSITORY</span>
+          <div className="max-w-3xl space-y-3">
+            <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#FF5722]">
+              <span className="flex h-1.5 w-1.5 rounded-full bg-[#FF5722] animate-pulse" />
+              <span>[ NJACK // KNOWLEDGE_BASE ]</span>
             </div>
-            <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white">
-              Resource{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#FF8A00] to-[#FF5722]">
-                Catalog
-              </span>
+
+            <h1 className="font-display text-3xl sm:text-5xl font-black text-white tracking-tight">
+              Resource Catalog<span className="text-[#FF5722]">.</span>
             </h1>
-            <p className="mt-3 text-sm sm:text-base text-[#8A8F98] leading-relaxed">
-              Hand-curated lecture notes, competitive programming cheat sheets, production systems architectures, machine learning research guides, and hands-on repositories curated by NJACK coordinators and alumni.
+
+            <p className="font-sans text-sm sm:text-base text-[#9CA3AF] leading-relaxed pt-1">
+              Curated problem sheets, internal guides, system architecture breakdowns, and algorithmic roadmaps maintained by NJACK mentors and alumni.
             </p>
           </div>
         </div>

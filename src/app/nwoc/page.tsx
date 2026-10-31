@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import {
   Code2,
   Calendar,
@@ -15,6 +16,9 @@ import {
 export const revalidate = 300;
 
 export default function NWoCPage() {
+  // Route commented out for now per user request
+  notFound();
+
   const phases = [
     {
       phase: 'Phase 01',

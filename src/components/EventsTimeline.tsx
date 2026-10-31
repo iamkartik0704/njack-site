@@ -205,13 +205,7 @@ export default function EventsTimeline({ events }: EventsTimelineProps) {
                         {/* Action Link */}
                         <div className="pt-2">
                           <Link
-                            href={
-                              event.slug === 'apeireon-2026'
-                                ? '/apeireon'
-                                : event.slug === 'nwoc-2026'
-                                ? '/nwoc'
-                                : `/events/${event.slug}`
-                            }
+                            href={`/events/${event.slug}`}
                             className="inline-flex items-center gap-1.5 font-mono text-xs text-[#FF5722] hover:underline"
                           >
                             <span>REGISTER PROTOCOL</span>

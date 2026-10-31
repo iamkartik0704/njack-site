@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import {
   Sparkles,
   Trophy,
@@ -17,6 +18,9 @@ import {
 export const revalidate = 300;
 
 export default function ApeireonPage() {
+  // Route commented out for now per user request
+  notFound();
+
   const events = [
     {
       title: 'King of the Hills',

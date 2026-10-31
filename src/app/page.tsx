@@ -93,8 +93,8 @@ export default async function HomePage() {
               </Magnetic>
             </div>
 
-            {/* Key Pillars & Club Overview */}
-            <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 border-t border-white/[0.08] pt-8">
+            {/* Key Pillars & Club Overview (3 Balanced Columns) */}
+            <div className="mt-16 grid grid-cols-1 min-[440px]:grid-cols-3 gap-6 sm:gap-8 border-t border-white/[0.08] pt-8">
               <Link
                 href="/#divisions"
                 className="group block space-y-1.5 transition-opacity hover:opacity-90"
@@ -112,39 +112,45 @@ export default async function HomePage() {
                 </div>
               </Link>
 
-              <Link
-                href="/apeireon"
-                className="group block space-y-1.5 transition-opacity hover:opacity-90"
-              >
-                <div className="font-display text-2xl sm:text-3xl lg:text-4xl font-black text-[#FF5722] tracking-tight group-hover:text-[#FF6A3D] transition-colors">
-                  Apeireon
+              {/* Apeireon Flagship Initiative (Mentioned without active link) */}
+              <div className="space-y-1.5">
+                <div className="flex items-center gap-2">
+                  <div className="font-display text-2xl sm:text-3xl lg:text-4xl font-black text-[#FF5722] tracking-tight">
+                    Apeireon
+                  </div>
+                  <span className="rounded bg-white/[0.04] border border-white/10 px-1.5 py-0.5 text-[9px] font-mono text-neutral-400 uppercase tracking-wider">
+                    Annual
+                  </span>
                 </div>
                 <div>
-                  <p className="font-sans text-xs font-semibold text-neutral-300 group-hover:text-[#FF5722] transition-colors">
+                  <p className="font-sans text-xs font-semibold text-neutral-300">
                     Flagship Tech Fest
                   </p>
                   <p className="font-sans text-[11px] text-[#8A8F98]">
                     Annual Hackathons &amp; Contests
                   </p>
                 </div>
-              </Link>
+              </div>
 
-              <Link
-                href="/nwoc"
-                className="group block space-y-1.5 transition-opacity hover:opacity-90"
-              >
-                <div className="font-display text-2xl sm:text-3xl lg:text-4xl font-black text-[#F3F4F6] tracking-tight group-hover:text-white transition-colors">
-                  NWoC
+              {/* NWoC Open-Source Initiative (Mentioned without active link) */}
+              <div className="space-y-1.5">
+                <div className="flex items-center gap-2">
+                  <div className="font-display text-2xl sm:text-3xl lg:text-4xl font-black text-[#F3F4F6] tracking-tight">
+                    NWoC
+                  </div>
+                  <span className="rounded bg-white/[0.04] border border-white/10 px-1.5 py-0.5 text-[9px] font-mono text-neutral-400 uppercase tracking-wider">
+                    Winter
+                  </span>
                 </div>
                 <div>
-                  <p className="font-sans text-xs font-semibold text-neutral-300 group-hover:text-[#FF5722] transition-colors">
+                  <p className="font-sans text-xs font-semibold text-neutral-300">
                     Winter of Code
                   </p>
                   <p className="font-sans text-[11px] text-[#8A8F98]">
                     Open-Source Mentorship
                   </p>
                 </div>
-              </Link>
+              </div>
             </div>
           </div>
 

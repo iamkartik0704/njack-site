@@ -11,6 +11,7 @@ import {
   Layers,
   Share2,
   Check,
+  ArrowUpRight,
 } from 'lucide-react';
 
 export interface ResourceItem {
@@ -57,6 +58,21 @@ const difficultyColors: Record<string, { bg: string; text: string; border: strin
   advanced: { bg: 'bg-[#FF5722]/10', text: 'text-[#FF5722]', border: 'border-[#FF5722]/20' },
 };
 
+// Short names for division tabs
+const DEPT_SHORT_NAMES: Record<string, string> = {
+  cp: 'CP',
+  'dev-os': 'DevOS',
+  ml: 'AI-ML',
+  'cyber-security': 'CSEC',
+};
+
+const DEPT_COLORS: Record<string, string> = {
+  cp: '#FF5722',
+  'dev-os': '#2563EB',
+  ml: '#FFAC2A',
+  'cyber-security': '#EC4899',
+};
+
 export default function ResourceCatalog({
   initialResources,
   departments,
@@ -68,8 +84,8 @@ export default function ResourceCatalog({
   const [selectedType, setSelectedType] = useState('all');
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  // Extract unique topics for filtering
-  const allTopics = useMemo(() => {
+  // Extract unique topics for filtering (used when sub-filters are active)
+  const _allTopics = useMemo(() => {
     const topics = new Set<string>();
     initialResources.forEach((r) => {
       if (r.topic) topics.add(r.topic);
@@ -159,35 +175,43 @@ export default function ResourceCatalog({
           <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
             <button
               onClick={() => setSelectedDept('all')}
-              className={`rounded-full px-3.5 py-1 text-xs font-mono transition-all whitespace-nowrap ${
+              className={`rounded-lg px-3.5 py-1.5 text-xs font-mono font-bold transition-all whitespace-nowrap border ${
                 selectedDept === 'all'
-                  ? 'bg-[#FF5722] text-white font-semibold shadow-[0_0_15px_rgba(255,87,34,0.4)]'
-                  : 'bg-white/[0.04] text-[#8A8F98] hover:text-white hover:bg-white/[0.08] border border-white/[0.08]'
+                  ? 'bg-white/10 text-white border-white/30 shadow-sm'
+                  : 'bg-white/[0.03] text-[#8A8F98] hover:text-white hover:bg-white/[0.06] border-white/[0.08]'
               }`}
             >
               All Divisions
             </button>
             {departments.map((dept) => {
               const active = selectedDept === dept.slug;
+              const deptColor = DEPT_COLORS[dept.slug] || '#FF5722';
+              const label = DEPT_SHORT_NAMES[dept.slug] || dept.name;
+
               return (
                 <button
                   key={dept.id}
                   onClick={() => setSelectedDept(dept.slug)}
-                  className={`rounded-full px-3.5 py-1 text-xs font-mono transition-all whitespace-nowrap ${
+                  style={{
+                    backgroundColor: active ? `${deptColor}20` : undefined,
+                    borderColor: active ? `${deptColor}60` : undefined,
+                    color: active ? deptColor : undefined,
+                  }}
+                  className={`rounded-lg px-3.5 py-1.5 text-xs font-mono font-bold transition-all whitespace-nowrap border ${
                     active
-                      ? 'bg-[#FF5722] text-white font-semibold shadow-[0_0_15px_rgba(255,87,34,0.4)]'
-                      : 'bg-white/[0.04] text-[#8A8F98] hover:text-white hover:bg-white/[0.08] border border-white/[0.08]'
+                      ? 'border-current shadow-sm'
+                      : 'bg-white/[0.03] text-[#8A8F98] hover:text-white hover:bg-white/[0.06] border-white/[0.08]'
                   }`}
                 >
-                  {dept.name}
+                  {label}
                 </button>
               );
             })}
           </div>
 
-          {/* Sub-Filters: Topic, Difficulty, Resource Type */}
+          {/* Sub-Filters: Topic, Difficulty, Resource Type (Commented out per user request) */}
+          {/*
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3 border-t border-white/[0.06]">
-            {/* Topic Selector */}
             <div>
               <label className="block text-[11px] font-mono text-[#8A8F98] uppercase tracking-wider mb-1">
                 Topic
@@ -206,7 +230,6 @@ export default function ResourceCatalog({
               </select>
             </div>
 
-            {/* Difficulty Selector */}
             <div>
               <label className="block text-[11px] font-mono text-[#8A8F98] uppercase tracking-wider mb-1">
                 Difficulty
@@ -223,7 +246,6 @@ export default function ResourceCatalog({
               </select>
             </div>
 
-            {/* Resource Type Selector */}
             <div>
               <label className="block text-[11px] font-mono text-[#8A8F98] uppercase tracking-wider mb-1">
                 Content Type
@@ -243,6 +265,7 @@ export default function ResourceCatalog({
               </select>
             </div>
           </div>
+          */}
         </div>
       </div>
 
@@ -276,51 +299,68 @@ export default function ResourceCatalog({
             const tagsList = resource.tags
               ? resource.tags.split(',').map((t) => t.trim()).filter(Boolean)
               : [];
+            const deptColor = DEPT_COLORS[resource.department.slug] || '#FF5722';
+            const deptLabel = DEPT_SHORT_NAMES[resource.department.slug] || resource.department.name;
 
             return (
               <div
                 key={resource.id}
-                className="group relative flex flex-col justify-between rounded-2xl border border-white/[0.08] bg-[#0E1016]/80 p-5 backdrop-blur-xl shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] hover:border-white/20 hover:-translate-y-1 transition-all duration-300"
+                style={{
+                  backgroundColor: '#0A0D14',
+                  boxShadow: '0 12px 30px -8px rgba(0,0,0,0.8), inset 0 1px 0 0 rgba(255,255,255,0.08)',
+                }}
+                className="group relative flex flex-col justify-between rounded-xl border border-white/[0.08] p-5 transition-all duration-200 hover:border-white/20 hover:-translate-y-1 overflow-hidden"
               >
-                <div>
-                  {/* Card Header: Type Badge & Department */}
-                  <div className="flex items-center justify-between gap-2 mb-3">
-                    <span className="flex items-center gap-1.5 rounded-lg bg-white/[0.05] px-2.5 py-1 text-[11px] font-mono font-medium text-neutral-300 border border-white/[0.06]">
-                      <TypeIcon className="h-3 w-3 text-[#FF5722]" />
-                      <span className="capitalize">{resource.type}</span>
+                {/* Top Razor-Sharp Accent Line per Division */}
+                <div
+                  className="absolute top-0 left-0 right-0 h-[2px]"
+                  style={{ backgroundColor: deptColor }}
+                />
+
+                <div className="space-y-3">
+                  {/* Card Header: Type Badge & Division */}
+                  <div className="flex items-center justify-between gap-2">
+                    <span
+                      className="inline-flex items-center gap-1.5 rounded px-2 py-0.5 text-[11px] font-mono font-bold uppercase tracking-wider border"
+                      style={{
+                        backgroundColor: `${deptColor}15`,
+                        borderColor: `${deptColor}40`,
+                        color: deptColor,
+                      }}
+                    >
+                      <TypeIcon className="h-3 w-3" />
+                      <span>{deptLabel} // {resource.type}</span>
                     </span>
 
                     <span
-                      className={`rounded-full px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider font-semibold border ${diffStyle.bg} ${diffStyle.text} ${diffStyle.border}`}
+                      className={`rounded px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider font-semibold border ${diffStyle.bg} ${diffStyle.text} ${diffStyle.border}`}
                     >
                       {resource.difficulty}
                     </span>
                   </div>
 
                   {/* Title */}
-                  <h3 className="font-display font-bold text-white text-base leading-snug group-hover:text-[#FF5722] transition-colors line-clamp-2">
+                  <h3 className="font-display font-bold text-white text-base leading-snug group-hover:text-neutral-100 transition-colors line-clamp-2">
                     {resource.title}
                   </h3>
 
-                  {/* Department & Topic subtitle */}
-                  <div className="mt-1 flex items-center gap-2 text-xs text-[#8A8F98]">
-                    <span className="font-medium text-[#FF8A00]">{resource.department.name}</span>
-                    <span className="text-white/20">•</span>
-                    <span className="text-neutral-300">{resource.topic}</span>
+                  {/* Topic Subtitle */}
+                  <div className="font-mono text-[11px] text-neutral-400">
+                    Topic // <span className="text-neutral-200">{resource.topic}</span>
                   </div>
 
                   {/* Description */}
-                  <p className="mt-2.5 text-xs text-[#8A8F98] leading-relaxed line-clamp-3">
+                  <p className="font-sans text-xs text-[#9CA3AF] leading-relaxed line-clamp-3">
                     {resource.description}
                   </p>
 
                   {/* Tags */}
                   {tagsList.length > 0 && (
-                    <div className="mt-3 flex flex-wrap gap-1.5">
+                    <div className="flex flex-wrap gap-1.5 pt-1">
                       {tagsList.slice(0, 3).map((tag) => (
                         <span
                           key={tag}
-                          className="rounded-md bg-white/[0.03] px-2 py-0.5 text-[10px] font-mono text-[#8A8F98] border border-white/[0.06]"
+                          className="rounded bg-white/[0.04] px-2 py-0.5 text-[10px] font-mono text-[#8A8F98] border border-white/[0.06]"
                         >
                           #{tag}
                         </span>
@@ -358,10 +398,11 @@ export default function ResourceCatalog({
                     href={resource.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 rounded-xl bg-[#FF5722] px-3.5 py-1.5 text-xs font-semibold text-white transition-all hover:bg-[#FF3D00] hover:shadow-[0_0_15px_rgba(255,87,34,0.35)]"
+                    className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-mono font-bold text-white transition-all duration-150 hover:brightness-110 active:scale-95 shadow-sm"
+                    style={{ backgroundColor: deptColor }}
                   >
                     <span>Open Resource</span>
-                    <ExternalLink className="h-3.5 w-3.5" />
+                    <ArrowUpRight className="h-3.5 w-3.5" />
                   </a>
                 </div>
               </div>

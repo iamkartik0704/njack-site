@@ -49,7 +49,7 @@ export default function InteractiveTerminal() {
               <span className="text-white font-bold">1. Competitive Programming (CP)</span>
               <p className="text-slate-400">ICPC Regional ladder, weekly Codeforces & AtCoder virtual rounds.</p>
             </div>
-            <div className="border-l-2 border-amber-500 pl-2.5 py-0.5">
+            <div className="border-l-2 border-[#2563EB] pl-2.5 py-0.5">
               <span className="text-white font-bold">2. Development & Open Source (Dev & OS)</span>
               <p className="text-slate-400">Full-stack systems, Docker, Kubernetes, Linux kernel & NWoC mentorship.</p>
             </div>
