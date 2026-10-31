@@ -12,8 +12,8 @@ import {
 } from 'lucide-react';
 
 // ============================================================================
-// 1. TRANSLUCENT SPARKLING LIGHT BEAMS & PARTICLES CANVAS (Image 4 Fusion)
-// Fully transparent so the 3D Hexagon 'N' shines through unhindered
+// 1. CRISP HORIZONTAL SPARKLING LIGHT STREAKS CANVAS (Image 4 Fusion)
+// Razor-sharp laser streaks on transparent canvas — NO formless blurry blobs
 // ============================================================================
 
 interface LightStreak {
@@ -38,6 +38,7 @@ interface FloatingSpark {
   color: string;
 }
 
+// Crisp, high-energy palette inspired by Image 4
 const SPARK_PALETTES = [
   { core: '#FFFFFF', glow: '#FF8A00' }, // Gold-Amber
   { core: '#FFF8E1', glow: '#FF5722' }, // Brand Orange
@@ -46,7 +47,7 @@ const SPARK_PALETTES = [
   { core: '#FFFFFF', glow: '#EC4899' }, // Neon Magenta
 ];
 
-function DivisionSparkCanvas({ hoveredColor }: { hoveredColor: string | null }) {
+function DivisionSparkCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const animFrameRef = useRef<number | null>(null);
@@ -57,19 +58,19 @@ function DivisionSparkCanvas({ hoveredColor }: { hoveredColor: string | null }) 
 
   // Initialize horizontal light streaks
   const initStreaks = useCallback((width: number, height: number) => {
-    const count = 16;
+    const count = 18;
     const streaks: LightStreak[] = [];
     for (let i = 0; i < count; i++) {
       const p = SPARK_PALETTES[Math.floor(Math.random() * SPARK_PALETTES.length)];
       streaks.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: Math.random() * 5.5 + 4.0,
-        length: Math.random() * 80 + 40,
-        thickness: Math.random() * 1.6 + 1.0,
+        vx: Math.random() * 5.0 + 3.5,
+        length: Math.random() * 85 + 35,
+        thickness: Math.random() * 1.5 + 1.0,
         color: p.core,
         glowColor: p.glow,
-        alpha: Math.random() * 0.45 + 0.35,
+        alpha: Math.random() * 0.4 + 0.3,
       });
     }
     streaksRef.current = streaks;
@@ -77,18 +78,18 @@ function DivisionSparkCanvas({ hoveredColor }: { hoveredColor: string | null }) 
 
   // Spawn an organic spark
   const spawnSpark = useCallback((x: number, y: number, color?: string) => {
-    if (sparksRef.current.length > 50) return;
+    if (sparksRef.current.length > 40) return;
     const p = SPARK_PALETTES[Math.floor(Math.random() * SPARK_PALETTES.length)];
     const angle = (Math.random() - 0.5) * Math.PI * 0.8;
-    const speed = Math.random() * 2.4 + 0.8;
+    const speed = Math.random() * 2.2 + 0.8;
     sparksRef.current.push({
       x,
       y,
-      vx: Math.cos(angle) * speed + 1.2,
+      vx: Math.cos(angle) * speed + 1.0,
       vy: Math.sin(angle) * speed,
-      size: Math.random() * 2.0 + 0.8,
+      size: Math.random() * 1.8 + 0.8,
       alpha: 1.0,
-      decay: Math.random() * 0.02 + 0.015,
+      decay: Math.random() * 0.024 + 0.016,
       color: color || p.glow,
     });
   }, []);
@@ -124,20 +125,20 @@ function DivisionSparkCanvas({ hoveredColor }: { hoveredColor: string | null }) 
 
       ctx.clearRect(0, 0, width, height);
 
-      // 1. Horizontal light streaks (Image 4 light beams)
+      // 1. Horizontal light streaks (Image 4 laser lines)
       for (let i = 0; i < streaksRef.current.length; i++) {
         const s = streaksRef.current[i];
         s.x += s.vx;
 
         if (s.x - s.length > width) {
-          s.x = -s.length - Math.random() * 80;
+          s.x = -s.length - Math.random() * 60;
           s.y = Math.random() * height;
-          s.vx = Math.random() * 5.5 + 4.0;
+          s.vx = Math.random() * 5.0 + 3.5;
         }
 
         const grad = ctx.createLinearGradient(s.x - s.length, s.y, s.x, s.y);
         grad.addColorStop(0, 'rgba(255,255,255,0)');
-        grad.addColorStop(0.7, s.glowColor);
+        grad.addColorStop(0.65, s.glowColor);
         grad.addColorStop(1, s.color);
 
         ctx.save();
@@ -146,7 +147,7 @@ function DivisionSparkCanvas({ hoveredColor }: { hoveredColor: string | null }) 
         ctx.lineWidth = s.thickness;
         ctx.lineCap = 'round';
         ctx.shadowColor = s.glowColor;
-        ctx.shadowBlur = 8;
+        ctx.shadowBlur = 6;
 
         ctx.beginPath();
         ctx.moveTo(s.x - s.length, s.y);
@@ -156,12 +157,12 @@ function DivisionSparkCanvas({ hoveredColor }: { hoveredColor: string | null }) 
         // White-hot spark head
         ctx.fillStyle = '#FFFFFF';
         ctx.beginPath();
-        ctx.arc(s.x, s.y, s.thickness * 1.1, 0, Math.PI * 2);
+        ctx.arc(s.x, s.y, s.thickness * 1.05, 0, Math.PI * 2);
         ctx.fill();
 
         ctx.restore();
 
-        if (Math.random() < 0.03) {
+        if (Math.random() < 0.025) {
           spawnSpark(s.x, s.y, s.glowColor);
         }
       }
@@ -182,7 +183,7 @@ function DivisionSparkCanvas({ hoveredColor }: { hoveredColor: string | null }) 
         ctx.globalAlpha = Math.max(0, sp.alpha);
         ctx.fillStyle = sp.color;
         ctx.shadowColor = sp.color;
-        ctx.shadowBlur = 6;
+        ctx.shadowBlur = 4;
         ctx.beginPath();
         ctx.arc(sp.x, sp.y, sp.size, 0, Math.PI * 2);
         ctx.fill();
@@ -226,8 +227,8 @@ function DivisionSparkCanvas({ hoveredColor }: { hoveredColor: string | null }) 
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    if (Math.random() < 0.3) {
-      spawnSpark(x, y, hoveredColor || undefined);
+    if (Math.random() < 0.25) {
+      spawnSpark(x, y);
     }
   };
 
@@ -238,17 +239,7 @@ function DivisionSparkCanvas({ hoveredColor }: { hoveredColor: string | null }) 
       className="absolute inset-0 pointer-events-none z-0 overflow-hidden"
     >
       {/* 100% transparent canvas allowing 3D Hexagon 'N' to be visible */}
-      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full opacity-65" />
-
-      {/* Subtle dynamic ambient glow on hover */}
-      {hoveredColor && (
-        <div
-          className="absolute inset-0 transition-opacity duration-500 pointer-events-none blur-3xl opacity-15"
-          style={{
-            background: `radial-gradient(circle 500px at 50% 50%, ${hoveredColor} 0%, transparent 70%)`,
-          }}
-        />
-      )}
+      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full opacity-60" />
     </div>
   );
 }
@@ -323,12 +314,10 @@ const DIVISIONS: DivisionItem[] = [
 export default function InteractiveBentoDivisions() {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
-  const activeColor = hoveredIdx !== null ? DIVISIONS[hoveredIdx]?.color : null;
-
   return (
     <section id="divisions" className="relative z-10 py-24 sm:py-32 bg-transparent">
       {/* Background Sparkling Light Streaks on Transparent Canvas (3D Hexagon 'N' shines through) */}
-      <DivisionSparkCanvas hoveredColor={activeColor} />
+      <DivisionSparkCanvas />
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
@@ -353,11 +342,12 @@ export default function InteractiveBentoDivisions() {
         {/* ====================================================================
             FOUR-COLUMN RIBBON SHOWCASE (Clean Fusion of Image 2 & Image 3)
             - 100% Equal Stature across all 4 divisions
-            - Top colored hairline indicator bar (Image 2)
+            - Razor-sharp top colored hairline indicator (Image 2)
             - Monospace numbering (01, 02, 03, 04)
             - Authentic student club copy (Image 3)
             - Tactile 'Know More ↗' ribbon button (Image 3)
-            - Translucent glassmorphism (3D Hexagon 'N' clearly visible behind)
+            - Translucent obsidian glass (3D Hexagon 'N' clearly visible behind)
+            - NO fuzzy drop-shadows or basic AI radial blur blobs!
             ==================================================================== */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6 items-stretch">
           {DIVISIONS.map((div, idx) => {
@@ -370,23 +360,22 @@ export default function InteractiveBentoDivisions() {
                 onMouseEnter={() => setHoveredIdx(idx)}
                 onMouseLeave={() => setHoveredIdx(null)}
                 style={{
-                  backgroundColor: isHovered ? 'rgba(17, 20, 28, 0.75)' : 'rgba(14, 16, 22, 0.58)',
+                  backgroundColor: isHovered ? 'rgba(18, 22, 30, 0.72)' : 'rgba(13, 15, 21, 0.52)',
                   backdropFilter: 'blur(16px)',
                   WebkitBackdropFilter: 'blur(16px)',
-                  borderColor: isHovered ? `${div.color}60` : 'rgba(255, 255, 255, 0.08)',
+                  borderColor: isHovered ? div.color : 'rgba(255, 255, 255, 0.08)',
                   boxShadow: isHovered
-                    ? `0 20px 35px -10px rgba(0, 0, 0, 0.6), 0 0 30px -5px ${div.color}20, inset 0 1px 0 0 rgba(255, 255, 255, 0.15)`
-                    : 'inset 0 1px 0 0 rgba(255, 255, 255, 0.06)',
+                    ? '0 16px 32px -10px rgba(0, 0, 0, 0.65), inset 0 1px 0 0 rgba(255, 255, 255, 0.16)'
+                    : 'inset 0 1px 0 0 rgba(255, 255, 255, 0.05)',
                 }}
-                className="group relative flex flex-col justify-between rounded-2xl border transition-all duration-300 hover:-translate-y-1.5 overflow-hidden p-6"
+                className="group relative flex flex-col justify-between rounded-2xl border transition-all duration-200 hover:-translate-y-1 overflow-hidden p-6"
               >
-                {/* 1. Top Colored Hairline Indicator Bar (from Image 2) */}
+                {/* 1. Razor-Sharp Top Colored Indicator Bar (from Image 2) */}
                 <div
-                  className="absolute top-0 left-0 right-0 h-1.5 transition-all duration-300"
+                  className="absolute top-0 left-0 right-0 h-[2.5px] transition-all duration-200"
                   style={{
                     background: `linear-gradient(90deg, ${div.color} 0%, ${div.colorLight} 100%)`,
-                    opacity: isHovered ? 1 : 0.7,
-                    boxShadow: isHovered ? `0 0 16px ${div.color}` : 'none',
+                    opacity: isHovered ? 1 : 0.75,
                   }}
                 />
 
@@ -395,14 +384,14 @@ export default function InteractiveBentoDivisions() {
                   {/* Top Bar: Monospace Number & Icon Pill */}
                   <div className="flex items-center justify-between pb-4 border-b border-white/[0.06]">
                     <span
-                      className="font-mono text-base font-bold tracking-tight transition-colors duration-200"
+                      className="font-mono text-base font-bold tracking-tight transition-colors duration-150"
                       style={{ color: isHovered ? div.color : '#9CA3AF' }}
                     >
                       {div.num}
                     </span>
 
                     <div
-                      className="flex h-8 w-8 items-center justify-center rounded-lg border transition-all duration-200"
+                      className="flex h-8 w-8 items-center justify-center rounded-lg border transition-all duration-150"
                       style={{
                         backgroundColor: isHovered ? `${div.color}15` : 'rgba(255, 255, 255, 0.03)',
                         borderColor: isHovered ? `${div.color}40` : 'rgba(255, 255, 255, 0.08)',
@@ -415,7 +404,7 @@ export default function InteractiveBentoDivisions() {
 
                   {/* Title & Editorial Tag (Image 2 style) */}
                   <div className="mt-5">
-                    <h3 className="font-display text-lg font-black tracking-tight text-white uppercase leading-snug group-hover:text-white">
+                    <h3 className="font-display text-lg font-black tracking-tight text-white uppercase leading-snug">
                       {div.name}
                     </h3>
                     <p
@@ -440,11 +429,11 @@ export default function InteractiveBentoDivisions() {
 
                   <Link
                     href={div.link}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all duration-200"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all duration-150"
                     style={{
                       backgroundColor: isHovered ? div.color : 'rgba(255, 255, 255, 0.05)',
                       color: isHovered ? '#FFFFFF' : '#D1D5DB',
-                      boxShadow: isHovered ? `0 0 16px ${div.color}50` : 'none',
+                      borderColor: isHovered ? div.color : 'rgba(255, 255, 255, 0.1)',
                     }}
                   >
                     <span>Know More</span>
