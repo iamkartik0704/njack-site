@@ -2,121 +2,175 @@
   {
     "name": "Pranay Bansal",
     "committee": "CP",
-    "linkedin": "https://www.linkedin.com/in/pranay-bansal-iitp/"
+    "image": "/team/pranay-bansal.png",
+    "linkedin": "https://www.linkedin.com/in/pranay-bansal-086278367",
+    "github": "https://github.com/qwertyduh",
+    "codeforces": "https://codeforces.com/profile/qwertyduh"
   },
   {
     "name": "YagneshVardhana Reddy",
     "committee": "CP",
-    "linkedin": "https://www.linkedin.com/in/yagneshvardhana-reddy/"
+    "image": "/team/yagneshvardhana-reddy.png",
+    "linkedin": "https://www.linkedin.com/in/yagnesh-vardhana-reddy-781950402",
+    "codeforces": "https://codeforces.com/profile/YAGNESHVARDHANAREDDY"
   },
   {
     "name": "Anmol Gupta",
     "committee": "CP",
-    "linkedin": "https://www.linkedin.com/in/anmol-gupta-iitp/"
+    "image": "/team/anmol-gupta.png",
+    "linkedin": "https://www.linkedin.com/in/anmol-gupta-b1530236a",
+    "codeforces": "https://codeforces.com/profile/anmol0806"
   },
   {
     "name": "Shreya Kumari",
     "committee": "CP",
-    "linkedin": "https://www.linkedin.com/in/shreya-kumari-iitp/"
+    "image": "/team/shreya-kumari.png",
+    "linkedin": "https://in.linkedin.com/in/shreya-kumari-472104391"
   },
   {
     "name": "Prabhudutta Prusti",
     "committee": "CP",
-    "linkedin": "https://www.linkedin.com/in/prabhudutta-prusti/"
+    "image": "/team/prabhudutta-prusti.png",
+    "linkedin": "https://www.linkedin.com/in/prabhudutta-prusti/",
+    "github": "https://github.com/Nightwings24",
+    "codeforces": "https://codeforces.com/profile/Nightwings"
   },
   {
     "name": "Ishan Kumar",
     "committee": "CP",
-    "linkedin": "https://www.linkedin.com/in/ishan-kumar-iitp/"
+    "image": "/team/ishan-kumar.png",
+    "linkedin": "https://www.linkedin.com/in/ishan-kumar-b912a9381/",
+    "github": "https://github.com/ishan-kumar-dev",
+    "codeforces": "https://codeforces.com/profile/ishankumar_0812"
   },
   {
     "name": "Ishan Alam",
     "committee": "CP",
+    "image": "/team/ishan-alam.png",
     "linkedin": "https://www.linkedin.com/in/ishan-alam/"
   },
   {
     "name": "Krish Singh",
     "committee": "Dev&OS",
-    "linkedin": "https://www.linkedin.com/in/krish-singh-iitp/"
+    "image": "/team/krish-singh.png",
+    "linkedin": "https://in.linkedin.com/in/krish-appcreations",
+    "github": "https://github.com/krishappcreations-ship-it"
   },
   {
     "name": "Bedabrata Ghosh",
     "committee": "Dev&OS",
-    "linkedin": "https://www.linkedin.com/in/bedabrata-ghosh/"
+    "image": "/team/bedabrata-ghosh.png",
+    "linkedin": "https://in.linkedin.com/in/bedabrata-ghosh-367675369",
+    "github": "https://github.com/MrSaints2006",
+    "codeforces": "https://codeforces.com/profile/Mr.Saints_06"
   },
   {
     "name": "Anirban Dutta",
     "committee": "Dev&OS",
-    "linkedin": "https://www.linkedin.com/in/anirban-dutta-iitp/"
+    "image": "/team/anirban-dutta.png",
+    "linkedin": "https://in.linkedin.com/in/anirban-dutta-931827219",
+    "github": "https://github.com/Oniban"
   },
   {
     "name": "Samriddhi",
     "committee": "Dev&OS",
-    "linkedin": "https://www.linkedin.com/in/samriddhi-iitp/"
+    "image": "/team/samriddhi.png",
+    "linkedin": "https://www.linkedin.com/in/samriddhi-18b04b375/",
+    "github": "https://github.com/Samriddhi-creator",
+    "codeforces": "https://codeforces.com/profile/Sam23iitp"
   },
   {
     "name": "Kartik Chawla",
     "committee": "Dev&OS",
-    "linkedin": "https://www.linkedin.com/in/iamkartik0704/"
+    "image": "/team/kartik-chawla.png",
+    "linkedin": "https://in.linkedin.com/in/kartik-chawla-189430203",
+    "github": "https://github.com/iamkartik0704"
   },
   {
     "name": "Bartika Kumar",
     "committee": "Dev&OS",
-    "linkedin": "https://www.linkedin.com/in/bartika-kumar/"
+    "image": "/team/bartika-kumar.png",
+    "linkedin": "https://in.linkedin.com/in/bartika-kumar-634961363",
+    "github": "https://github.com/BartikaKumar"
   },
   {
     "name": "Ayaan Mustafa",
     "committee": "ML",
-    "linkedin": "https://www.linkedin.com/in/ayaan-mustafa/"
+    "image": "/team/ayaan-mustafa.png",
+    "linkedin": "https://www.linkedin.com/in/ayaan-mustafa-/",
+    "github": "https://github.com/ayaanmustafa/",
+    "codeforces": "https://codeforces.com/profile/__ayaan__mustafa07"
   },
   {
     "name": "Avni Agarwal",
     "committee": "ML",
-    "linkedin": "https://www.linkedin.com/in/avni-agarwal-iitp/"
+    "image": "/team/avni-agarwal.png",
+    "linkedin": "https://www.linkedin.com/in/avni-agarwal-021b69366",
+    "github": "https://github.com/LiliesInLakes"
   },
   {
     "name": "Ritesh Ojha",
     "committee": "ML",
-    "linkedin": "https://www.linkedin.com/in/ritesh-ojha/"
+    "image": "/team/ritesh-ojha.png",
+    "linkedin": "https://www.linkedin.com/in/ritesh-ojha-b22629366",
+    "github": "https://github.com/riteshn0pe",
+    "codeforces": "https://codeforces.com/profile/riteshnope"
   },
   {
     "name": "Parth Tomar",
     "committee": "ML",
-    "linkedin": "https://www.linkedin.com/in/parth-tomar/"
+    "image": "/team/parth-tomar.png",
+    "linkedin": "https://www.linkedin.com/in/parth-tomar-iitp",
+    "github": "https://github.com/couder-04",
+    "codeforces": "https://codeforces.com/profile/couder"
   },
   {
     "name": "Bhavesh Lokesh Agarwal",
     "committee": "ML",
-    "linkedin": "https://www.linkedin.com/in/bhavesh-lokesh-agarwal/"
+    "image": "/team/bhavesh-agarwal.png",
+    "linkedin": "https://www.linkedin.com/in/bhaveshagarwal315",
+    "github": "https://github.com/BhaveshAgarwal67"
   },
   {
     "name": "Adi Singh",
     "committee": "ML",
-    "linkedin": "https://www.linkedin.com/in/adi-singh-iitp/"
+    "image": "/team/adi-singh.png",
+    "linkedin": "https://www.linkedin.com/in/adi-os",
+    "github": "https://github.com/adios-07"
   },
   {
     "name": "Mayookh Ghosh",
     "committee": "ML",
-    "linkedin": "https://www.linkedin.com/in/mayookh-ghosh/"
+    "image": "/team/mayookh-ghosh.png",
+    "linkedin": "https://in.linkedin.com/in/mayookh-ghosh-chowdhury-767a923b9"
   },
   {
     "name": "Pratyay Garg",
     "committee": "Cybersec",
-    "linkedin": "https://www.linkedin.com/in/pratyay-garg/"
+    "image": "/team/pratyay-garg.png",
+    "linkedin": "https://www.linkedin.com/in/pratyay-garg/",
+    "github": "https://github.com/pratyay-garg",
+    "codeforces": "https://codeforces.com/profile/pratyay_garg"
   },
   {
     "name": "Gaurav Choudhury",
     "committee": "Cybersec",
-    "linkedin": "https://www.linkedin.com/in/gaurav-choudhury-iitp/"
+    "image": "/team/gaurav-choudhury.png",
+    "linkedin": "https://www.linkedin.com/in/abdul-hadi-519338361/"
   },
   {
     "name": "Kartik Jitendra Tetwar",
     "committee": "Cybersec",
-    "linkedin": "https://www.linkedin.com/in/kartik-jitendra-tetwar/"
+    "image": "/team/kartik-tetwar.png",
+    "linkedin": "https://www.linkedin.com/in/kartik-tetwar-340b87392",
+    "codeforces": "https://codeforces.com/profile/KartikTetwar"
   },
   {
     "name": "Arnav Rastogi",
     "committee": "Cybersec",
-    "linkedin": "https://www.linkedin.com/in/arnav-rastogi/"
+    "image": "/team/arnav-rastogi.png",
+    "linkedin": "https://in.linkedin.com/in/arnav-rastogi-8b6059363",
+    "github": "https://github.com/rustys-workplace",
+    "codeforces": "https://codeforces.com/profile/deksii"
   }
 ]

@@ -16,16 +16,22 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
   const flushList = () => {
     if (listBuffer.length > 0 && listType) {
       const items = listBuffer.map((item, i) => (
-        <li key={i} className="mb-1 leading-relaxed"> {renderInline(item)}
-        </li> ));
+        <li key={i} className="mb-1 leading-relaxed">
+          {renderInline(item)}
+        </li>
+      ));
       if (listType === 'ul') {
         elements.push(
-          <ul key={`ul-${elements.length}`} className="my-3 list-disc pl-5 text-neutral-300"> {items}
-          </ul> );
+          <ul key={`ul-${elements.length}`} className="my-3 list-disc pl-5 text-slate-300">
+            {items}
+          </ul>
+        );
       } else {
         elements.push(
-          <ol key={`ol-${elements.length}`} className="my-3 list-decimal pl-5 text-neutral-300"> {items}
-          </ol> );
+          <ol key={`ol-${elements.length}`} className="my-3 list-decimal pl-5 text-slate-300">
+            {items}
+          </ol>
+        );
       }
       listBuffer = [];
       listType = null;
@@ -37,7 +43,11 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
       elements.push(
         <pre
           key={`code-${elements.length}`}
-          className="my-4 overflow-x-auto rounded-sm border border-white/[0.10] bg-[#07080A]/60 p-4 font-mono text-xs text-[#FF8A00]" > <code>{codeBuffer.join('\n')}</code> </pre> );
+          className="my-4 overflow-x-auto rounded-xl border border-white/10 bg-black/60 p-4 font-mono text-xs text-cyan-300"
+        >
+          <code>{codeBuffer.join('\n')}</code>
+        </pre>
+      );
       codeBuffer = [];
     }
   };
@@ -57,14 +67,19 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
       const token = match[0];
       if (token.startsWith('**') && token.endsWith('**')) {
         parts.push(
-          <strong key={match.index} className="font-semibold text-[#F3F4F6]"> {token.slice(2, -2)}
-          </strong> );
+          <strong key={match.index} className="font-semibold text-white">
+            {token.slice(2, -2)}
+          </strong>
+        );
       } else if (token.startsWith('`') && token.endsWith('`')) {
         parts.push(
           <code
             key={match.index}
-            className="rounded bg-white/10 px-1.5 py-0.5 font-mono text-xs text-[#FF8A00]" > {token.slice(1, -1)}
-          </code> );
+            className="rounded bg-white/10 px-1.5 py-0.5 font-mono text-xs text-cyan-300"
+          >
+            {token.slice(1, -1)}
+          </code>
+        );
       }
       lastIndex = regex.lastIndex;
     }
@@ -100,8 +115,11 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
       elements.push(
         <blockquote
           key={`quote-${i}`}
-          className="my-4 rounded-r-xl border-l-4 border-[#FF5722] bg-[#2A0F06]/20 p-4 italic text-neutral-300" > {renderInline(quoteText)}
-        </blockquote> );
+          className="my-4 rounded-r-xl border-l-4 border-cyan-500 bg-cyan-950/20 p-4 italic text-slate-300"
+        >
+          {renderInline(quoteText)}
+        </blockquote>
+      );
       continue;
     }
 
@@ -109,24 +127,30 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
     if (line.startsWith('### ')) {
       flushList();
       elements.push(
-        <h3 key={`h3-${i}`} className="mt-6 mb-2 text-lg font-bold text-white"> {line.replace('### ', '')}
-        </h3> );
+        <h3 key={`h3-${i}`} className="mt-6 mb-2 text-lg font-bold text-white">
+          {line.replace('### ', '')}
+        </h3>
+      );
       continue;
     }
 
     if (line.startsWith('## ')) {
       flushList();
       elements.push(
-        <h2 key={`h2-${i}`} className="mt-8 mb-3 text-xl sm:text-2xl font-semibold text-[#F3F4F6]"> {line.replace('## ', '')}
-        </h2> );
+        <h2 key={`h2-${i}`} className="mt-8 mb-3 text-xl sm:text-2xl font-black text-white">
+          {line.replace('## ', '')}
+        </h2>
+      );
       continue;
     }
 
     if (line.startsWith('# ')) {
       flushList();
       elements.push(
-        <h1 key={`h1-${i}`} className="mt-10 mb-4 text-2xl sm:text-3xl font-semibold text-[#F3F4F6]"> {line.replace('# ', '')}
-        </h1> );
+        <h1 key={`h1-${i}`} className="mt-10 mb-4 text-2xl sm:text-3xl font-black text-white">
+          {line.replace('# ', '')}
+        </h1>
+      );
       continue;
     }
 
@@ -156,8 +180,10 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
     // Regular Paragraph
     flushList();
     elements.push(
-      <p key={`p-${i}`} className="my-3 text-sm leading-relaxed text-neutral-300"> {renderInline(line)}
-      </p> );
+      <p key={`p-${i}`} className="my-3 text-sm leading-relaxed text-slate-300">
+        {renderInline(line)}
+      </p>
+    );
   }
 
   flushList();

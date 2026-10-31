@@ -54,21 +54,39 @@ export default function HeroLogoLockup({ className = '' }: HeroLogoLockupProps) 
         transformStyle: 'preserve-3d',
       }}
       className={`relative inline-flex items-center gap-2 sm:gap-3.5 select-none cursor-pointer group ${className}`}
-    > {/* Official Folded-Ribbon Hexagonal N Emblem */}
-      <div className="relative shrink-0 flex items-center justify-center"> <div
-          className="relative transition-all duration-300" style={{
+    >
+      {/* Official Folded-Ribbon Hexagonal N Emblem */}
+      <div className="relative shrink-0 flex items-center justify-center">
+        <div
+          className="relative transition-all duration-300"
+          style={{
             filter: isHovered
-              ? 'drop-shadow(0 4px 16px rgba(255, 87, 34, 0.35))' : 'none',
+              ? 'drop-shadow(0 4px 16px rgba(255, 87, 34, 0.35))'
+              : 'none',
           }}
-        > <Image
-            src="/njack-logo-mark.png" alt="NJACK Logo" width={160}
+        >
+          <Image
+            src="/njack-logo-mark.png"
+            alt="NJACK Logo"
+            width={160}
             height={160}
             priority
-            className="h-16 w-16 sm:h-24 sm:w-24 lg:h-32 lg:w-32 object-contain transition-transform duration-300 group-hover:scale-[1.02]" /> </div> </div> {/* Matching "jack" Lowercase Wordmark */}
-      <div className="relative flex items-center"> <span
-          className="font-display font-black text-6xl sm:text-8xl lg:text-9xl leading-none tracking-[-0.04em] transition-colors duration-300" style={{
+            className="h-16 w-16 sm:h-24 sm:w-24 lg:h-32 lg:w-32 object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+          />
+        </div>
+      </div>
+
+      {/* Matching "jack" Lowercase Wordmark */}
+      <div className="relative flex items-center">
+        <span
+          className="font-display font-black text-6xl sm:text-8xl lg:text-9xl leading-none tracking-[-0.04em] transition-colors duration-300"
+          style={{
             color: isHovered ? '#FFFFFF' : '#CBD5E1',
           }}
-        > jack
-        </span> </div> </motion.div> );
+        >
+          jack
+        </span>
+      </div>
+    </motion.div>
+  );
 }

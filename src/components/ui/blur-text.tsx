@@ -38,7 +38,8 @@ export function BlurText({
   };
 
   return (
-    <span className={cn('inline-block', className)}> {elements.map((segment, index) => (
+    <span className={cn('inline-block', className)}>
+      {elements.map((segment, index) => (
         <motion.span
           key={index}
           initial={defaultFrom}
@@ -50,8 +51,12 @@ export function BlurText({
               ease: [0.25, 0.4, 0.25, 1],
             } as Transition
           }
-          className="inline-block whitespace-pre will-change-[transform,filter,opacity]" > {segment}
+          className="inline-block whitespace-pre will-change-[transform,filter,opacity]"
+        >
+          {segment}
           {animateBy === 'words' && index < elements.length - 1 && ' '}
-        </motion.span> ))}
-    </span> );
+        </motion.span>
+      ))}
+    </span>
+  );
 }

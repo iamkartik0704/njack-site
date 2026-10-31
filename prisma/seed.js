@@ -1,5 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcryptjs');
+const coordinatorsData = require('../src/data/coordinators.json');
+const subCoordinatorsData = require('../src/data/sub-coordinators.json');
 
 const prisma = new PrismaClient();
 
@@ -35,7 +37,7 @@ async function main() {
     data: {
       name: 'Competitive Programming',
       slug: 'cp',
-      tagline: 'Code fast, think faster: algorithmic excellence at IIT Patna.',
+      tagline: 'Code fast, think faster — algorithmic excellence at IIT Patna.',
       description: "Committed to honing students' problem-solving skills, algorithmic thinking, and programming prowess through regular coding contests, workshops, and practice sessions to solve complex challenges efficiently.",
       icon: 'Binary',
       order: 1,
@@ -47,7 +49,7 @@ async function main() {
       name: 'Development & Open Source',
       slug: 'dev-os',
       tagline: 'Architecting modern software and powering open source.',
-      description: "Encourages students to delve into software development and contribute to open-source through hands-on workshops, collaborative projects, and mentorship, building robust, scalable solutions.",
+      description: "Encourages students to delve into software development and contribute to open-source through hands-on workshops, collaborative projects, and mentorship—building robust, scalable solutions.",
       icon: 'Code2',
       order: 2,
     },
@@ -58,7 +60,7 @@ async function main() {
       name: 'Machine Learning',
       slug: 'ml',
       tagline: 'Demystifying neural intelligence, computer vision, and LLMs.',
-      description: "Dedicated to exploring artificial intelligence and machine learning through workshops, lectures, and practical sessions, equipping members with the tools to solve complex problems.",
+      description: "Dedicated to exploring artificial intelligence and machine learning through workshops, lectures, and practical sessions—equipping members with the tools to solve complex problems.",
       icon: 'Brain',
       order: 3,
     },
@@ -76,129 +78,40 @@ async function main() {
   });
   console.log('✅ Created 4 core departments');
 
-  // 3b. Division-scoped admin accounts (coordinator + sub-coordinator)
-  const scopedPasswordHash = await bcrypt.hash('council123', 10);
-  await prisma.adminUser.createMany({
-    data: [
-      {
-        email: 'cord.dev@njack.iitp.ac.in',
-        name: 'Dev Coordinator',
-        passwordHash: scopedPasswordHash,
-        role: 'coordinator',
-        departmentId: deptDev.id,
-      },
-      {
-        email: 'subcord.cp@njack.iitp.ac.in',
-        name: 'CP Sub-Coordinator',
-        passwordHash: scopedPasswordHash,
-        role: 'sub-coordinator',
-        departmentId: deptCP.id,
-      },
-    ],
-  });
-  console.log('✅ Created division coordinator accounts');
-
   // 4. Team Members
+  const departmentIds = {
+    CP: deptCP.id,
+    'Dev&OS': deptDev.id,
+    ML: deptML.id,
+    Cybersec: deptCyber.id,
+    'Overall Coordinator': null,
+  };
+
   const teamMembersData = [
-    {
-      name: 'Aarav Sharma',
-      role: 'Overall Lead Coordinator',
+    ...coordinatorsData.map((member, index) => ({
+      name: member.name,
+      role: member.committee === 'Overall Coordinator' ? 'Overall Coordinator' : 'Division Coordinator',
       year: '2026-2027',
-      photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80',
-      linkedin: 'https://linkedin.com',
-      github: 'https://github.com',
-      email: 'aarav.cs23@iitp.ac.in',
-      order: 1,
-      departmentId: deptDev.id,
-    },
-    {
-      name: 'Rohan Verma',
-      role: 'CP Lead Coordinator',
+      photo: member.image || '/team/default.png',
+      linkedin: member.linkedin || null,
+      github: member.github || null,
+      codeforces: member.codeforces || null,
+      email: null,
+      order: index + 1,
+      departmentId: departmentIds[member.committee] || null,
+    })),
+    ...subCoordinatorsData.map((member, index) => ({
+      name: member.name,
+      role: 'Sub-Coordinator',
       year: '2026-2027',
-      photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80',
-      linkedin: 'https://linkedin.com',
-      github: 'https://github.com',
-      email: 'rohan.cp23@iitp.ac.in',
-      order: 2,
-      departmentId: deptCP.id,
-    },
-    {
-      name: 'Priya Patel',
-      role: 'Dev & OS Lead Coordinator',
-      year: '2026-2027',
-      photo: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&q=80',
-      linkedin: 'https://linkedin.com',
-      github: 'https://github.com',
-      email: 'priya.dev23@iitp.ac.in',
-      order: 3,
-      departmentId: deptDev.id,
-    },
-    {
-      name: 'Aditya Narayan',
-      role: 'ML Lead Coordinator',
-      year: '2026-2027',
-      photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80',
-      linkedin: 'https://linkedin.com',
-      github: 'https://github.com',
-      email: 'aditya.ml23@iitp.ac.in',
-      order: 4,
-      departmentId: deptML.id,
-    },
-    {
-      name: 'Sneha Kulkarni',
-      role: 'Cyber Security Lead',
-      year: '2026-2027',
-      photo: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80',
-      linkedin: 'https://linkedin.com',
-      github: 'https://github.com',
-      email: 'sneha.sec23@iitp.ac.in',
-      order: 5,
-      departmentId: deptCyber.id,
-    },
-    {
-      name: 'Devansh Singhal',
-      role: 'Dev & OS Sub-Coordinator',
-      year: '2026-2027',
-      photo: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=600&q=80',
-      linkedin: 'https://linkedin.com',
-      github: 'https://github.com',
-      email: 'devansh.cs24@iitp.ac.in',
-      order: 6,
-      departmentId: deptDev.id,
-    },
-    {
-      name: 'Ananya Roy',
-      role: 'CP Sub-Coordinator',
-      year: '2026-2027',
-      photo: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80',
-      linkedin: 'https://linkedin.com',
-      github: 'https://github.com',
-      email: 'ananya.cs24@iitp.ac.in',
-      order: 7,
-      departmentId: deptCP.id,
-    },
-    {
-      name: 'Vikramaditya Joshi',
-      role: 'ML Sub-Coordinator',
-      year: '2026-2027',
-      photo: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=600&q=80',
-      linkedin: 'https://linkedin.com',
-      github: 'https://github.com',
-      email: 'vikram.cs24@iitp.ac.in',
-      order: 8,
-      departmentId: deptML.id,
-    },
-    {
-      name: 'Pratyay Garg',
-      role: 'Cyber Security Sub-Coordinator',
-      year: '2026-2027',
-      photo: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=600&q=80',
-      linkedin: 'https://www.linkedin.com/in/pratyay-garg/',
-      github: 'https://github.com',
-      email: 'pratyay.sec24@iitp.ac.in',
-      order: 9,
-      departmentId: deptCyber.id,
-    },
+      photo: member.image || '/team/default.png',
+      linkedin: member.linkedin || null,
+      github: member.github || null,
+      codeforces: member.codeforces || null,
+      email: null,
+      order: coordinatorsData.length + index + 1,
+      departmentId: departmentIds[member.committee] || null,
+    })),
   ];
 
   for (const m of teamMembersData) {
@@ -692,7 +605,7 @@ async function main() {
       venue: 'Computer Science Lab 1 & Online Discord',
       registerUrl: 'https://unstop.com',
       status: 'upcoming',
-      departmentId: deptDev.id,
+      department: 'Development & Open Source',
       recap: null,
     },
     {
@@ -705,7 +618,7 @@ async function main() {
       venue: 'Tutorial Block Room 102 & Codeforces Platform',
       registerUrl: 'https://codeforces.com',
       status: 'upcoming',
-      departmentId: deptCP.id,
+      department: 'Competitive Programming',
       recap: null,
     },
     {
@@ -718,7 +631,7 @@ async function main() {
       venue: 'SAC Hall, IIT Patna',
       registerUrl: null,
       status: 'past',
-      departmentId: deptDev.id,
+      department: 'Development & Open Source',
       recap: 'Over 85 students participated. Winning teams created stunning interactive glassmorphism dashboards with smooth CSS keyframe animations.',
     },
     {
@@ -731,7 +644,7 @@ async function main() {
       venue: 'Online Sandbox & YouTube Stream',
       registerUrl: null,
       status: 'past',
-      departmentId: deptML.id,
+      department: 'Machine Learning',
       recap: '32 bots competed in double-elimination brackets. The grand final went to a sudden-death duel between deep DQN and minimax policy agents.',
     },
     {
@@ -744,7 +657,7 @@ async function main() {
       venue: 'Main Auditorium, IIT Patna',
       registerUrl: null,
       status: 'past',
-      departmentId: deptCP.id,
+      department: 'Competitive Programming',
       recap: 'Attended by 140+ students. 3 teams received direct interview referrals to top quantitative trading firms.',
     },
   ];
@@ -759,7 +672,7 @@ async function main() {
     {
       title: 'NJACK 2.0: Club Web & Resource Operating System',
       slug: 'njack-revamp',
-      description: 'The modern digital hub of IIT Patna Coding Club (Not Just Another Coding Klub): dynamic department tracks, interactive quiz engine, and single super-admin CMS.',
+      description: 'The modern digital hub of IIT Patna Coding Club (Not Just Another Coding Klub) — dynamic department tracks, interactive quiz engine, and single super-admin CMS.',
       cover: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1000&q=80',
       stackTags: 'Next.js 14, TypeScript, Tailwind CSS, Prisma, SQLite',
       repoUrl: 'https://github.com/njack-iitp/njack-revamp',
@@ -802,10 +715,8 @@ async function main() {
     },
   ];
 
-  for (const [i, pr] of projectsData.entries()) {
-    await prisma.project.create({
-      data: { ...pr, departmentId: [deptDev.id, deptCP.id, deptML.id, deptCyber.id][i % 4] },
-    });
+  for (const pr of projectsData) {
+    await prisma.project.create({ data: pr });
   }
   console.log('✅ Created club projects');
 
@@ -879,15 +790,8 @@ Stay tuned for our upcoming workshop on fine-tuning Llama-3 models with LoRA!`,
     },
   ];
 
-  for (const [i, post] of postsData.entries()) {
-    await prisma.post.create({
-      data: {
-        ...post,
-        departmentId: [deptCP.id, deptDev.id, deptML.id, deptCyber.id][i % 4],
-        // staggered so the blog index does not show one identical date
-        publishedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * (17 + i * 23)),
-      },
-    });
+  for (const post of postsData) {
+    await prisma.post.create({ data: post });
   }
   console.log('✅ Created blog posts');
 
@@ -906,7 +810,6 @@ Stay tuned for our upcoming workshop on fine-tuning Llama-3 models with LoRA!`,
       date: 'March 2025',
       cover: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80',
       images: JSON.stringify(album1Images),
-      departmentId: null,
     },
   });
 
@@ -922,7 +825,6 @@ Stay tuned for our upcoming workshop on fine-tuning Llama-3 models with LoRA!`,
       date: 'October 2025',
       cover: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80',
       images: JSON.stringify(album2Images),
-      departmentId: deptDev.id,
     },
   });
   console.log('✅ Created gallery albums with embedded images');

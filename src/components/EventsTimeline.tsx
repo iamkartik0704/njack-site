@@ -49,7 +49,7 @@ export default function EventsTimeline({ events }: EventsTimelineProps) {
   const defaultEvents: EventItem[] = [
     {
       id: 'ev-1',
-      title: 'Apeireon 2026: Flagship Annual Hackathon',
+      title: 'Apeireon 2026 — Flagship Annual Hackathon',
       slug: 'apeireon-2026',
       description:
         'The premier 36-hour offline hackathon of IIT Patna. 1,000+ national developers competing across System Architecture, Generative AI, and Decentralized Infrastructure.',
@@ -75,7 +75,7 @@ export default function EventsTimeline({ events }: EventsTimelineProps) {
     },
     {
       id: 'ev-3',
-      title: 'ByteRace: ICPC Prelims Invitational',
+      title: 'ByteRace — ICPC Prelims Invitational',
       slug: 'byterace-2026',
       description:
         'Fast-paced 5-hour ICPC style team contest testing combinatorial mathematics, flows, and string algorithms on Codeforces.',
@@ -104,17 +104,49 @@ export default function EventsTimeline({ events }: EventsTimelineProps) {
   const items = events && events.length > 0 ? events : defaultEvents;
 
   return (
-    <section id="events" ref={containerRef} className="relative z-10 py-24 sm:py-32"> <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"> {/* Section Header */}
-        <div className="mb-16"> <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#FF5722]"> <span className="h-1.5 w-1.5 rounded-full bg-[#FF5722]" /> <span>Events & Competitions</span> </div> <div className="mt-4 flex flex-col md:flex-row md:items-end justify-between gap-4"> <SplitTextReveal
-              text="Hackathons, Contests & Technical Keynotes." as="h2" className="font-display text-3xl sm:text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-[#F3F4F6]" /> <Link
-              href="/events" className="group inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.03] px-4 py-2 font-sans text-xs font-medium text-neutral-300 transition-all hover:border-white/[0.18] hover:bg-white/[0.08] hover:text-white" > <span>View All Events</span> <ArrowRight className="h-3.5 w-3.5 text-neutral-500 transition-transform group-hover:translate-x-0.5 group-hover:text-white" /> </Link> </div> </div> {/* Schematic Circuit-Board Timeline Container */}
-        <div className="relative"> {/* Central Schematic Line (Desktop) */}
+    <section id="events" ref={containerRef} className="relative z-10 py-24 sm:py-32">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        
+        {/* Section Header */}
+        <div className="mb-16">
+          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#FF5722]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#FF5722]" />
+            <span>Events & Competitions</span>
+          </div>
+
+          <div className="mt-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <SplitTextReveal
+              text="Hackathons, Contests & Technical Keynotes."
+              as="h2"
+              className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#F3F4F6]"
+            />
+            <Link
+              href="/events"
+              className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 font-sans text-xs font-medium text-neutral-300 transition-all hover:border-white/20 hover:bg-white/[0.08] hover:text-white"
+            >
+              <span>View All Events</span>
+              <ArrowRight className="h-3.5 w-3.5 text-neutral-500 transition-transform group-hover:translate-x-0.5 group-hover:text-white" />
+            </Link>
+          </div>
+        </div>
+
+        {/* Schematic Circuit-Board Timeline Container */}
+        <div className="relative">
+          {/* Central Schematic Line (Desktop) */}
           <div
-            aria-hidden="true" className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 bg-white/[0.08]" > {/* Glowing tracer path that draws down with scroll */}
+            aria-hidden="true"
+            className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 bg-white/[0.08]"
+          >
+            {/* Glowing tracer path that draws down with scroll */}
             <motion.div
               style={{ scaleY: pathLength, originY: 0 }}
-              className="absolute inset-0 w-full bg-gradient-to-b from-[#FF8A00] via-[#FF5722] to-transparent" /> </div> {/* Timeline Nodes */}
-          <div className="space-y-12"> {items.map((event, idx) => {
+              className="absolute inset-0 w-full bg-gradient-to-b from-[#FF8A00] via-[#FF5722] to-transparent shadow-[0_0_12px_#FF5722]"
+            />
+          </div>
+
+          {/* Timeline Nodes */}
+          <div className="space-y-12">
+            {items.map((event, idx) => {
               const isEven = idx % 2 === 0;
               const dateStr = formatEventDate(event.startsAt);
 
@@ -122,29 +154,87 @@ export default function EventsTimeline({ events }: EventsTimelineProps) {
                 <div
                   key={event.id || idx}
                   className={`relative flex flex-col md:flex-row items-center ${
-                    isEven ? 'md:flex-row' : 'md:flex-row-reverse' }`}
-                > {/* Left / Right Content Card */}
-                  <div className="w-full md:w-[46%]"> <SpotlightBentoCard> <div className="space-y-4"> {/* Header Status Row */}
-                        <div className="flex items-center justify-between border-b border-white/[0.10] pb-3 font-mono text-[10px] text-[#8A8F98]"> <span className="flex items-center gap-1.5 text-[#FF5722]"> <Radio className="h-3.5 w-3.5 animate-pulse" /> {event.category?.toUpperCase() || 'EVENT'}
-                          </span> <span className="rounded bg-white/5 px-2 py-0.5 uppercase"> {event.mode || 'HYBRID'}
-                          </span> </div> {/* Title & Description */}
-                        <div> <h3 className="font-display text-xl sm:text-2xl font-bold tracking-tight text-[#F3F4F6]"> {event.title}
-                          </h3> <p className="mt-2 font-sans text-sm text-[#8A8F98] leading-relaxed"> {event.description}
-                          </p> </div> {/* Metadata Pills */}
-                        <div className="flex flex-wrap items-center gap-3 font-mono text-xs text-[#8A8F98] pt-2 border-t border-white/[0.06]"> <span className="flex items-center gap-1.5" suppressHydrationWarning> <Calendar className="h-3.5 w-3.5 text-[#FF8A00]" /> {dateStr}
-                          </span> {event.venue && (
-                            <span className="flex items-center gap-1.5 truncate max-w-[200px]"> <MapPin className="h-3.5 w-3.5 text-white/50" /> <span className="truncate">{event.venue}</span> </span> )}
+                    isEven ? 'md:flex-row' : 'md:flex-row-reverse'
+                  }`}
+                >
+                  {/* Left / Right Content Card */}
+                  <div className="w-full md:w-[46%]">
+                    <SpotlightBentoCard>
+                      <div className="space-y-4">
+                        {/* Header Status Row */}
+                        <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 font-mono text-[10px] text-[#8A8F98]">
+                          <span className="flex items-center gap-1.5 text-[#FF5722]">
+                            <Radio className="h-3.5 w-3.5 animate-pulse" />
+                            {event.category?.toUpperCase() || 'EVENT'}
+                          </span>
+                          <span className="rounded bg-white/5 px-2 py-0.5 uppercase">
+                            {event.mode || 'HYBRID'}
+                          </span>
+                        </div>
+
+                        {/* Title & Description */}
+                        <div>
+                          <h3 className="font-display text-xl sm:text-2xl font-bold tracking-tight text-[#F3F4F6]">
+                            {event.title}
+                          </h3>
+                          <p className="mt-2 font-sans text-sm text-[#8A8F98] leading-relaxed">
+                            {event.description}
+                          </p>
+                        </div>
+
+                        {/* Metadata Pills */}
+                        <div className="flex flex-wrap items-center gap-3 font-mono text-xs text-[#8A8F98] pt-2 border-t border-white/[0.06]">
+                          <span className="flex items-center gap-1.5" suppressHydrationWarning>
+                            <Calendar className="h-3.5 w-3.5 text-[#FF8A00]" />
+                            {dateStr}
+                          </span>
+                          {event.venue && (
+                            <span className="flex items-center gap-1.5 truncate max-w-[200px]">
+                              <MapPin className="h-3.5 w-3.5 text-white/50" />
+                              <span className="truncate">{event.venue}</span>
+                            </span>
+                          )}
                           {event.prizePool && (
-                            <span className="flex items-center gap-1.5 text-[#FF5722] font-semibold"> <Trophy className="h-3.5 w-3.5" /> {event.prizePool}
-                            </span> )}
-                        </div> {/* Action Link */}
-                        <div className="pt-2"> <Link
+                            <span className="flex items-center gap-1.5 text-[#FF5722] font-semibold">
+                              <Trophy className="h-3.5 w-3.5" />
+                              {event.prizePool}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Action Link */}
+                        <div className="pt-2">
+                          <Link
                             href={
-                              event.slug === 'apeireon-2026' ? '/apeireon' : event.slug === 'nwoc-2026' ? '/nwoc' : `/events/${event.slug}`
+                              event.slug === 'apeireon-2026'
+                                ? '/apeireon'
+                                : event.slug === 'nwoc-2026'
+                                ? '/nwoc'
+                                : `/events/${event.slug}`
                             }
-                            className="inline-flex items-center gap-1.5 font-mono text-xs text-[#FF5722] hover:underline" > <span>REGISTER PROTOCOL</span> <ArrowRight className="h-3 w-3" /> </Link> </div> </div> </SpotlightBentoCard> </div> {/* Center Node Indicator */}
-                  <div className="my-4 md:my-0 flex h-8 w-8 items-center justify-center rounded-full border border-white/[0.18] bg-[#07080A] shadow-md z-10 md:absolute md:left-1/2 md:-translate-x-1/2"> <div className="h-2.5 w-2.5 rounded-full bg-[#FF5722]" /> </div> {/* Spacer for other side */}
-                  <div className="hidden md:block w-full md:w-[46%]" /> </div> );
+                            className="inline-flex items-center gap-1.5 font-mono text-xs text-[#FF5722] hover:underline"
+                          >
+                            <span>REGISTER PROTOCOL</span>
+                            <ArrowRight className="h-3 w-3" />
+                          </Link>
+                        </div>
+                      </div>
+                    </SpotlightBentoCard>
+                  </div>
+
+                  {/* Center Node Indicator */}
+                  <div className="my-4 md:my-0 flex h-8 w-8 items-center justify-center rounded-full border border-white/20 bg-[#07080A] shadow-md z-10 md:absolute md:left-1/2 md:-translate-x-1/2">
+                    <div className="h-2.5 w-2.5 rounded-full bg-[#FF5722] shadow-[0_0_8px_#FF5722]" />
+                  </div>
+
+                  {/* Spacer for other side */}
+                  <div className="hidden md:block w-full md:w-[46%]" />
+                </div>
+              );
             })}
-          </div> </div> </div> </section> );
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }

@@ -47,6 +47,8 @@ export default function Magnetic({
         mass: 0.2,
       }}
       className={className}
-    > {children}
-    </motion.div> );
+    >
+      {children}
+    </motion.div>
+  );
 }

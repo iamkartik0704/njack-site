@@ -118,7 +118,11 @@ export default function RouteLoadingIndicator() {
   if (!isNavigating) return null;
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-[9999] h-[3px] bg-transparent pointer-events-none"> <div
-        className="h-full bg-gradient-to-r from-[#FF8A00] via-[#FF5722] to-[#FF3D00] shadow-[0_0_12px_#FF5722] transition-all duration-150 ease-out" style={{ width: `${progress}%` }}
-      /> </div> );
+    <div className="fixed top-0 left-0 right-0 z-[9999] h-[3px] bg-transparent pointer-events-none">
+      <div
+        className="h-full bg-gradient-to-r from-[#FF8A00] via-[#FF5722] to-[#FF3D00] shadow-[0_0_12px_#FF5722] transition-all duration-150 ease-out"
+        style={{ width: `${progress}%` }}
+      />
+    </div>
+  );
 }

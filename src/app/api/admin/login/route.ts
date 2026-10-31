@@ -37,8 +37,6 @@ export async function POST(req: Request) {
       id: admin.id,
       email: admin.email,
       name: admin.name,
-      role: admin.role as 'super-admin' | 'coordinator' | 'sub-coordinator',
-      departmentId: admin.departmentId,
     });
 
     const cookieStore = cookies();
@@ -57,7 +55,6 @@ export async function POST(req: Request) {
         email: admin.email,
         name: admin.name,
         role: admin.role,
-        departmentId: admin.departmentId,
       },
     });
   } catch (error) {

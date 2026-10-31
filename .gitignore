@@ -48,6 +48,5 @@ skills-lock.json
 next-env.d.ts
 
 
-# local tooling artefacts
-.playwright-mcp/
-installedskills.md
+# backup
+public/team_backup/

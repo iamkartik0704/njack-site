@@ -5,12 +5,12 @@ import 'lenis/dist/lenis.css';
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import PublicChrome from '@/components/PublicChrome';
 import SmoothScroll from '@/components/SmoothScroll';
 import ScrollProgress from '@/components/ScrollProgress';
 import NoiseOverlay from '@/components/NoiseOverlay';
 import CommandPalette from '@/components/CommandPalette';
 import RouteLoadingIndicator from '@/components/RouteLoadingIndicator';
+import PublicChrome from '@/components/PublicChrome';
 
 // WebGL 3D Canvas dynamically loaded on client only (disabling SSR prevents window/canvas mismatch)
 const Scene3D = dynamic(() => import('@/components/Scene3D'), {
@@ -43,7 +43,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: 'NJACK · Official Coding Club, IIT Patna',
+    default: 'NJACK — Official Coding Club | IIT Patna',
     template: '%s | NJACK IIT Patna',
   },
   description:
@@ -63,10 +63,15 @@ export const metadata: Metadata = {
     'Apeireon',
   ],
   authors: [{ name: 'NJACK IIT Patna', url: 'https://njack.iitp.ac.in' }],
+  icons: {
+    icon: [{ url: '/icon.png?v=2', type: 'image/png', sizes: '512x512' }],
+    shortcut: [{ url: '/icon.png?v=2', type: 'image/png', sizes: '512x512' }],
+    apple: [{ url: '/icon.png?v=2', type: 'image/png', sizes: '512x512' }],
+  },
   openGraph: {
-    title: 'NJACK · Official Computer Science Club, IIT Patna',
+    title: 'NJACK — Official Computer Science Club | IIT Patna',
     description:
-      'The official Computer Science Club of IIT Patna (Not Just Another Computer Science Club): fostering engineering excellence, open source, algorithmic dominance, and AI research.',
+      'The official Computer Science Club of IIT Patna (Not Just Another Computer Science Club) — fostering engineering excellence, open source, algorithmic dominance, and AI research.',
     url: 'https://njack.iitp.ac.in',
     siteName: 'NJACK IIT Patna',
     type: 'website',
@@ -81,27 +86,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark scroll-smooth">
-      <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-      </head>
       <body
         className={`${syne.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased min-h-screen flex flex-col bg-[#07080A] text-[#F3F4F6] relative selection:bg-[#FF5722] selection:text-white`}
       >
-        {/* Global Atmospheric Noise Overlay */}
-        <NoiseOverlay />
-        {/* Global Architectural Radial Masked Grid */}
-        <div
-          aria-hidden="true" className="fixed inset-0 z-0 pointer-events-none architectural-grid" />
-        {/* Persistent Scroll-Linked 3D Canvas */}
-        <PublicChrome> <Scene3D /> </PublicChrome>
-        {/* Instant Route Loading Indicator & NJACK Loading Screen */}
-        <RouteLoadingIndicator />
-        {/* Global Command Palette (⌘K) */}
-        <PublicChrome> <CommandPalette /> </PublicChrome>
-        {/* Scroll Progress Bar */}
-        <PublicChrome> <ScrollProgress /> </PublicChrome>
-        {/* Inertia Smooth Scroll Container */}
-        <SmoothScroll> <PublicChrome> <Navbar /> </PublicChrome> <main className="relative z-10 flex-1">{children}</main> <PublicChrome> <Footer /> </PublicChrome> </SmoothScroll>
+        <PublicChrome><NoiseOverlay /></PublicChrome>
+        <PublicChrome>
+          <div aria-hidden="true" className="fixed inset-0 z-0 pointer-events-none architectural-grid" />
+        </PublicChrome>
+        <PublicChrome><Scene3D /></PublicChrome>
+        <PublicChrome><RouteLoadingIndicator /></PublicChrome>
+        <PublicChrome><CommandPalette /></PublicChrome>
+        <PublicChrome><ScrollProgress /></PublicChrome>
+
+        <SmoothScroll>
+          <PublicChrome><Navbar /></PublicChrome>
+          <main className="relative z-10 flex-1">{children}</main>
+          <PublicChrome><Footer /></PublicChrome>
+        </SmoothScroll>
       </body>
-    </html> );
+    </html>
+  );
 }

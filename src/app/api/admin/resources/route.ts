@@ -1,30 +1,85 @@
-import { createCrudHandlers, reqStr, str, nullable, bool } from '@/lib/adminCrud';
+import { NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
+import { getAdminSession } from '@/lib/auth';
 
-export const { POST, PUT, DELETE } = createCrudHandlers({
-  model: 'resource',
-  label: 'resource',
-  required: ['title', 'url'],
-  departmentRequired: true,
-  toCreate: (b, departmentId) => ({
-    title: reqStr(b.title),
-    description: reqStr(b.description),
-    type: reqStr(b.type, 'link'),
-    url: reqStr(b.url),
-    departmentId: departmentId!,
-    topic: reqStr(b.topic, 'General'),
-    tags: reqStr(b.tags),
-    difficulty: reqStr(b.difficulty, 'beginner'),
-    featured: bool(b.featured),
-  }),
-  toUpdate: (b, departmentId) => ({
-    title: str(b.title),
-    description: str(b.description),
-    type: str(b.type),
-    url: str(b.url),
-    departmentId: departmentId ?? undefined,
-    topic: str(b.topic),
-    tags: str(b.tags),
-    difficulty: str(b.difficulty),
-    featured: b.featured === undefined ? undefined : bool(b.featured),
-  }),
-});
+export async function POST(req: Request) {
+  const session = await getAdminSession();
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+  try {
+    const data = await req.json();
+    const { title, description, type, url, departmentId, topic, tags, difficulty, featured } = data;
+
+    if (!title || !type || !url || !departmentId || !topic) {
+      return NextResponse.json({ error: 'Missing required resource fields' }, { status: 400 });
+    }
+
+    const resource = await prisma.resource.create({
+      data: {
+        title: title.trim(),
+        description: description?.trim() || '',
+        type,
+        url: url.trim(),
+        departmentId,
+        topic: topic.trim(),
+        tags: tags?.trim() || '',
+        difficulty: difficulty || 'Beginner',
+        featured: !!featured,
+      },
+    });
+
+    return NextResponse.json({ success: true, resource });
+  } catch (error) {
+    console.error('Create resource error:', error);
+    return NextResponse.json({ error: 'Failed to create resource' }, { status: 500 });
+  }
+}
+
+export async function PUT(req: Request) {
+  const session = await getAdminSession();
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+  try {
+    const data = await req.json();
+    const { id, title, description, type, url, departmentId, topic, tags, difficulty, featured } = data;
+
+    if (!id) return NextResponse.json({ error: 'Resource ID is required' }, { status: 400 });
+
+    const resource = await prisma.resource.update({
+      where: { id },
+      data: {
+        title: title?.trim(),
+        description: description?.trim(),
+        type,
+        url: url?.trim(),
+        departmentId,
+        topic: topic?.trim(),
+        tags: tags?.trim(),
+        difficulty,
+        featured: !!featured,
+      },
+    });
+
+    return NextResponse.json({ success: true, resource });
+  } catch (error) {
+    console.error('Update resource error:', error);
+    return NextResponse.json({ error: 'Failed to update resource' }, { status: 500 });
+  }
+}
+
+export async function DELETE(req: Request) {
+  const session = await getAdminSession();
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+  try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get('id');
+    if (!id) return NextResponse.json({ error: 'ID is required' }, { status: 400 });
+
+    await prisma.resource.delete({ where: { id } });
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Delete resource error:', error);
+    return NextResponse.json({ error: 'Failed to delete resource' }, { status: 500 });
+  }
+}
